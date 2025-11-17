@@ -1,0 +1,789 @@
+/* ============================================
+   TABLE OF CONTENTS
+   ============================================
+   1. NAVIGATION BAR STYLES (lines 24-127)
+   2. TITLE SECTION STYLES (lines 155-200)
+   3. WORK GRID STYLES (lines 254-296)
+   ============================================ */
+
+.about-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 290px; /* Bottom padding */
+}
+
+.about-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ============================================
+   1. NAVIGATION BAR STYLES
+   ============================================ */
+.nav-container {
+  position: fixed;
+  bottom: 42px;
+  display: flex;
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.nav-link-hitbox {
+  height: 48px;
+  position: relative;
+  flex-shrink: 0;
+  width: 150px;
+  background-image: url('../assets/nav-default.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.nav-link-hitbox:hover,
+.nav-link-hitbox-active {
+  background-image: url('../assets/nav-selected.svg');
+}
+
+.nav-link-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.nav-link-content img {
+  display: block;
+}
+
+.nav-link-content span {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: white;
+}
+
+.nav-link-wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(270deg);
+  width: 48px;
+  height: 151px;
+  z-index: 1;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  position: relative;
+  width: fit-content;
+  z-index: 1;
+  gap: 8px;
+}
+
+.nav-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 27px;
+  height: 27px;
+  transform: rotate(90deg);
+}
+
+.nav-icon-box {
+  position: relative;
+  width: 27px;
+  height: 27px;
+}
+
+.nav-icon-box.resume-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+.nav-icon-box img {
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nav-icon-box.resume-icon img {
+  width: auto;
+  height: auto;
+  max-width: 27px;
+  max-height: 27px;
+}
+
+.nav-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: fit-content;
+  height: auto;
+  transform: rotate(90deg);
+}
+
+.nav-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  white-space: nowrap;
+  line-height: normal;
+  margin: 0;
+}
+
+/* ============================================
+   DEBUG MODE - White borders for debugging
+   ============================================ */
+.nav-link-content.debug {
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+/* Content */
+.content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 260px;
+  min-height: 1940px;
+  align-items: flex-end;
+  margin: 0 auto;
+  padding: 290px 56px;
+  width: 1440px;
+  max-width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+  align-items: flex-start;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* ============================================
+   2. TITLE SECTION STYLES
+   ============================================ */
+.name-section {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.name-text {
+  font-family: 'STIX Two Text', 'Times New Roman', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 160px;
+  line-height: 120px;
+  color: black;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Cat icon wrapper - size proportional to title font-size */
+.cat-icon-wrapper {
+  height: 120px; /* Matches line-height */
+  position: relative;
+  flex-shrink: 0;
+  width: 120px; /* Proportional to font-size (160px * 0.75 = 120px) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-icon-container {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cat-icon-container img {
+  width: 120px; /* Same size as container, no extra scaling */
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.work-section {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.work-title {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  line-height: 36px;
+  font-size: 24px;
+  color: black;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.work-links {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tag-hitbox {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.tag-hitbox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/tag-default.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tag-hitbox:hover::before {
+  background-image: url('../assets/tag-selected.svg');
+}
+
+.work-link-wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: calc(50% - 0.39px);
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(270deg);
+  width: 48px;
+  height: 48px;
+  z-index: 1;
+}
+
+.work-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 8px;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  position: relative;
+  width: 27px;
+  z-index: 1;
+}
+
+.work-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 27px;
+  height: auto;
+  transform: rotate(90deg);
+  margin-top: 8px;
+}
+
+.work-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  white-space: pre-wrap;
+  line-height: normal;
+  margin: 0;
+}
+
+/* ============================================
+   3. WORK GRID STYLES
+   ============================================ */
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  height: 862.898px;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.grid-card {
+  background: white;
+  border: 1.5px solid #e8e8e8;
+  height: 423.449px;
+  position: relative;
+  border-radius: 1px;
+  flex-shrink: 0;
+  width: 429.33px;
+  overflow: hidden;
+}
+
+.card-rive-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 75%;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.card-rive-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: transparent;
+  object-fit: contain;
+}
+
+.card-rive-container-90 iframe {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-rive-container-90 {
+  width: 100%;
+  height: 100%;
+}
+
+.card-image-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-heading {
+  position: absolute;
+  bottom: 20.58px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1;
+  right: 24.33px;
+}
+
+.card-icon-container {
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-icon-container img {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.card-heading-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: right;
+  color: #909090;
+  white-space: nowrap;
+  line-height: normal;
+  margin: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+/* Card 1 Content */
+.card-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.card-description {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: black;
+  width: 100%;
+}
+
+.card-description p {
+  margin: 0;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card-tag {
+  background: #f9f9f9;
+  border: 1.065px solid #f2f2f2;
+  border-radius: 4px;
+  padding: 5px 13px;
+  display: flex;
+  align-items: center;
+}
+
+.card-tag span {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #8c8c8c;
+  white-space: nowrap;
+}
+
+.card-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-icon {
+  width: 38.324px;
+  height: 38.324px;
+  position: relative;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  background-color: #F2F2F2;
+}
+
+.social-icon img {
+  position: absolute;
+  inset: -2.78%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  max-width: none;
+}
+
+/* Card 3 Work History */
+.work-history {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.work-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.work-entry-present {
+  color: black;
+}
+
+.work-entry-past {
+  color: #8c8c8c;
+}
+
+.work-icon-wrapper {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.work-icon-wrapper img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.work-role-hover-icon {
+  width: 0;
+  height: 24px;
+  position: relative;
+  flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+  margin-left: 0;
+}
+
+/* Show icon when work-role text is hovered */
+.work-entry:has(.work-role:hover) .work-role-hover-icon {
+  width: 24px;
+  opacity: 1;
+  visibility: visible;
+  margin-left: 8px;
+}
+
+.work-role-hover-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.work-role {
+  flex: 1 0 0;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.work-date {
+  margin: 0;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.work-divider {
+  border: 1px solid #d6d5db;
+  width: 100%;
+  height: 1px;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 1440px) {
+  .content-container {
+    width: 100%;
+    padding: 290px 40px;
+  }
+  
+  .name-text {
+    font-size: 120px;
+    line-height: 90px;
+  }
+  
+  /* Cat icon scales with title */
+  .cat-icon-wrapper {
+    height: 90px; /* Matches line-height */
+    width: 90px; /* Proportional to font-size (120px * 0.75 = 90px) */
+  }
+  
+  .cat-icon-container {
+    width: 90px;
+    height: 90px;
+    position: relative;
+  }
+  
+  .cat-icon-container img {
+    width: 90px; /* Same size as container */
+    height: 90px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .content-container {
+    padding: 200px 32px;
+    gap: 180px;
+  }
+  
+  .name-text {
+    font-size: 80px;
+    line-height: 60px;
+  }
+  
+  /* Cat icon scales with title */
+  .cat-icon-wrapper {
+    height: 60px; /* Matches line-height */
+    width: 60px; /* Proportional to font-size (80px * 0.75 = 60px) */
+  }
+  
+  .cat-icon-container {
+    width: 60px;
+    height: 60px;
+    position: relative;
+  }
+  
+  .cat-icon-container img {
+    width: 60px; /* Same size as container */
+    height: 60px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .grid-card {
+    width: calc(50% - 8px);
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    padding: 150px 24px;
+    gap: 120px;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .name-text {
+    font-size: 60px;
+    line-height: 45px;
+  }
+  
+  /* Cat icon scales with title */
+  .cat-icon-wrapper {
+    height: 45px; /* Matches line-height */
+    width: 45px; /* Proportional to font-size (60px * 0.75 = 45px) */
+  }
+  
+  .cat-icon-container {
+    width: 45px;
+    height: 45px;
+    position: relative;
+  }
+  
+  .cat-icon-container img {
+    width: 45px; /* Same size as container */
+    height: 45px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .work-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .grid-card {
+    width: 100%;
+    height: 300px;
+  }
+  
+  .nav-container {
+    bottom: 20px;
+  }
+  
+  .nav-link-hitbox {
+    width: 100px;
+  }
+  
+  .nav-text {
+    font-size: 14px;
+  }
+}
