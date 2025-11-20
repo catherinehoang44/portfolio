@@ -4,7 +4,37 @@
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 290px;
+  padding-bottom: 0;
+}
+
+/* ============================================
+   PAGE TRANSITION ANIMATION - EDIT HERE
+   ============================================
+   EDIT THIS: Change the duration (e.g., 0.6s, 1s, 1.5s, 2s) to control animation speed
+   EDIT THIS: Change the easing (ease-out, ease-in, ease-in-out, cubic-bezier) to control animation feel
+   EDIT THIS: Change blur(10px) to adjust blur intensity
+   EDIT THIS: Change translateY(20px) to adjust slide distance
+   ============================================ */
+.work-page.page-loading .nav-container,
+.work-page.page-loading .work-tags-container,
+.work-page.page-loading .work-content-container {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 .work-background {
@@ -38,10 +68,15 @@
 /* Ensure tag hitboxes are clickable and hoverable */
 .work-tags-container .tag-hitbox {
   cursor: pointer;
-  transition: background-image 0.2s ease;
   pointer-events: auto;
   position: relative;
   z-index: 1;
+}
+
+/* Add smooth transition to tag hitbox ::before pseudo-element */
+.work-tags-container .tag-hitbox::before {
+  transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Tag hitbox hover effect - show selected state on hover */
@@ -102,31 +137,143 @@
   overflow: hidden;
   width: 100%;
   min-width: 0; /* Prevents grid overflow */
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  height: auto; /* Height hugs content */
 }
 
-.work-card-content {
-  padding: 24px;
+.work-card-image-placeholder {
+  width: calc(100% - 24px);
+  height: auto;
+  min-height: 200px;
+  background-color: #e8e8e8;
+  position: relative;
+  margin: 12px;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 1px;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-card-image {
+  width: 100%;
+  height: auto; /* Height hugs content */
+  object-fit: cover; /* Fill width, crop height */
+  object-position: center;
+  display: block;
+}
+
+.work-card-video-container {
+  background-color: white;
+}
+
+.work-card-video {
+  width: 100%;
+  height: auto; /* Height hugs content to maintain aspect ratio */
+  object-fit: contain; /* Fit entire video without cropping */
+  object-position: center;
+  display: block;
+}
+
+.work-grid-card:hover .work-snapshot-container {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.work-snapshot-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background-color: #757575;
+  border-radius: 1px;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.work-snapshot-dotted-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  display: block;
+  z-index: 1;
+}
+
+.work-snapshot-dotted-line-top {
+  top: 6px;
+}
+
+.work-snapshot-dotted-line-bottom {
+  bottom: 6px;
+}
+
+.work-snapshot-content {
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 0px; /* Gap between work name and tags */
+  position: relative;
+  z-index: 1;
 }
 
-.work-card-content h3 {
-  font-family: 'STIX Two Text', serif;
-  font-weight: 500;
-  font-size: 24px;
-  color: black;
-  margin: 0 0 12px 0;
+.work-snapshot-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
 }
 
-.work-card-content p {
-  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  color: #8c8c8c;
+.work-snapshot-title {
+  font-family: 'STIX Two Math', 'STIX Two Text', serif;
+  font-weight: 500; /* Medium thickness */
+  font-size: 18px;
+  line-height: normal;
+  color: white;
+  text-align: center;
   margin: 0;
+  white-space: nowrap;
+}
+
+.work-snapshot-arrow {
+  width: 9px;
+  height: 9px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.work-snapshot-tags-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500; /* Medium thickness */
+  font-style: italic;
+  font-size: 12px;
+  line-height: normal;
+  color: white;
+  text-align: center;
+  letter-spacing: 0.96px;
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 /* Responsive: 2 columns on smaller screens */

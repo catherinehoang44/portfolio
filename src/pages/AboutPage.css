@@ -12,7 +12,37 @@
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 290px; /* Bottom padding */
+  padding-bottom: 0;
+}
+
+/* ============================================
+   PAGE TRANSITION ANIMATION - EDIT HERE
+   ============================================
+   EDIT THIS: Change the duration (e.g., 0.6s, 1s, 1.5s, 2s) to control animation speed
+   EDIT THIS: Change the easing (ease-out, ease-in, ease-in-out, cubic-bezier) to control animation feel
+   EDIT THIS: Change blur(10px) to adjust blur intensity
+   EDIT THIS: Change translateY(20px) to adjust slide distance
+   ============================================ */
+.about-page.page-loading .nav-container,
+.about-page.page-loading .content-container,
+.about-page.page-loading .card4-content {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 .about-background {
@@ -44,10 +74,10 @@
 }
 
 .nav-link-hitbox {
-  height: 48px;
   position: relative;
   flex-shrink: 0;
   width: 150px;
+  aspect-ratio: 150 / 48; /* Lock aspect ratio (150px width : 48px height) */
   background-image: url('../assets/nav-default.svg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -56,6 +86,8 @@
   text-decoration: none;
   color: inherit;
   display: block;
+  transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .nav-link-hitbox:hover,
@@ -71,16 +103,24 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  position: relative;
 }
 
 .nav-link-content img {
   display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+  /* Maintain original aspect ratio of the SVG icons */
 }
 
 .nav-link-content span {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: clamp(16px, 1.1vw, 20px);
   color: white;
 }
 
@@ -162,7 +202,7 @@
 .nav-text {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: clamp(16px, 1.1vw, 20px);
   text-align: center;
   color: white;
   white-space: nowrap;
@@ -275,8 +315,8 @@
 .work-title {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 500;
-  line-height: 36px;
-  font-size: 24px;
+  line-height: 1.5;
+  font-size: clamp(16px, 1.5vw, 24px);
   color: black;
   margin: 0;
   flex-shrink: 0;
@@ -311,6 +351,8 @@
   z-index: 0;
   width: 100%;
   height: 100%;
+  transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .tag-hitbox:hover::before {
@@ -358,7 +400,7 @@
 .work-text {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: clamp(16px, 1.1vw, 20px);
   text-align: center;
   color: white;
   white-space: pre-wrap;
@@ -370,10 +412,9 @@
    3. WORK GRID STYLES
    ============================================ */
 .grid-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: 16px;
-  height: 862.898px;
   align-items: flex-start;
   justify-content: center;
   position: relative;
@@ -384,11 +425,13 @@
 .grid-card {
   background: white;
   border: 1.5px solid #e8e8e8;
-  height: 423.449px;
   position: relative;
   border-radius: 1px;
   flex-shrink: 0;
-  width: 429.33px;
+  min-width: 380px;
+  min-height: 380px;
+  width: 100%;
+  aspect-ratio: 1;
   overflow: hidden;
 }
 
@@ -445,6 +488,155 @@
   display: block;
 }
 
+/* Card 4 Tags and Cat */
+.card4-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* SVG Lines Container */
+.card4-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card4-line {
+  stroke: #d6d5db;
+  stroke-width: 0.698px;
+  vector-effect: non-scaling-stroke;
+}
+
+.card4-cat-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.card4-cat-container {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card4-cat-container img {
+  width: 64px;
+  height: 64px;
+  display: block;
+  object-fit: contain;
+}
+
+.card4-tags {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+.card4-tag {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 0.698px solid #d6d5db;
+  border-radius: 4px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+  box-sizing: border-box;
+  white-space: nowrap;
+  z-index: 2;
+  transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: grab;
+  user-select: none;
+}
+
+.card4-tag:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.card4-tag:active {
+  cursor: grabbing;
+}
+
+.card4-tag-dragging {
+  transform: translate(-50%, -50%) scale(1.1);
+  animation: wiggle 0.3s ease-in-out infinite;
+  z-index: 20 !important;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: translate(-50%, -50%) scale(1.1) rotate(0deg); }
+  25% { transform: translate(-50%, -50%) scale(1.1) rotate(-2deg); }
+  75% { transform: translate(-50%, -50%) scale(1.1) rotate(2deg); }
+}
+
+.card4-tag p {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: 1.5;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+/* Hexagon distribution: 6 tags with vertical staggering */
+/* Higher tags: Architecture, Reflective writing, Cute steampunk automata */
+/* Lower tags: Maximalist design, Side quests, Multi-purpose furniture */
+.card4-tag-1 {
+  /* Architecture - raised up by 30px */
+  top: calc(50% - 140px);
+  left: calc(50% + 8px);
+}
+
+.card4-tag-2 {
+  /* Multi-purpose furniture - raised up by 30px, moved 30px to the right */
+  top: calc(50% - 80px);
+  left: calc(50% + 105px);
+}
+
+.card4-tag-3 {
+  /* Maximalism - moved down 30px, moved 25px to the right */
+  top: calc(50% + 80px);
+  left: calc(50% + 105px);
+}
+
+.card4-tag-4 {
+  /* Nostalgia-maxing - moved down 30px */
+  top: calc(50% + 130px);
+  left: calc(50% - 15px);
+}
+
+.card4-tag-5 {
+  /* Multi-purpose furniture - moved 30px left and 15px down */
+  top: calc(50% + 60px);
+  left: calc(50% - 115px);
+}
+
+.card4-tag-6 {
+  /* Journaling - moved 15px down and 15px right */
+  top: calc(50% - 55px);
+  left: calc(50% - 95px);
+}
+
 .card-heading {
   position: absolute;
   bottom: 20.58px;
@@ -473,7 +665,7 @@
 .card-heading-text {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: clamp(16px, 1.1vw, 20px);
   text-align: right;
   color: #909090;
   white-space: nowrap;
@@ -501,8 +693,8 @@
 .card-description {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: 1.5;
   color: black;
   width: 100%;
 }
@@ -520,7 +712,7 @@
 
 .card-tag {
   background: #f9f9f9;
-  border: 1.065px solid #f2f2f2;
+  border: 2px solid #f2f2f2;
   border-radius: 4px;
   padding: 5px 13px;
   display: flex;
@@ -530,8 +722,8 @@
 .card-tag span {
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: 1.5;
   color: #8c8c8c;
   white-space: nowrap;
 }
@@ -543,30 +735,30 @@
 }
 
 .social-icon {
-  width: 38.324px;
-  height: 38.324px;
+  width: 48px;
+  height: 48px;
   position: relative;
   flex-shrink: 0;
   background: white;
-  border-radius: 50%;
+  border-radius: 48px; /* 48px rounded corners (circle) */
+  border: 2px solid #f2f2f2;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
   text-decoration: none;
+  transition: background-color 0.3s ease-in-out; /* Smooth fade in/out for hover */
 }
 
 .social-icon:hover {
-  background-color: #F2F2F2;
+  background-color: #F9F9F9;
 }
 
 .social-icon img {
-  position: absolute;
-  inset: -2.78%;
-  width: 100%;
-  height: 100%;
+  width: 16px;
+  height: auto;
   display: block;
-  max-width: none;
+  object-fit: contain;
+  max-width: 16px; /* Ensure max width is 16px */
 }
 
 /* Card 3 Work History */
@@ -581,12 +773,12 @@
 .work-entry {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: 1.5;
+  gap: 8px;
 }
 
 .work-entry-present {
@@ -611,23 +803,23 @@
 }
 
 .work-role-hover-icon {
-  width: 0;
-  height: 24px;
+  width: 14px;
+  height: 14px;
   position: relative;
   flex-shrink: 0;
   opacity: 0;
   visibility: hidden;
-  overflow: hidden;
-  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, margin-left 0.3s ease-in-out;
-  margin-left: 0;
+  overflow: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out, filter 0.2s ease-in-out 0.3s;
+  margin: 0;
 }
 
-/* Show icon when work-role text is hovered */
+/* Show icon when work-role text is hovered - fade in and rotate at the same time, then turn black */
 .work-entry:has(.work-role:hover) .work-role-hover-icon {
-  width: 24px;
   opacity: 1;
   visibility: visible;
-  margin-left: 8px;
+  transform: rotate(-45deg); /* 45 degrees counter-clockwise */
+  filter: brightness(0); /* Turn SVG black */
 }
 
 .work-role-hover-icon img {
@@ -636,16 +828,26 @@
   display: block;
 }
 
+/* Change text color to black at the same time as icon reaches 100% opacity */
+.work-entry:has(.work-role:hover) .work-role {
+  color: black !important;
+  transition: color 0.3s ease-in-out;
+}
+
 .work-role {
-  flex: 1 0 0;
+  width: fit-content;
+  flex: 0 0 auto;
   margin: 0;
   white-space: pre-wrap;
+  font-size: clamp(16px, 1.1vw, 20px);
 }
 
 .work-date {
   margin: 0;
   text-align: right;
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(16px, 1.1vw, 20px);
 }
 
 .work-divider {
@@ -723,10 +925,6 @@
     transform: translate(-50%, -50%);
   }
   
-  .grid-card {
-    width: calc(50% - 8px);
-    height: 350px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -770,20 +968,76 @@
     gap: 16px;
   }
   
-  .grid-card {
-    width: 100%;
-    height: 300px;
-  }
   
   .nav-container {
     bottom: 20px;
   }
-  
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  /* Nav bar size never changes */
   .nav-link-hitbox {
-    width: 100px;
+    width: 150px;
+    aspect-ratio: 150 / 48;
   }
   
   .nav-text {
-    font-size: 14px;
+    font-size: clamp(16px, 1.1vw, 20px);
   }
+}
+
+/* ============================================
+   CARD 6 - TOOLBOX STYLES
+   ============================================ */
+.card-toolbox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card-toolbox-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: 1.5;
+  color: black;
+  margin: 0;
+  width: 100%;
+}
+
+.card-toolbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.tool-1,
+.tool-2,
+.tool-3,
+.tool-4,
+.tool-5,
+.tool-6 {
+  width: 100%;
+  aspect-ratio: 1;
+  background-image: url('../assets/paper-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  border: 2px solid #F2F2F2;
+  overflow: hidden; /* Crop anything outside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-icon {
+  height: 24%;
+  width: auto;
+  max-width: 90%;
+  object-fit: contain;
 }

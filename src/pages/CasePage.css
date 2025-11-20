@@ -1,0 +1,683 @@
+.case-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 290px;
+}
+
+/* ============================================
+   PAGE TRANSITION ANIMATION - EDIT HERE
+   ============================================
+   EDIT THIS: Change the duration (e.g., 0.6s, 1s, 1.5s, 2s) to control animation speed
+   EDIT THIS: Change the easing (ease-out, ease-in, ease-in-out, cubic-bezier) to control animation feel
+   EDIT THIS: Change blur(10px) to adjust blur intensity
+   EDIT THIS: Change translateY(20px) to adjust slide distance
+   ============================================ */
+.case-page.page-loading .case-nav-container,
+.case-page.page-loading .case-work-details-container,
+.case-page.page-loading .case-content-container {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.case-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Work details container - 48px height, horizontal layout, 2px gap */
+.case-work-details-container {
+  position: fixed;
+  top: 30px;
+  left: 56px;
+  z-index: 100;
+  width: fit-content; /* Hug children widths */
+  height: 48px;
+  display: inline-flex; /* Changed to inline-flex to hug content */
+  flex-direction: row;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+/* Back container - center aligned with background image */
+.case-work-details-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  text-decoration: none;
+  position: relative;
+  background-image: url('../assets/back-hitbox.png');
+  background-size: auto 48px; /* Fit height to 48px, width auto to maintain aspect ratio */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* Container width fits the image width */
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  overflow: visible;
+  /* Use the hidden image to determine width - it must be in flow */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Hidden image to determine container width - in normal flow */
+.case-back-hitbox-sizer {
+  height: 48px;
+  width: auto;
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  position: static; /* In normal flow to affect container width */
+  margin: 0;
+  padding: 0;
+}
+
+.case-work-details-back {
+  transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
+}
+
+.case-work-details-back:hover {
+  background-image: url('../assets/back-hitbox-hover.png');
+}
+
+.case-back-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  object-fit: contain;
+  position: absolute; /* Position absolutely to center it */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the icon (no rotation) */
+  z-index: 1;
+}
+
+/* Work name container - center aligned with background image */
+.case-work-details-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 217px; /* Fixed width to match work-title.png at 48px height */
+  position: relative;
+  background-image: url('../assets/work-title.png');
+  background-size: 217px 48px; /* Exact size to fit container */
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.case-work-details-name p {
+  margin: 0;
+  text-align: center;
+  font-family: 'STIX Two Text', serif;
+  font-weight: 500; /* Medium weight */
+  font-size: 20px; /* Slightly bigger */
+  color: white;
+}
+
+.case-content-container {
+  position: fixed; /* Fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Split screen layout - only on desktop (not mobile) */
+.case-text-container {
+  flex: 1 1 50%; /* Equal width, equal flex basis */
+  width: 50vw; /* Exactly half of viewport width */
+  height: 100vh; /* Full viewport height */
+  padding-left: 56px;
+  padding-right: 56px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Start from top */
+  align-items: center;
+  position: relative;
+  z-index: 2; /* Content container on top */
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #F2F2F2 transparent;
+  /* Gradient mask: 0% opacity at top, 100% from 33% to 66%, 0% at bottom */
+  mask-image: linear-gradient(to bottom, 
+    transparent 0%, 
+    black 33%, 
+    black 66%, 
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(to bottom, 
+    transparent 0%, 
+    black 33%, 
+    black 66%, 
+    transparent 100%
+  );
+}
+
+.case-text-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.case-text-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.case-text-container::-webkit-scrollbar-thumb {
+  background-color: #F2F2F2;
+  border-radius: 4px;
+}
+
+.case-text-container::-webkit-scrollbar-thumb:hover {
+  background-color: #E0E0E0;
+}
+
+.case-text-container > .case-section {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 120px; /* 120px gap between sections */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 160px); /* Full viewport height minus padding (80px top + 80px bottom) */
+}
+
+
+.case-text-container > .case-section:last-child {
+  margin-bottom: 0; /* Remove margin from last section */
+}
+
+.case-section-adobe-first {
+  padding-top: 300px;
+}
+
+.case-imagery-container {
+  flex: 1 1 50%; /* Equal width, equal flex basis */
+  width: 50vw; /* Exactly half of viewport width */
+  height: 100vh; /* Full viewport height */
+  background: white;
+  padding: 0; /* No padding */
+  box-sizing: border-box;
+  border-left: 2px solid #f2f2f2; /* 2px border only on left side */
+  overflow: hidden; /* Prevent scrolling */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center;
+  position: relative;
+  z-index: 1; /* Imagery container below content */
+}
+
+.case-section-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  width: 75%; /* Always 75% width of container */
+  height: auto;
+  max-width: 75%;
+  max-height: 90vh;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  object-fit: contain;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.case-section-image.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.case-section-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  width: 75%; /* Always 75% width of container */
+  height: auto;
+  max-width: 75%;
+  max-height: 90vh;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  object-fit: contain;
+  pointer-events: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.case-section-video.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.case-section {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.case-section-heading {
+  font-family: 'STIX Two Text', serif;
+  font-weight: 500;
+  font-style: italic; /* Italic style */
+  font-size: 18px; /* 18px size */
+  line-height: normal;
+  color: #8c8c8c; /* Gray color */
+  margin: 0 0 24px 0;
+}
+
+.case-section-text {
+  width: 100%;
+}
+
+.case-section-text p {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500; /* Medium weight */
+  font-size: 21px;
+  line-height: 36px;
+  color: black;
+  margin: 0 0 0 0;
+}
+
+.case-section-text p:has(span) {
+  font-weight: 500; /* Medium for paragraphs with spans */
+}
+
+.case-section-text p span {
+  color: #8c8c8c; /* Gray color for specific words */
+}
+
+/* Project 5 Overview section styles */
+.case-section-overview-title {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 36px;
+  color: black;
+  margin: 0 0 24px 0;
+}
+
+.case-section-tags {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-top: 12px;
+  margin-bottom: 24px;
+}
+
+.case-section-tag {
+  background: #f9f9f9;
+  border: 2px solid #f2f2f2;
+  border-radius: 4px;
+  padding: 5px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-section-tag p {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: normal;
+  color: #8c8c8c;
+  margin: 0;
+  text-align: center;
+}
+
+.case-section-description {
+  margin-top: 0;
+}
+
+.case-section-description p {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 36px;
+  color: black;
+  margin: 0 0 0 0;
+}
+
+/* Project 5 Problem section highlight design */
+.case-problem-highlight {
+  margin-top: 24px;
+  width: 100%;
+  background: linear-gradient(to bottom, #f9f9f9, rgba(249, 249, 249, 0));
+  border: 0.5px solid #f2f2f2;
+  border-radius: 4px;
+  position: relative;
+}
+
+.case-problem-highlight-content {
+  box-sizing: border-box;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  overflow: hidden;
+  padding: 6px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.case-problem-highlight-layout {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.case-problem-highlight-icon {
+  background: white;
+  border: 1px solid rgba(140, 140, 140, 0.64);
+  border-radius: 8px;
+  flex-shrink: 0;
+  height: 32px;
+  width: 32px;
+  position: relative;
+}
+
+.case-problem-highlight-icon-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2px;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: inherit;
+}
+
+.case-problem-highlight-icon-inner {
+  background: white;
+  border: 0.5px solid rgba(140, 140, 140, 0.64);
+  border-radius: 6px;
+  flex: 1 0 0;
+  min-height: 1px;
+  min-width: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.case-problem-highlight-icon-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.case-problem-highlight-icon-img {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 0.15px);
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  display: block;
+  max-width: none;
+}
+
+.case-problem-highlight-icon-inner::after {
+  content: '';
+  position: absolute;
+  inset: -0.5px;
+  pointer-events: none;
+  box-shadow: inset 0px 0px 4px 0px #d6d6d6;
+}
+
+.case-problem-highlight-text {
+  flex: 1 0 0;
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  line-height: normal;
+  min-height: 1px;
+  min-width: 1px;
+  position: relative;
+  font-size: 16px;
+  color: black;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.case-problem-highlight-text-bold {
+  font-weight: 700;
+}
+
+/* Project 5 Overview imagery container */
+.case-section-image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 90vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+}
+
+.case-section-image-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.case-section-image-container .case-section-image {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: 75% !important; /* Always 75% width of container */
+  max-width: 75% !important;
+  height: auto;
+  max-height: calc(45vh - 12px);
+  display: block;
+  object-fit: contain;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.case-section-image-scope {
+  width: 75% !important;
+  max-width: 75% !important;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  object-fit: contain;
+  border: none;
+}
+
+.case-mobile-image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.case-mobile-image-container .case-mobile-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  background: white;
+  border-radius: 4px;
+}
+
+.case-nav-container {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+/* Remove icons from case nav links */
+.case-nav-link-content img {
+  display: none !important;
+}
+
+.case-nav-link-hitbox {
+  margin: 0 !important;
+}
+
+.case-nav-link-hitbox-active {
+  background-image: url('../assets/nav-selected.svg') !important;
+}
+
+/* Mobile container - hidden on desktop */
+.case-mobile-container {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .case-work-details-container {
+    left: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .case-content-container {
+    position: relative; /* Change from fixed to relative for normal scrolling */
+    width: 100%;
+    height: auto; /* Auto height for content */
+    min-height: 100vh;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .case-work-details-container {
+    left: 16px;
+  }
+  
+  /* Hide desktop split-screen layout on mobile */
+  .case-text-container,
+  .case-imagery-container {
+    display: none;
+  }
+  
+  /* Show mobile vertical layout */
+  .case-mobile-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 120px 56px 80px; /* Top padding for header, bottom for nav */
+    box-sizing: border-box;
+  }
+  
+  .case-mobile-section {
+    width: 100%;
+    margin-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .case-mobile-section-adobe-first {
+    padding-top: 300px;
+  }
+  
+  .case-mobile-section:last-child {
+    margin-bottom: 0;
+  }
+  
+  .case-mobile-section .case-section-text {
+    width: 100%;
+  }
+  
+  .case-mobile-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    background: white;
+    border-radius: 4px;
+  }
+  
+  .case-mobile-image video {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+  
+  .case-section-subsection {
+    width: 100%;
+  }
+}
+

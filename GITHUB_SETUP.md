@@ -13,6 +13,7 @@ git init
 ## Step 2: Create a .gitignore File
 
 Make sure you have a `.gitignore` file that excludes:
+
 - `node_modules/`
 - `.env` files
 - Build outputs
@@ -76,37 +77,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          
+          node-version: "18"
+
       - name: Install dependencies
         run: npm install
-        
+
       - name: Build
         run: npm run build
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
-          
+          path: "./dist"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 ```
 
 2. In your GitHub repository:
+
    - Go to Settings → Pages
    - Under "Source", select "GitHub Actions"
    - Save
 
 3. Push your changes:
+
 ```bash
 git add .
 git commit -m "Add GitHub Pages deployment"
@@ -116,11 +119,13 @@ git push
 ### Option B: Using Vite Build + gh-pages
 
 1. Install gh-pages:
+
 ```bash
 npm install --save-dev gh-pages
 ```
 
 2. Update `package.json` scripts:
+
 ```json
 {
   "scripts": {
@@ -133,17 +138,19 @@ npm install --save-dev gh-pages
 ```
 
 3. Update `vite.config.js` (create if it doesn't exist):
+
 ```javascript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: '/YOUR_REPO_NAME/', // Replace with your repo name
-})
+  base: "/YOUR_REPO_NAME/", // Replace with your repo name
+});
 ```
 
 4. Deploy:
+
 ```bash
 npm run deploy
 ```
@@ -153,20 +160,20 @@ npm run deploy
 Since GitHub Pages serves from a subdirectory, update `App.jsx` to use HashRouter instead of BrowserRouter, or configure the base path.
 
 Update `src/App.jsx`:
+
 ```jsx
-import { HashRouter } from 'react-router-dom' // Change from BrowserRouter
+import { HashRouter } from "react-router-dom"; // Change from BrowserRouter
 
 // Then use HashRouter instead
 <HashRouter>
-  <Routes>
-    ...
-  </Routes>
-</HashRouter>
+  <Routes>...</Routes>
+</HashRouter>;
 ```
 
 ## Alternative: Deploy to Vercel or Netlify (Easier)
 
 ### Vercel:
+
 1. Go to [vercel.com](https://vercel.com)
 2. Sign up with GitHub
 3. Click "New Project"
@@ -174,6 +181,7 @@ import { HashRouter } from 'react-router-dom' // Change from BrowserRouter
 5. Vercel auto-detects Vite and deploys!
 
 ### Netlify:
+
 1. Go to [netlify.com](https://netlify.com)
 2. Sign up with GitHub
 3. Click "Add new site" → "Import an existing project"
@@ -195,4 +203,3 @@ import { HashRouter } from 'react-router-dom' // Change from BrowserRouter
 3. Customize styling as needed
 4. Test locally: `npm run dev`
 5. Build and test: `npm run build && npm run preview`
-
