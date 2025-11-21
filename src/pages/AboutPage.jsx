@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import ForceGraph2D from 'react-force-graph-2d'
 import './AboutPage.css'
 import aboutBg from '../assets/about-bg.jpg'
 import catIcon from '../assets/cat-icon.png'
@@ -27,9 +28,21 @@ import usertestingIcon from '../assets/usertesting-icon.svg'
 // ============================================
 const DEBUG_MODE = false
 
+// Reusable TypeTag Component
+function TypeTag({ children, icon }) {
+  return (
+    <div className="media-type">
+      {icon && <img alt="" src={icon} className="media-type-icon" />}
+      <p className="media-type-text">{children}</p>
+    </div>
+  )
+}
+
 function AboutPage() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
+  const [numColumns, setNumColumns] = useState(3)
   const card4ContentRef = useRef(null)
   const catRef = useRef(null)
   const [lineCoords, setLineCoords] = useState({
@@ -46,29 +59,145 @@ function AboutPage() {
   const originalPositions = useRef({})
   const originalLineCoords = useRef(null)
   const [isBouncing, setIsBouncing] = useState(false)
+  const graphContainerRef = useRef(null)
+  const graphInstanceRef = useRef(null)
+  const [graphDimensions, setGraphDimensions] = useState({ width: 400, height: 400 })
+
+  // Graph data for interests map
+  const interestsGraphData = {
+    nodes: [
+      { id: 'center', name: 'Me', val: 15 },
+      { id: 'architecture', name: 'Architecture', val: 7 },
+      { id: 'illustration', name: 'Illustration', val: 6 },
+      { id: 'branding', name: 'Branding', val: 7 },
+      { id: 'uiux', name: 'UI/UX', val: 8 },
+      { id: 'motion', name: 'Motion', val: 6 },
+      { id: 'steampunk', name: 'Steampunk', val: 5 },
+      { id: 'maximalism', name: 'Maximalism', val: 5 },
+      { id: 'journaling', name: 'Journaling', val: 6 },
+      { id: 'furniture', name: 'Multi-purpose Furniture', val: 4 },
+      { id: 'nostalgia', name: 'Nostalgia-Maxing', val: 5 }
+    ],
+    links: [
+      { source: 'center', target: 'architecture' },
+      { source: 'center', target: 'illustration' },
+      { source: 'center', target: 'branding' },
+      { source: 'center', target: 'uiux' },
+      { source: 'center', target: 'motion' },
+      { source: 'center', target: 'steampunk' },
+      { source: 'center', target: 'maximalism' },
+      { source: 'center', target: 'journaling' },
+      { source: 'center', target: 'furniture' },
+      { source: 'center', target: 'nostalgia' },
+      { source: 'branding', target: 'uiux' },
+      { source: 'branding', target: 'illustration' },
+      { source: 'architecture', target: 'furniture' },
+      { source: 'steampunk', target: 'maximalism' },
+      { source: 'nostalgia', target: 'journaling' }
+    ]
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
     setIsLoading(true)
-    // EDIT THIS: Change the delay (in milliseconds) to control when animation starts
-    // Current: 100ms - elements render, then animation plays
-    // Increase to slow down (e.g., 200ms, 300ms)
-    // Decrease to speed up (e.g., 50ms)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-    return () => clearTimeout(timer)
+    
+    // Check if loading animation was shown
+    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
+    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
+    
+    // If loading animation was shown but not yet completed, wait for completion event
+    if (loadingStarted && !loadingCompleted) {
+      const handleLoadingComplete = () => {
+        // Use requestAnimationFrame to ensure DOM is ready before removing class
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setIsLoading(false)
+          })
+        })
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      return () => {
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+    } else {
+      // Loading already completed or not started, use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            setIsLoading(false)
+          }, 100)
+        })
+      })
+      return () => {}
+    }
   }, [location])
 
   // Initial load animation
   useEffect(() => {
     setIsLoading(true)
-    // EDIT THIS: Same as above - controls initial page load animation timing
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-    return () => clearTimeout(timer)
+    
+    // Check if loading animation was shown
+    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
+    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
+    
+    // If loading animation was shown but not yet completed, wait for completion event
+    if (loadingStarted && !loadingCompleted) {
+      const handleLoadingComplete = () => {
+        // Use requestAnimationFrame to ensure DOM is ready before removing class
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setIsLoading(false)
+          })
+        })
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      return () => {
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+    } else {
+      // Loading already completed or not started, use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            setIsLoading(false)
+          }, 100)
+        })
+      })
+      return () => {}
+    }
   }, [])
+
+  // Calculate number of columns for animation delays
+  useEffect(() => {
+    const updateColumns = () => {
+      // Grid uses minmax(380px, 1fr), so calculate based on container width
+      const containerWidth = window.innerWidth
+      if (containerWidth > 1200) {
+        setNumColumns(3)
+      } else if (containerWidth > 800) {
+        setNumColumns(2)
+      } else {
+        setNumColumns(1)
+      }
+    }
+    
+    updateColumns()
+    window.addEventListener('resize', updateColumns)
+    return () => window.removeEventListener('resize', updateColumns)
+  }, [])
+
+  // Calculate animation delay for each card (left to right, top to bottom)
+  const getCardAnimationDelay = (cardIndex) => {
+    // Calculate row and column from card index
+    const rowIndex = Math.floor(cardIndex / numColumns)
+    const colIndex = cardIndex % numColumns
+    // Calculate global index: rowIndex * numColumns + colIndex
+    const globalIndex = rowIndex * numColumns + colIndex
+    // Each card animates 0.1s after the previous one
+    return globalIndex * 0.1
+  }
 
   // Calculate line positions for Card 4
   useEffect(() => {
@@ -256,6 +385,30 @@ function AboutPage() {
         }
       }
     })
+  }, [isLoading])
+
+  // Update graph dimensions when container resizes
+  useEffect(() => {
+    const updateGraphSize = () => {
+      if (graphContainerRef.current) {
+        const rect = graphContainerRef.current.getBoundingClientRect()
+        setGraphDimensions({
+          width: rect.width,
+          height: rect.height
+        })
+      }
+    }
+
+    updateGraphSize()
+    window.addEventListener('resize', updateGraphSize)
+    
+    // Use a small delay to ensure container is rendered
+    const timer = setTimeout(updateGraphSize, 100)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('resize', updateGraphSize)
+    }
   }, [isLoading])
 
   // Drag handlers for Card 4 tags
@@ -532,7 +685,7 @@ function AboutPage() {
           {/* ============================================
               2. TITLE SECTION
               ============================================ */}
-          <div className="name-section">
+          <div className="name-section" style={{ animationDelay: '0s' }}>
             <h1 className="name-text">Cat Hoang</h1>
             <div className="cat-icon-wrapper">
               <div className="cat-icon-container">
@@ -541,7 +694,7 @@ function AboutPage() {
             </div>
           </div>
           
-          <div className="work-section">
+          <div className="work-section" style={{ animationDelay: '0.1s' }}>
             <p className="work-title">What I do</p>
             <div className="work-links">
               <Link to="/1/work?tag=branding" className="tag-hitbox">
@@ -584,7 +737,7 @@ function AboutPage() {
           {/* ============================================
               CARD 1 - Edit content here
               ============================================ */}
-          <div className="grid-card">
+          <div className="grid-card" style={{ animationDelay: `${getCardAnimationDelay(0)}s` }}>
             <div className="card-content">
               <div className="card-description">
                 <p>A Toronto-based gal who fell in love with dabbling in all things creative to light joy in others.</p>
@@ -595,7 +748,7 @@ function AboutPage() {
               </div>
               <div className="card-footer">
                 <div className="card-tag">
-                  <span>Brand Designer</span>
+                  <span>Web Brand Designer</span>
                 </div>
                 <div className="card-social">
                   <a href="https://x.com/angelfilth_" target="_blank" rel="noopener noreferrer" className="social-icon">
@@ -618,7 +771,7 @@ function AboutPage() {
           {/* ============================================
               CARD 2 - Edit content here
               ============================================ */}
-          <div className="grid-card">
+          <div className="grid-card grid-card-rive" style={{ animationDelay: `${getCardAnimationDelay(1)}s` }}>
             <div className="card-rive-container">
               <iframe 
                 style={{ border: 'none', display: 'block' }}
@@ -641,46 +794,56 @@ function AboutPage() {
           {/* ============================================
               CARD 3 - Edit content here
               ============================================ */}
-          <div className="grid-card">
+          <div className="grid-card" style={{ animationDelay: `${getCardAnimationDelay(2)}s` }}>
             <div className="card-content">
               <div className="work-history">
                 <div className="work-entry work-entry-present">
-                  <p className="work-role">UX Manager, Adobe</p>
-                  <div className="work-role-hover-icon">
-                    <img alt="" src={workLinkIcon} />
-                  </div>
+                  <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" className="work-role-link">
+                    <p className="work-role">UX Manager, Adobe</p>
+                    <div className="work-role-hover-icon">
+                      <img alt="" src={workLinkIcon} />
+                    </div>
+                  </a>
                   <p className="work-date">2023—present</p>
                 </div>
                 <div className="work-divider"></div>
                 <div className="work-entry work-entry-past">
-                  <p className="work-role">Marketing Intern, Microsoft</p>
-                  <div className="work-role-hover-icon">
-                    <img alt="" src={workLinkIcon} />
-                  </div>
+                  <a href="https://education.minecraft.net/en-us" target="_blank" rel="noopener noreferrer" className="work-role-link">
+                    <p className="work-role">Marketing Intern, Microsoft</p>
+                    <div className="work-role-hover-icon">
+                      <img alt="" src={workLinkIcon} />
+                    </div>
+                  </a>
                   <p className="work-date">2022—2023</p>
                 </div>
                 <div className="work-divider"></div>
                 <div className="work-entry work-entry-past">
-                  <p className="work-role">Product Designer, TEDxUW</p>
-                  <div className="work-role-hover-icon">
-                    <img alt="" src={workLinkIcon} />
-                  </div>
+                  <a href="https://www.ted.com/tedx/events/55425" target="_blank" rel="noopener noreferrer" className="work-role-link">
+                    <p className="work-role">Product Designer, TEDxUW</p>
+                    <div className="work-role-hover-icon">
+                      <img alt="" src={workLinkIcon} />
+                    </div>
+                  </a>
                   <p className="work-date">2022—2023</p>
                 </div>
                 <div className="work-divider"></div>
                 <div className="work-entry work-entry-past">
-                  <p className="work-role">Design Manager Intern, Adobe</p>
-                  <div className="work-role-hover-icon">
-                    <img alt="" src={workLinkIcon} />
-                  </div>
+                  <a href="https://business-adobe-sandbox.framer.website/" target="_blank" rel="noopener noreferrer" className="work-role-link">
+                    <p className="work-role">Design Manager Intern, Adobe</p>
+                    <div className="work-role-hover-icon">
+                      <img alt="" src={workLinkIcon} />
+                    </div>
+                  </a>
                   <p className="work-date">2022—2022</p>
                 </div>
                 <div className="work-divider"></div>
                 <div className="work-entry work-entry-past">
-                  <p className="work-role">Brand Lead, AIESEC</p>
-                  <div className="work-role-hover-icon">
-                    <img alt="" src={workLinkIcon} />
-                  </div>
+                  <a href="https://aiesec.org/" target="_blank" rel="noopener noreferrer" className="work-role-link">
+                    <p className="work-role">Brand Lead, AIESEC</p>
+                    <div className="work-role-hover-icon">
+                      <img alt="" src={workLinkIcon} />
+                    </div>
+                  </a>
                   <p className="work-date">2020—2022</p>
                 </div>
               </div>
@@ -695,12 +858,84 @@ function AboutPage() {
 
           {/* ============================================
               CARD 4 - Edit content here
-              TEMPORARILY HIDDEN - Uncomment this section to restore
               ============================================ */}
-          {false && <div className="grid-card">
+          <div className="grid-card" style={{ animationDelay: `${getCardAnimationDelay(3)}s` }}>
             <div className="card-image-container">
               <img alt="" src={paperBg} className="card-image" />
-              <div className="card4-content" ref={card4ContentRef}>
+            </div>
+            <div className="card-rive-container card-rive-container-90">
+              <iframe 
+                style={{ border: 'none', width: '100%', height: '100%' }}
+                src="https://rive.app/s/7HLGD_WZY0uw7WimAcm2hA/embed?runtime=rive-renderer"
+                allowFullScreen
+                allow="autoplay"
+                title="Design problem solving animation"
+              />
+            </div>
+            <div className="card-heading">
+              <div className="card-icon-container">
+                <img alt="" src={handIcon} />
+              </div>
+              <p className="card-heading-text">Design problem solving</p>
+            </div>
+          </div>
+
+          {/* ============================================
+              CARD 5 - Edit content here
+              ============================================ */}
+          <div className="grid-card" style={{ animationDelay: `${getCardAnimationDelay(4)}s` }}>
+            <div className="card-content">
+              <div className="card-toolbox">
+                <div className="card-toolbox-grid">
+                  <a href="https://figma.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-1">
+                      <img src={figmaIcon} alt="Figma" className="tool-icon" />
+                    </div>
+                  </a>
+                  <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-2">
+                      <img src={framerIcon} alt="Framer" className="tool-icon" />
+                    </div>
+                  </a>
+                  <a href="https://miro.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-3">
+                      <img src={miroIcon} alt="Miro" className="tool-icon" />
+                    </div>
+                  </a>
+                  <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-4">
+                      <img src={notionIcon} alt="Notion" className="tool-icon" />
+                    </div>
+                  </a>
+                  <a href="https://rive.app/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-5">
+                      <img src={riveIcon} alt="Rive" className="tool-icon" />
+                    </div>
+                  </a>
+                  <a href="https://www.usertesting.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                    <div className="tool-6">
+                      <img src={usertestingIcon} alt="UserTesting" className="tool-icon" />
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="card-heading">
+              <div className="card-icon-container">
+                <img alt="" src={cursorIcon} />
+              </div>
+              <p className="card-heading-text">My design toolbox</p>
+            </div>
+          </div>
+
+          {/* ============================================
+              CARD 6 - Edit content here
+              ============================================ */}
+          <div className="grid-card" style={{ animationDelay: `${getCardAnimationDelay(5)}s` }}>
+            <div className="card-image-container">
+              <img alt="" src={paperBg} className="card-image" />
+              {/* Hidden content - can be restored by removing display: none */}
+              <div className="card4-content" ref={card4ContentRef} style={{ display: 'none' }}>
                 {/* Lines connecting cat to tags */}
                 <svg className="card4-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
                   {/* Line 1: Top left corner -> Reflective writing (tag-6) */}
@@ -830,72 +1065,160 @@ function AboutPage() {
                   </div>
                 </div>
               </div>
+              {/* Interests map force graph */}
+              <div className="card-interests-map" ref={graphContainerRef}>
+                <ForceGraph2D
+                  ref={graphInstanceRef}
+                  graphData={interestsGraphData}
+                  nodeLabel="name"
+                  nodeColor={() => '#333'}
+                  linkColor={() => 'rgba(0, 0, 0, 0.15)'}
+                  linkWidth={0.5}
+                  nodeVal={node => node.val}
+                  nodeRelSize={6}
+                  nodeCanvasObject={(node, ctx, globalScale) => {
+                    const label = node.name
+                    const fontSize = 6 // Fixed size, not scaled
+                    ctx.font = `${fontSize}px 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+                    ctx.textAlign = 'center'
+                    ctx.textBaseline = 'middle'
+                    
+                    // Measure text to size rectangle
+                    const textMetrics = ctx.measureText(label)
+                    const textWidth = textMetrics.width
+                    const textHeight = fontSize
+                    const paddingTop = 2
+                    const paddingBottom = 2
+                    const paddingLeft = 6
+                    const paddingRight = 6
+                    
+                    const rectWidth = textWidth + paddingLeft + paddingRight
+                    const rectHeight = textHeight + paddingTop + paddingBottom
+                    const cornerRadius = Math.min(64, Math.min(rectWidth, rectHeight) / 2) // Corner radius, but don't exceed half the smallest dimension
+                    const x = node.x - rectWidth / 2
+                    const y = node.y - rectHeight / 2
+                    
+                    // Helper function to draw rounded rectangle
+                    const drawRoundedRect = (x, y, width, height, radius) => {
+                      ctx.beginPath()
+                      ctx.moveTo(x + radius, y)
+                      ctx.lineTo(x + width - radius, y)
+                      ctx.arcTo(x + width, y, x + width, y + radius, radius)
+                      ctx.lineTo(x + width, y + height - radius)
+                      ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius)
+                      ctx.lineTo(x + radius, y + height)
+                      ctx.arcTo(x, y + height, x, y + height - radius, radius)
+                      ctx.lineTo(x, y + radius)
+                      ctx.arcTo(x, y, x + radius, y, radius)
+                      ctx.closePath()
+                    }
+                    
+                    // Draw shadow
+                    ctx.save()
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.04)'
+                    ctx.shadowBlur = 4
+                    ctx.shadowOffsetX = 0
+                    ctx.shadowOffsetY = 2
+                    drawRoundedRect(x, y, rectWidth, rectHeight, cornerRadius)
+                    ctx.fillStyle = '#fff'
+                    ctx.fill()
+                    ctx.restore()
+                    
+                    // Draw text
+                    ctx.fillStyle = '#8C8C8C'
+                    ctx.fillText(label, node.x, node.y)
+                  }}
+                  nodePointerAreaPaint={(node, color, ctx, globalScale) => {
+                    const label = node.name
+                    const fontSize = 6 // Fixed size, not scaled
+                    ctx.font = `${fontSize}px 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+                    ctx.textAlign = 'center'
+                    ctx.textBaseline = 'middle'
+                    
+                    // Measure text to size rectangle (same as visual)
+                    const textMetrics = ctx.measureText(label)
+                    const textWidth = textMetrics.width
+                    const textHeight = fontSize
+                    const paddingTop = 2
+                    const paddingBottom = 2
+                    const paddingLeft = 6
+                    const paddingRight = 6
+                    
+                    const rectWidth = textWidth + paddingLeft + paddingRight
+                    const rectHeight = textHeight + paddingTop + paddingBottom
+                    const cornerRadius = Math.min(64, Math.min(rectWidth, rectHeight) / 2) // Scale corner radius, but don't exceed half the smallest dimension
+                    const x = node.x - rectWidth / 2
+                    const y = node.y - rectHeight / 2
+                    
+                    // Helper function to draw rounded rectangle
+                    const drawRoundedRect = (x, y, width, height, radius) => {
+                      ctx.beginPath()
+                      ctx.moveTo(x + radius, y)
+                      ctx.lineTo(x + width - radius, y)
+                      ctx.arcTo(x + width, y, x + width, y + radius, radius)
+                      ctx.lineTo(x + width, y + height - radius)
+                      ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius)
+                      ctx.lineTo(x + radius, y + height)
+                      ctx.arcTo(x, y + height, x, y + height - radius, radius)
+                      ctx.lineTo(x, y + radius)
+                      ctx.arcTo(x, y, x + radius, y, radius)
+                      ctx.closePath()
+                    }
+                    
+                    // Paint rounded rectangle for interaction detection
+                    ctx.fillStyle = color
+                    drawRoundedRect(x, y, rectWidth, rectHeight, cornerRadius)
+                    ctx.fill()
+                  }}
+                  cooldownTicks={100}
+                  onEngineStop={() => {
+                    if (graphInstanceRef.current) {
+                      graphInstanceRef.current.zoomToFit(400, 80)
+                    }
+                  }}
+                  width={graphDimensions.width}
+                  height={graphDimensions.height}
+                  enableZoomInteraction={true}
+                  enablePanInteraction={true}
+                  enableNodeDrag={true}
+                  onNodeClick={(node) => {
+                    // Map node names to work page tags
+                    const tagMap = {
+                      'Branding': 'branding',
+                      'Illustration': 'illustration',
+                      'UI/UX': 'ui/ux',
+                      'Motion': 'motion'
+                    }
+                    const tag = tagMap[node.name]
+                    if (tag) {
+                      navigate(`/1/work?tag=${encodeURIComponent(tag)}`)
+                    }
+                  }}
+                  onNodeHover={(node) => {
+                    if (node) {
+                      const tagMap = {
+                        'Branding': 'branding',
+                        'Illustration': 'illustration',
+                        'UI/UX': 'ui/ux',
+                        'Motion': 'motion'
+                      }
+                      if (tagMap[node.name]) {
+                        graphContainerRef.current?.style.setProperty('cursor', 'pointer')
+                      } else {
+                        graphContainerRef.current?.style.setProperty('cursor', 'default')
+                      }
+                    } else {
+                      graphContainerRef.current?.style.setProperty('cursor', 'default')
+                    }
+                  }}
+                />
+              </div>
             </div>
             <div className="card-heading">
               <div className="card-icon-container">
                 <img alt="" src={moveIcon} />
               </div>
               <p className="card-heading-text">My interests</p>
-            </div>
-          </div>}
-
-                 {/* ============================================
-                     CARD 5 - Edit content here
-                     ============================================ */}
-          <div className="grid-card">
-            <div className="card-image-container">
-              <img alt="" src={paperBg} className="card-image" />
-            </div>
-            <div className="card-rive-container card-rive-container-90">
-              <iframe 
-                style={{ border: 'none', width: '100%', height: '100%' }}
-                src="https://rive.app/s/7HLGD_WZY0uw7WimAcm2hA/embed?runtime=rive-renderer"
-                allowFullScreen
-                allow="autoplay"
-                title="Design problem solving animation"
-              />
-            </div>
-            <div className="card-heading">
-              <div className="card-icon-container">
-                <img alt="" src={handIcon} />
-              </div>
-              <p className="card-heading-text">Design problem solving</p>
-            </div>
-          </div>
-
-          {/* ============================================
-              CARD 6 - Edit content here
-              ============================================ */}
-          <div className="grid-card">
-            <div className="card-content">
-              <div className="card-toolbox">
-                <div className="card-toolbox-grid">
-                  <div className="tool-1">
-                    <img src={figmaIcon} alt="Figma" className="tool-icon" />
-                  </div>
-                  <div className="tool-2">
-                    <img src={framerIcon} alt="Framer" className="tool-icon" />
-                  </div>
-                  <div className="tool-3">
-                    <img src={miroIcon} alt="Miro" className="tool-icon" />
-                  </div>
-                  <div className="tool-4">
-                    <img src={notionIcon} alt="Notion" className="tool-icon" />
-                  </div>
-                  <div className="tool-5">
-                    <img src={riveIcon} alt="Rive" className="tool-icon" />
-                  </div>
-                  <div className="tool-6">
-                    <img src={usertestingIcon} alt="UserTesting" className="tool-icon" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-heading">
-              <div className="card-icon-container">
-                <img alt="" src={cursorIcon} />
-              </div>
-              <p className="card-heading-text">My Design Toolbox</p>
             </div>
           </div>
         </div>

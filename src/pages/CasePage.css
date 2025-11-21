@@ -16,12 +16,111 @@
    EDIT THIS: Change translateY(20px) to adjust slide distance
    ============================================ */
 .case-page.page-loading .case-nav-container,
-.case-page.page-loading .case-work-details-container,
-.case-page.page-loading .case-content-container {
+.case-page.page-loading .case-work-details-container {
   opacity: 0;
   filter: blur(10px);
   transform: translateY(20px);
   animation: fadeInUp 2s ease-out forwards;
+}
+
+/* Section-based animations - text first, then image, then next section */
+/* Each section's text animates, then its image, then move to next section */
+.case-page.page-loading .case-text-container .case-section {
+  opacity: 0;
+  filter: blur(10px) grayscale(100%);
+  transform: translateY(20px);
+  animation: caseCardSlideUp 0.6s ease-out forwards;
+}
+
+/* Text sections: 0s, 0.2s, 0.4s, 0.6s, 0.8s, 1.0s (every 0.2s) */
+.case-page.page-loading .case-text-container .case-section[data-section-index="0"] {
+  animation-delay: 0s;
+}
+
+.case-page.page-loading .case-text-container .case-section[data-section-index="1"] {
+  animation-delay: 0.2s;
+}
+
+.case-page.page-loading .case-text-container .case-section[data-section-index="2"] {
+  animation-delay: 0.4s;
+}
+
+.case-page.page-loading .case-text-container .case-section[data-section-index="3"] {
+  animation-delay: 0.6s;
+}
+
+.case-page.page-loading .case-text-container .case-section[data-section-index="4"] {
+  animation-delay: 0.8s;
+}
+
+.case-page.page-loading .case-text-container .case-section[data-section-index="5"] {
+  animation-delay: 1.0s;
+}
+
+/* Imagery wrapper animations - after their corresponding text section */
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper {
+  opacity: 0;
+  filter: blur(10px) grayscale(100%);
+  transform: translateY(20px);
+  animation: caseCardSlideUp 0.6s ease-out forwards;
+}
+
+/* Image sections: 0.1s, 0.3s, 0.5s, 0.7s, 0.9s, 1.1s (0.1s after text) */
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="0"] {
+  animation-delay: 0.1s;
+}
+
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="1"] {
+  animation-delay: 0.3s;
+}
+
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="2"] {
+  animation-delay: 0.5s;
+}
+
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="3"] {
+  animation-delay: 0.7s;
+}
+
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="4"] {
+  animation-delay: 0.9s;
+}
+
+.case-page.page-loading .case-imagery-container .case-imagery-wrapper[data-section-index="5"] {
+  animation-delay: 1.1s;
+}
+
+/* Mobile section animations - same pattern as desktop */
+.case-page.page-loading .case-mobile-section {
+  opacity: 0;
+  filter: blur(10px) grayscale(100%);
+  transform: translateY(20px);
+  animation: caseCardSlideUp 0.6s ease-out forwards;
+}
+
+/* Mobile sections: 0s, 0.2s, 0.4s, 0.6s, 0.8s, 1.0s (every 0.2s) */
+.case-page.page-loading .case-mobile-section[data-section-index="0"] {
+  animation-delay: 0s;
+}
+
+.case-page.page-loading .case-mobile-section[data-section-index="1"] {
+  animation-delay: 0.2s;
+}
+
+.case-page.page-loading .case-mobile-section[data-section-index="2"] {
+  animation-delay: 0.4s;
+}
+
+.case-page.page-loading .case-mobile-section[data-section-index="3"] {
+  animation-delay: 0.6s;
+}
+
+.case-page.page-loading .case-mobile-section[data-section-index="4"] {
+  animation-delay: 0.8s;
+}
+
+.case-page.page-loading .case-mobile-section[data-section-index="5"] {
+  animation-delay: 1.0s;
 }
 
 @keyframes fadeInUp {
@@ -34,6 +133,19 @@
     opacity: 1;
     filter: blur(0);
     transform: translateY(0);
+  }
+}
+
+@keyframes caseCardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px) grayscale(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0) grayscale(0%);
   }
 }
 
@@ -84,7 +196,7 @@
   padding: 0;
   overflow: visible;
   /* Use the hidden image to determine width - it must be in flow */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
 }
 
 /* Hidden image to determine container width - in normal flow */
@@ -132,7 +244,7 @@
   background-size: 217px 48px; /* Exact size to fit container */
   background-repeat: no-repeat;
   background-position: center;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
 }
 
 .case-work-details-name p {
@@ -155,9 +267,16 @@
   margin: 0;
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
-  gap: 0;
-  overflow: hidden;
+}
+
+/* Demo container for project-14 (Pokemon: Cursor) - centered content */
+.case-demo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 /* Split screen layout - only on desktop (not mobile) */
@@ -176,7 +295,7 @@
   justify-content: flex-start; /* Start from top */
   align-items: center;
   position: relative;
-  z-index: 2; /* Content container on top */
+  z-index: 10; /* Content container on top - higher than imagery */
   /* Custom scrollbar styling */
   scrollbar-width: thin;
   scrollbar-color: #F2F2F2 transparent;
@@ -219,7 +338,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100vh - 160px); /* Full viewport height minus padding (80px top + 80px bottom) */
+  height: fit-content;
+  min-height: 100vh; /* Minimum 100% viewport height for scrollability */
+}
+
+/* Debug mode - white borders for sections */
+.case-page.debug .case-section {
+  border: 2px solid white;
 }
 
 
@@ -227,13 +352,19 @@
   margin-bottom: 0; /* Remove margin from last section */
 }
 
+/* Last section in Adobe Certification case has extra bottom padding */
+.case-section-last {
+  padding-bottom: 0;
+}
+
 .case-section-adobe-first {
-  padding-top: 300px;
+  padding-top: 0;
 }
 
 .case-imagery-container {
   flex: 1 1 50%; /* Equal width, equal flex basis */
   width: 50vw; /* Exactly half of viewport width */
+  max-width: 50vw; /* Prevent overflow */
   height: 100vh; /* Full viewport height */
   background: white;
   padding: 0; /* No padding */
@@ -245,22 +376,89 @@
   justify-content: center; /* Center vertically */
   align-items: center;
   position: relative;
-  z-index: 1; /* Imagery container below content */
 }
 
-.case-section-image {
+
+.case-imagery-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-  width: 75%; /* Always 75% width of container */
-  height: auto;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
   max-width: 75%;
-  max-height: 90vh;
-  display: block;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.case-imagery-wrapper.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Full width wrapper for project-14 */
+.case-imagery-wrapper-fullwidth {
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transform: none;
+}
+
+.case-imagery-caption {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.case-imagery-caption-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: normal;
+  color: #8c8c8c;
+  text-align: right;
+  margin: 0;
+}
+
+.case-imagery-caption-number {
+  font-weight: 700;
+}
+
+.media-type {
+  background: white;
+  border: 2px solid #f2f2f2;
+  border-radius: 4px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.media-type-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: normal;
+  color: #8c8c8c;
+  text-align: center;
+  margin: 0;
+}
+
+.case-section-image {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  display: block;
   object-fit: contain;
   pointer-events: none;
   margin: 0;
@@ -268,23 +466,11 @@
   border: none;
 }
 
-.case-section-image.active {
-  opacity: 1;
-  visibility: visible;
-}
-
 .case-section-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-  width: 75%; /* Always 75% width of container */
+  width: 100%;
   height: auto;
-  max-width: 75%;
   max-height: 90vh;
   display: block;
-  opacity: 0;
-  visibility: hidden;
   object-fit: contain;
   pointer-events: auto;
   margin: 0;
@@ -292,10 +478,14 @@
   border: none;
 }
 
-.case-section-video.active {
-  opacity: 1;
-  visibility: visible;
+.case-section-iframe {
+  width: 100%;
+  height: 100vh;
+  border: none;
+  display: block;
 }
+
+/* Pokemon cursor iframe - full width, centered content */
 
 .case-section {
   width: 100%;
@@ -419,58 +609,21 @@
   width: 100%;
 }
 
-.case-problem-highlight-icon {
+.case-problem-highlight-inner-container {
   background: white;
-  border: 1px solid rgba(140, 140, 140, 0.64);
-  border-radius: 8px;
-  flex-shrink: 0;
-  height: 32px;
-  width: 32px;
-  position: relative;
-}
-
-.case-problem-highlight-icon-container {
-  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 6px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 2px;
-  position: relative;
-  width: 32px;
-  height: 32px;
-  border-radius: inherit;
-}
-
-.case-problem-highlight-icon-inner {
-  background: white;
-  border: 0.5px solid rgba(140, 140, 140, 0.64);
-  border-radius: 6px;
-  flex: 1 0 0;
-  min-height: 1px;
-  min-width: 1px;
-  position: relative;
   width: 100%;
-}
-
-.case-problem-highlight-icon-wrapper {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
 }
 
 .case-problem-highlight-icon-img {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 0.15px);
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
+  width: 72px;
+  height: 72px;
   display: block;
-  max-width: none;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .case-problem-highlight-icon-inner::after {
@@ -501,10 +654,6 @@
 
 /* Project 5 Overview imagery container */
 .case-section-image-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -512,34 +661,18 @@
   justify-content: center;
   width: 100%;
   height: auto;
-  max-width: 100%;
   max-height: 90vh;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   pointer-events: none;
   padding: 0;
   margin: 0;
 }
 
-.case-section-image-container.active {
-  opacity: 1;
-  visibility: visible;
-}
-
 .case-section-image-container .case-section-image {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  transform: none !important;
-  width: 75% !important; /* Always 75% width of container */
-  max-width: 75% !important;
+  width: 100%;
   height: auto;
   max-height: calc(45vh - 12px);
   display: block;
   object-fit: contain;
-  opacity: 1 !important;
-  visibility: visible !important;
   pointer-events: none;
   margin: 0;
   padding: 0;
@@ -547,8 +680,8 @@
 }
 
 .case-section-image-scope {
-  width: 75% !important;
-  max-width: 75% !important;
+  width: 100% !important;
+  max-width: 100% !important;
   height: auto;
   margin: 0;
   padding: 0;
@@ -603,6 +736,11 @@
   display: none;
 }
 
+/* Demo container visible on both mobile and desktop for project-14 */
+.case-demo-container {
+  display: flex;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .case-work-details-container {
@@ -631,6 +769,17 @@
     display: none;
   }
   
+  /* Demo container stays visible on mobile for project-14 */
+  .case-demo-container {
+    display: flex;
+  }
+  
+  /* Disable sticky behavior on mobile */
+  .case-text-container > .case-section {
+    position: relative;
+    min-height: auto;
+  }
+  
   /* Show mobile vertical layout */
   .case-mobile-container {
     display: flex;
@@ -649,7 +798,7 @@
   }
 
   .case-mobile-section-adobe-first {
-    padding-top: 300px;
+    padding-top: 0;
   }
   
   .case-mobile-section:last-child {
@@ -674,6 +823,58 @@
     height: auto;
     display: block;
     object-fit: contain;
+  }
+
+  .case-mobile-iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    display: block;
+  }
+
+  
+  .case-mobile-section .case-imagery-caption {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .case-mobile-section .case-imagery-caption-text {
+    font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    color: #8c8c8c;
+    text-align: right;
+    margin: 0;
+  }
+  
+  .case-mobile-section .case-imagery-caption-number {
+    font-weight: 700;
+  }
+  
+  .case-mobile-section .media-type {
+    background: white;
+    border: 2px solid #f2f2f2;
+    border-radius: 4px;
+    padding: 3px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .case-mobile-section .media-type-text {
+    font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    color: #8c8c8c;
+    text-align: center;
+    margin: 0;
   }
   
   .case-section-subsection {

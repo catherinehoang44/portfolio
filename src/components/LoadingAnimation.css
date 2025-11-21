@@ -1,0 +1,122 @@
+.loading-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.8s ease;
+}
+
+.loading-animation.slide-up .loading-bg,
+.loading-animation.hold-center .loading-bg,
+.loading-animation.scale-up .loading-bg,
+.loading-animation.hold-scaled .loading-bg {
+  opacity: 1;
+}
+
+.loading-animation.fade-out .loading-bg {
+  opacity: 0;
+}
+
+.loading-cat-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-cat {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  transform: translateY(50px) scale(1) rotate(-15deg);
+  opacity: 0;
+}
+
+/* Initial state: 50px below center, opacity 0, rotated -15deg */
+.loading-animation.initial .loading-cat {
+  transform: translateY(50px) scale(1) rotate(-15deg);
+  opacity: 0;
+}
+
+/* Stage 1: Slide up 50px to center and fade in (0.5s) */
+.loading-animation.slide-up .loading-cat {
+  animation: slideUpAndFadeIn 0.5s ease forwards;
+}
+
+@keyframes slideUpAndFadeIn {
+  0% {
+    transform: translateY(50px) scale(1) rotate(-15deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Stage 2: Hold at center (0.4s) */
+.loading-animation.hold-center .loading-cat {
+  transform: translateY(0) scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+/* Stage 3: Scale up with bounce (0.4s) - goes to 1.33 then settles at 1.3 */
+.loading-animation.scale-up .loading-cat {
+  animation: scaleUpBounce 0.4s ease-in-out forwards;
+  opacity: 1; /* Maintain opacity at 1 during scale */
+}
+
+@keyframes scaleUpBounce {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(0) scale(1.33) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1.3) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Stage 4: Hold at scaled size (0.15s) */
+.loading-animation.hold-scaled .loading-cat {
+  transform: translateY(0) scale(1.3) rotate(0deg);
+  opacity: 1; /* Maintain opacity at 1 during hold */
+}
+
+/* Stage 5: Scale back and fade out (0.4s) */
+.loading-animation.fade-out .loading-cat {
+  animation: shrinkAndFade 0.4s ease-in-out forwards;
+}
+
+@keyframes shrinkAndFade {
+  0% {
+    transform: translateY(0) scale(1.3) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+

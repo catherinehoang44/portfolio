@@ -4,7 +4,7 @@
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 0;
+  padding-bottom: 5vh;
 }
 
 /* ============================================
@@ -55,9 +55,13 @@
 .work-tags-container {
   position: fixed;
   top: 30px;
-  left: 56px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
-  width: fit-content;
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 56px;
+  box-sizing: border-box;
   pointer-events: auto;
 }
 
@@ -76,7 +80,7 @@
 /* Add smooth transition to tag hitbox ::before pseudo-element */
 .work-tags-container .tag-hitbox::before {
   transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
 }
 
 /* Tag hitbox hover effect - show selected state on hover */
@@ -140,7 +144,23 @@
   color: inherit;
   text-decoration: none;
   display: block;
-  height: auto; /* Height hugs content */
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(10px) grayscale(100%);
+  animation: workCardSlideUp 0.6s ease-out forwards;
+}
+
+@keyframes workCardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px) grayscale(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0) grayscale(0%);
+  }
 }
 
 .work-card-image-placeholder {
@@ -172,10 +192,49 @@
   background-color: white;
 }
 
+.work-card-image-placeholder.work-card-video-square {
+  aspect-ratio: 1;
+}
+
 .work-card-video {
   width: 100%;
   height: auto; /* Height hugs content to maintain aspect ratio */
   object-fit: contain; /* Fit entire video without cropping */
+  object-position: center;
+  display: block;
+}
+
+.work-card-video-square {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* Video that hugs its height (for webm files like PPT Night) */
+.work-card-image-placeholder.work-card-video-hug-height {
+  height: auto;
+  min-height: auto;
+}
+
+.work-card-video-hug-height {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Video that fills container width (for adobe-course-catalog.mp4 - ratio 2692x2600, and PPT Night) */
+.work-card-image-placeholder.work-card-video-fill-width {
+  width: calc(100% - 24px);
+  height: auto;
+  min-height: auto;
+  overflow: hidden;
+}
+
+.work-card-video-fill-width {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   object-position: center;
   display: block;
 }
@@ -283,7 +342,7 @@
   }
   
   .work-tags-container {
-    left: 32px;
+    padding: 0 32px;
   }
   
   .work-grid-container {
@@ -302,7 +361,7 @@
   }
   
   .work-tags-container {
-    left: 16px;
+    padding: 0 16px;
   }
   
   .work-grid-container {

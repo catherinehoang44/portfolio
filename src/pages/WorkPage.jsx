@@ -8,19 +8,29 @@ import navIcon2 from '../assets/nav-icon-2.svg'
 import navIcon3 from '../assets/nav-icon-3.svg'
 import work1Image from '../assets/work-1.png'
 import work2Image from '../assets/work-2.png'
-import work3Image from '../assets/work-3.png'
+import work3Image from '../assets/perplexity-concept.png'
 import adobeBusinessMotion from '../assets/adobe-business-motion.mp4'
-import adobeGif from '../assets/adobe.gif'
+import adobeCourseCatalogMp4 from '../assets/adobe-course-catalog.mp4'
 import test1Mp4 from '../assets/test1.mp4'
 import test2Mp4 from '../assets/test2.mp4'
+import toasterWebm from '../assets/toaster.webm'
+import pixeldoroWebm from '../assets/pixeldoro.webm'
 import test3Jpg from '../assets/test3.jpg'
 import test4Jpg from '../assets/test4.jpg'
+import dreamOnSuckerPng from '../assets/dream-on-sucker.png'
 import test5Jpg from '../assets/test5.jpg'
+import openaiConceptPng from '../assets/openai-concept.png'
 import test6Jpg from '../assets/test6.jpg'
 import test7Jpg from '../assets/test7.jpg'
+import answerThisPng from '../assets/answer-this.png'
+import technovaPng from '../assets/technova.png'
+import retroTechPng from '../assets/retro-tech.png'
+import retroSitePng from '../assets/retro-site.png'
 import test8Mp4 from '../assets/test8.mp4'
+import pokemonCursorMp4 from '../assets/pokemon-cursor.mp4'
 import snapshotArrow from '../assets/snapshot-arrow.svg'
 import dottedLine from '../assets/dotted-line.svg'
+import { workTitles } from '../constants/workTitles'
 
 // ============================================
 // DEBUG MODE - Set to true to show borders
@@ -31,19 +41,20 @@ const DEBUG_MODE = false
 // Base width for aspect ratio calculation: 429.33px (from About page cards)
 const BASE_CARD_WIDTH = 429.33
 const workItems = [
-  { id: 5, tags: ['illustration', 'ui/ux'], title: 'Adobe Certifications', height: 420, aspectRatio: BASE_CARD_WIDTH / 420, image: adobeGif },
-  { id: 7, tags: ['branding', 'illustration'], title: 'Project 1', height: 440, aspectRatio: BASE_CARD_WIDTH / 440, image: null, video: test2Mp4 },
-  { id: 6, tags: ['ui/ux'], title: 'Project 2', height: 360, aspectRatio: BASE_CARD_WIDTH / 360, image: null, video: test1Mp4 },
-  { id: 4, tags: ['branding'], title: 'Project 3', height: 380, aspectRatio: BASE_CARD_WIDTH / 380, image: null, video: adobeBusinessMotion },
-  { id: 13, tags: ['ui/ux'], title: 'Project 4', height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: null, video: test8Mp4 },
-  { id: 3, tags: ['ui/ux', 'branding', 'illustration'], title: 'Project 5', height: 450, aspectRatio: BASE_CARD_WIDTH / 450, image: work3Image },
-  { id: 2, tags: ['illustration'], title: 'Project 6', height: 395, aspectRatio: BASE_CARD_WIDTH / 395, image: work2Image },
-  { id: 1, tags: ['branding', 'ui/ux'], title: 'Project 7', height: 460, aspectRatio: BASE_CARD_WIDTH / 460, image: work1Image },
-  { id: 9, tags: ['branding'], title: 'Project 8', height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: test4Jpg },
-  { id: 10, tags: ['illustration', 'ui/ux'], title: 'Project 9', height: 410, aspectRatio: BASE_CARD_WIDTH / 410, image: test5Jpg },
-  { id: 12, tags: ['branding', 'illustration'], title: 'Project 10', height: 430, aspectRatio: BASE_CARD_WIDTH / 430, image: test7Jpg },
-  { id: 11, tags: ['ui/ux'], title: 'Project 11', height: 370, aspectRatio: BASE_CARD_WIDTH / 370, image: test6Jpg },
-  { id: 8, tags: ['ui/ux'], title: 'Project 12', height: 390, aspectRatio: BASE_CARD_WIDTH / 390, image: test3Jpg },
+  { id: 5, tags: ['ui/ux'], title: workTitles['project-5'], height: 420, aspectRatio: BASE_CARD_WIDTH / 420, image: null, video: adobeCourseCatalogMp4 },
+  { id: 7, tags: ['ui/ux', 'illustration'], title: workTitles['project-7'], height: 440, aspectRatio: BASE_CARD_WIDTH / 440, image: null, video: test2Mp4 },
+  { id: 6, tags: ['ui/ux', 'motion'], title: workTitles['project-6'], height: 360, aspectRatio: BASE_CARD_WIDTH / 360, image: null, video: test1Mp4 },
+  { id: 4, tags: ['motion'], title: workTitles['project-4'], height: 380, aspectRatio: BASE_CARD_WIDTH / 380, image: null, video: adobeBusinessMotion },
+  { id: 11, tags: ['illustration'], title: workTitles['project-11'], height: 370, aspectRatio: BASE_CARD_WIDTH / 370, image: retroTechPng },
+  { id: 3, tags: ['branding', 'illustration'], title: workTitles['project-3'], height: 450, aspectRatio: BASE_CARD_WIDTH / 450, image: work3Image },
+  { id: 2, tags: ['illustration'], title: workTitles['project-2'], height: 395, aspectRatio: BASE_CARD_WIDTH / 395, image: retroSitePng },
+  { id: 12, tags: ['branding'], title: workTitles['project-12'], height: 430, aspectRatio: BASE_CARD_WIDTH / 430, image: answerThisPng },
+  { id: 9, tags: ['branding'], title: workTitles['project-9'], height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: dreamOnSuckerPng },
+  { id: 10, tags: ['illustration'], title: workTitles['project-10'], height: 410, aspectRatio: BASE_CARD_WIDTH / 410, image: openaiConceptPng },
+  { id: 1, tags: ['illustration', 'motion'], title: workTitles['project-1'], height: 460, aspectRatio: BASE_CARD_WIDTH / 460, image: null, video: toasterWebm },
+  { id: 13, tags: ['illustration', 'branding'], title: workTitles['project-13'], height: 390, aspectRatio: BASE_CARD_WIDTH / 390, image: technovaPng },
+  { id: 14, tags: ['illustration'], title: workTitles['project-14'], height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: null, video: pokemonCursorMp4 },
+  { id: 8, tags: ['illustration'], title: workTitles['project-8'], height: 390, aspectRatio: BASE_CARD_WIDTH / 390, image: null, video: pixeldoroWebm },
 ]
 
 function WorkPage() {
@@ -62,12 +73,13 @@ function WorkPage() {
       const tagMap = {
         'branding': 'branding',
         'illustration': 'illustration',
+        'motion': 'motion',
         'ui/ux': 'ui/ux',
         'ui%2Fux': 'ui/ux', // URL-encoded version
         'ui-ux': 'ui/ux' // Alternative format
       }
       const mappedTag = tagMap[decodedTag] || tagMap[tagParam] || decodedTag
-      if (['branding', 'illustration', 'ui/ux'].includes(mappedTag)) {
+      if (['branding', 'illustration', 'motion', 'ui/ux'].includes(mappedTag)) {
         setSelectedTag(mappedTag)
       }
     }
@@ -76,24 +88,73 @@ function WorkPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
     setIsLoading(true)
-    // EDIT THIS: Change the delay (in milliseconds) to control when animation starts
-    // Current: 100ms - elements render, then animation plays
-    // Increase to slow down (e.g., 200ms, 300ms)
-    // Decrease to speed up (e.g., 50ms)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-    return () => clearTimeout(timer)
+    
+    // Check if loading animation was shown
+    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
+    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
+    
+    // If loading animation was shown but not yet completed, wait for completion event
+    if (loadingStarted && !loadingCompleted) {
+      const handleLoadingComplete = () => {
+        // Use requestAnimationFrame to ensure DOM is ready before removing class
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setIsLoading(false)
+          })
+        })
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      return () => {
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+    } else {
+      // Loading already completed or not started, use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            setIsLoading(false)
+          }, 100)
+        })
+      })
+      return () => {}
+    }
   }, [location])
 
   // Initial load animation
   useEffect(() => {
     setIsLoading(true)
-    // EDIT THIS: Same as above - controls initial page load animation timing
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-    return () => clearTimeout(timer)
+    
+    // Check if loading animation was shown
+    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
+    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
+    
+    // If loading animation was shown but not yet completed, wait for completion event
+    if (loadingStarted && !loadingCompleted) {
+      const handleLoadingComplete = () => {
+        // Use requestAnimationFrame to ensure DOM is ready before removing class
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setIsLoading(false)
+          })
+        })
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      return () => {
+        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
+      }
+    } else {
+      // Loading already completed or not started, use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            setIsLoading(false)
+          }, 100)
+        })
+      })
+      return () => {}
+    }
   }, [])
 
   useEffect(() => {
@@ -119,6 +180,14 @@ function WorkPage() {
   filteredItems.forEach((item, index) => {
     columns[index % numColumns].push(item)
   })
+
+  // Calculate animation delay for each card (left to right, top to bottom)
+  const getCardAnimationDelay = (colIndex, rowIndex) => {
+    // Calculate global index: rowIndex * numColumns + colIndex
+    const globalIndex = rowIndex * numColumns + colIndex
+    // Each card animates 0.1s after the previous one
+    return globalIndex * 0.1
+  }
 
   return (
     <div className={`work-page ${isLoading ? 'page-loading' : ''}`}>
@@ -200,6 +269,19 @@ function WorkPage() {
           </div>
           
           <div 
+            className={`tag-hitbox ${selectedTag === 'motion' ? 'tag-hitbox-active' : ''}`}
+            onClick={() => handleTagClick('motion')}
+          >
+            <div className="work-link-wrapper">
+              <div className="work-link">
+                <div className="work-text-container">
+                  <p className="work-text">Motion</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div 
             className={`tag-hitbox ${selectedTag === 'ui/ux' ? 'tag-hitbox-active' : ''}`}
             onClick={() => handleTagClick('ui/ux')}
           >
@@ -219,17 +301,22 @@ function WorkPage() {
         <div className="work-grid-container">
           {columns.map((column, colIndex) => (
             <div key={colIndex} className="work-grid-column">
-              {column.map((item) => (
+              {column.map((item, rowIndex) => {
+                const animationDelay = getCardAnimationDelay(colIndex, rowIndex)
+                return (
                   <Link
                     key={item.id}
                     to={`/case/project-${item.id}`}
                     className="work-grid-card"
+                    style={{
+                      animationDelay: `${animationDelay}s`
+                    }}
                   >
-                  <div className={`work-card-image-placeholder ${item.video ? 'work-card-video-container' : ''}`}>
+                  <div className={`work-card-image-placeholder ${item.video ? 'work-card-video-container' : ''} ${item.id === 6 ? 'work-card-video-square' : ''} ${item.id === 1 || item.id === 5 || item.id === 8 ? 'work-card-video-fill-width' : ''}`}>
                     {item.video ? (
                       <video 
                         src={item.video} 
-                        className="work-card-video"
+                        className={`work-card-video ${item.id === 6 ? 'work-card-video-square' : ''} ${item.id === 1 || item.id === 5 || item.id === 8 ? 'work-card-video-fill-width' : ''}`}
                         autoPlay
                         loop
                         muted
@@ -257,7 +344,8 @@ function WorkPage() {
                     </div>
                   </div>
                 </Link>
-              ))}
+                )
+              })}
             </div>
           ))}
         </div>

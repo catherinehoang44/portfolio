@@ -68,9 +68,14 @@
   bottom: 42px;
   display: flex;
   align-items: center;
+  justify-content: center;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 56px;
+  box-sizing: border-box;
 }
 
 .nav-link-hitbox {
@@ -87,7 +92,7 @@
   color: inherit;
   display: block;
   transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
 }
 
 .nav-link-hitbox:hover,
@@ -254,6 +259,10 @@
   position: relative;
   flex-shrink: 0;
   width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(10px) grayscale(100%);
+  animation: aboutCardSlideUp 0.6s ease-out forwards;
 }
 
 .name-text {
@@ -310,6 +319,10 @@
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(10px) grayscale(100%);
+  animation: aboutCardSlideUp 0.6s ease-out forwards;
 }
 
 .work-title {
@@ -352,7 +365,7 @@
   width: 100%;
   height: 100%;
   transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
 }
 
 .tag-hitbox:hover::before {
@@ -414,12 +427,16 @@
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 16px;
+  row-gap: 16px;
+  column-gap: 16px;
   align-items: flex-start;
+  justify-items: center;
   justify-content: center;
   position: relative;
   flex-shrink: 0;
   width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .grid-card {
@@ -433,6 +450,27 @@
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(10px) grayscale(100%);
+  animation: aboutCardSlideUp 0.6s ease-out forwards;
+}
+
+@keyframes aboutCardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px) grayscale(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0) grayscale(0%);
+  }
+}
+
+.grid-card-rive {
+  overflow: visible;
 }
 
 .card-rive-container {
@@ -485,6 +523,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.card-interests-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.card-interests-map canvas {
+  width: 100% !important;
+  height: 100% !important;
   display: block;
 }
 
@@ -646,6 +700,41 @@
   justify-content: flex-end;
   z-index: 1;
   right: 24.33px;
+}
+
+/* TypeTag component styling for About page */
+.grid-card .media-type {
+  position: absolute;
+  bottom: 20.58px;
+  right: 24.33px;
+  background: white;
+  border: 2px solid #f2f2f2;
+  border-radius: 4px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.grid-card .media-type-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  object-fit: contain;
+}
+
+.grid-card .media-type-text {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.1vw, 20px);
+  line-height: normal;
+  color: #909090;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .card-icon-container {
@@ -815,7 +904,17 @@
 }
 
 /* Show icon when work-role text is hovered - fade in and rotate at the same time, then turn black */
-.work-entry:has(.work-role:hover) .work-role-hover-icon {
+.work-role-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  width: fit-content;
+  flex: 0 0 auto;
+}
+
+.work-entry:has(.work-role-link:hover) .work-role-hover-icon {
   opacity: 1;
   visibility: visible;
   transform: rotate(-45deg); /* 45 degrees counter-clockwise */
@@ -829,7 +928,7 @@
 }
 
 /* Change text color to black at the same time as icon reaches 100% opacity */
-.work-entry:has(.work-role:hover) .work-role {
+.work-entry:has(.work-role-link:hover) .work-role {
   color: black !important;
   transition: color 0.3s ease-in-out;
 }
@@ -864,6 +963,10 @@
     padding: 290px 40px;
   }
   
+  .nav-container {
+    padding: 0 40px;
+  }
+  
   .name-text {
     font-size: 120px;
     line-height: 90px;
@@ -896,6 +999,10 @@
   .content-container {
     padding: 200px 32px;
     gap: 180px;
+  }
+  
+  .nav-container {
+    padding: 0 32px;
   }
   
   .name-text {
@@ -971,6 +1078,7 @@
   
   .nav-container {
     bottom: 20px;
+    padding: 0 24px;
   }
 }
 
@@ -1013,6 +1121,25 @@
   grid-template-rows: repeat(2, 1fr);
   gap: 12px;
   width: 100%;
+}
+
+.tool-wrapper {
+  background: white;
+  border-radius: 2px;
+  border: 2px solid #F2F2F2;
+  padding: 8px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.tool-wrapper:hover {
+  border-color: #d0d0d0;
 }
 
 .tool-1,
