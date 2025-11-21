@@ -5,7 +5,7 @@ import './AboutPage.css' // Import AboutPage.css for shared styles
 import aboutBg from '../assets/about-bg.jpg'
 import backIcon from '../assets/back-icon.svg'
 import backHitbox from '../assets/back-hitbox.png'
-import scopePng from '../assets/Scope.png'
+import scopePng from '../assets/scope.png'
 import hicksLawVideo from '../assets/hicks-law.mp4'
 import highlightIcon from '../assets/highlight-icon.png'
 import adobePlanPng from '../assets/adobe-plan.png'
