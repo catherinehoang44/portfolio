@@ -61,7 +61,6 @@ function Caption({ number, text, type }) {
 function CasePage() {
   const location = useLocation()
   const { projectName } = useParams()
-  const [isLoading, setIsLoading] = useState(true)
   const [activeImageId, setActiveImageId] = useState('section-1')
   
   // Define case sections based on project
@@ -107,57 +106,7 @@ function CasePage() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    setIsLoading(true)
-    
-    // Check if loading animation was shown
-    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
-    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
-    
-    // If loading animation was shown but not yet completed, wait for completion event
-    if (loadingStarted && !loadingCompleted) {
-      const handleLoadingComplete = () => {
-        setIsLoading(false)
-        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      }
-      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      return () => {
-        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      }
-    } else {
-      // Loading already completed or not started, start immediately
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 100)
-      return () => clearTimeout(timer)
-    }
   }, [location])
-
-  // Initial load animation
-  useEffect(() => {
-    setIsLoading(true)
-    
-    // Check if loading animation was shown
-    const loadingStarted = sessionStorage.getItem('loadingAnimationStarted')
-    const loadingCompleted = sessionStorage.getItem('loadingAnimationCompleted')
-    
-    // If loading animation was shown but not yet completed, wait for completion event
-    if (loadingStarted && !loadingCompleted) {
-      const handleLoadingComplete = () => {
-        setIsLoading(false)
-        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      }
-      window.addEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      return () => {
-        window.removeEventListener('loadingAnimationCompleted', handleLoadingComplete)
-      }
-    } else {
-      // Loading already completed or not started, start immediately
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 100)
-      return () => clearTimeout(timer)
-    }
-  }, [])
 
   // Intersection Observer to detect which section is visible
   useEffect(() => {
@@ -261,7 +210,7 @@ function CasePage() {
   }, [activeImageId])
 
   return (
-    <div className={`case-page ${isLoading ? 'page-loading' : ''} ${DEBUG_MODE ? 'debug' : ''}`}>
+    <div className={`case-page ${DEBUG_MODE ? 'debug' : ''}`}>
       <img 
         alt="" 
         className="case-background" 
