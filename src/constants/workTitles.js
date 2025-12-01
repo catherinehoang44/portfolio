@@ -7,13 +7,14 @@ export const workTitles = {
   'project-4': 'Adobe Business',
   'project-14': 'Pokemon: Cursor',
   'project-5': 'Adobe Certifications',
-  'project-6': 'Gumroad Popup',
+  'project-6': 'Duolingo Concept',
   'project-7': 'My Mac Desktop',
   'project-8': 'Pixeldoro',
   'project-9': 'Dream On, Sucker',
   'project-10': 'OpenAI Concept',
-  'project-11': 'Retro Tech',
+  'project-11': 'Unity Concept',
   'project-12': 'AnswerThis Concept',
   'project-13': 'TechNova Hackathon',
+  'project-15': 'Radial Bitmap Tool',
 }
 

@@ -1,0 +1,126 @@
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-bg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  background: linear-gradient(to bottom, #FFFFFF, #BDBDBD);
+  border-radius: 4px;
+  padding: 0 4px 0 0;
+  /* Shadow: 2px offset, 24% blur (6px = 24% of 24px), color black with 4% opacity */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Gradient border using pseudo-element - 1px stroke around toggle container */
+.toggle-bg::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(to bottom, #969696, #9F9F9F);
+  border-radius: 5px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: transparent;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.toggle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+
+.toggle-label {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #8c8c8c;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  line-height: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 1.5px;
+  left: 1.5px;
+  width: 22px;
+  height: 21px;
+  background: white;
+  border: 0.5px solid rgba(140, 140, 140, 0.64);
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  inset: -0.5px;
+  pointer-events: none;
+  box-shadow: inset 0px 0px 4px 0px #d6d6d6;
+  border-radius: 4px;
+}
+
+.toggle-slider-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.toggle-slider-cross {
+  font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 9.6px;
+  line-height: normal;
+  color: #a4a4a4;
+  opacity: 0.72;
+  text-align: center;
+  position: relative;
+}
+
+.toggle-checked .toggle-slider {
+  transform: translateX(calc(44px - 22px - 1.5px));
+}
+
+/* Focus styles for accessibility */
+.toggle:focus-visible {
+  outline: 2px solid #8c8c8c;
+  outline-offset: 2px;
+}

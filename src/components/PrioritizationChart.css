@@ -1,0 +1,397 @@
+.priorities-content {
+  background: white;
+  border: 1.065px solid #f2f2f2;
+  border-radius: 4px;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  height: fit-content;
+}
+
+.priorities-content-inner {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2.3vw, 16px);
+  align-items: flex-start;
+  overflow: visible;
+  padding: clamp(10px, 1.87vw, 13px);
+  position: relative;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.priorities-text {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 694px;
+}
+
+.priorities-text p {
+  flex: 1 0 0;
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  min-height: 1px;
+  min-width: 1px;
+  position: relative;
+  flex-shrink: 0;
+  color: #8c8c8c;
+  font-size: clamp(10px, 1.87vw, 13px);
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.priorities-text .toggle-wrapper {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.priorities-graph {
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  font-size: clamp(8px, 1.5vw, 12px);
+  overflow: hidden;
+}
+
+/* Hover effects on graph */
+.priorities-graph:hover .priorities-circle {
+  opacity: 0;
+}
+
+.priorities-graph:hover .priorities-circle-selected {
+  opacity: 1;
+}
+
+.priorities-graph:hover .priorities-point:not(.priorities-point-highlight) {
+  opacity: 0.15;
+  transition: opacity 0.3s ease;
+}
+
+.priorities-graph:hover .priorities-point-highlight .priorities-point-title {
+  background: linear-gradient(to bottom, #8C8C8C, #6C6C6C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.priorities-graph:hover .priorities-point-highlight .priorities-point-subtitle {
+  background: linear-gradient(to bottom, #8C8C8C, #6C6C6C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.priorities-graph:hover .priorities-point-highlight .priorities-point-icon img {
+  filter: brightness(0.6) contrast(1.2);
+  transition: filter 0.3s ease;
+}
+
+.priorities-graph::before {
+  content: '';
+  display: block;
+  width: 100%;
+  padding-bottom: calc(602 / 1388 * 100%);
+  pointer-events: none;
+}
+
+/* Desktop mode: 1:1 aspect ratio */
+@media (min-width: 769px) {
+  .priorities-graph::before {
+    padding-bottom: 100%; /* 1:1 aspect ratio */
+  }
+}
+
+@supports (container-type: inline-size) {
+  .priorities-graph {
+    container-type: inline-size;
+  }
+}
+
+.priorities-graph-assets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.priorities-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 90%;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.priorities-circle-selected {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 90%;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+/* Desktop: reduce circle height on hover */
+@media (min-width: 769px) {
+  .priorities-graph:hover .priorities-circle-selected {
+    height: 65%;
+  }
+}
+
+.priorities-container-and-lines {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.priorities-container-and-lines-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.5;
+}
+
+.priorities-y-axis-line {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  width: 0.5px;
+  background: linear-gradient(to bottom, #F5F5F5, #EBEBEB 50%, #F5F5F5);
+  transform: translateX(-50%);
+}
+
+.priorities-x-axis-line {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 0.5px;
+  background: linear-gradient(to right, #F5F5F5, #EBEBEB 50%, #F5F5F5);
+  transform: translateY(-50%);
+}
+
+.priorities-y-label-bottom,
+.priorities-y-label-top {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.priorities-y-label-bottom {
+  bottom: 7px;
+}
+
+.priorities-y-label-top {
+  top: 5px;
+}
+
+.priorities-y-label-bottom-box,
+.priorities-y-label-top-box {
+  background: white;
+  border: 0.048% solid rgba(140, 140, 140, 0.64);
+  border-radius: 0.096%;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.44em 0.67em;
+  /* Higher z-index for axis headings */
+  z-index: 10;
+}
+
+.priorities-y-label-bottom-box::after,
+.priorities-y-label-top-box::after {
+  content: '';
+  position: absolute;
+  inset: -0.333px;
+  pointer-events: none;
+  box-shadow: inset 0px 0px 5.333px 0px #d6d6d6;
+}
+
+.priorities-y-label-bottom p,
+.priorities-y-label-top p {
+  font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  flex-shrink: 0;
+  color: #8c8c8c;
+  font-size: 0.89em;
+  text-align: center;
+  margin: 0;
+}
+
+.priorities-x-label-left,
+.priorities-x-label-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.priorities-x-label-left {
+  left: 0;
+  transform: translateY(-50%) translateX(-20px);
+}
+
+.priorities-x-label-right {
+  right: 0;
+  transform: translateY(-50%) translateX(20px);
+}
+
+.priorities-x-label-left-inner {
+  transform: rotate(270deg);
+}
+
+.priorities-x-label-right-inner {
+  transform: rotate(270deg) rotate(180deg);
+}
+
+.priorities-x-label-left-box,
+.priorities-x-label-right-box {
+  background: white;
+  border: 0.048% solid rgba(140, 140, 140, 0.64);
+  border-radius: 0.096%;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.44em 0.67em;
+  width: fit-content;
+  /* Higher z-index for axis headings */
+  z-index: 10;
+}
+
+.priorities-x-label-left-box::after,
+.priorities-x-label-right-box::after {
+  content: '';
+  position: absolute;
+  inset: -0.333px;
+  pointer-events: none;
+  box-shadow: inset 0px 0px 5.333px 0px #d6d6d6;
+}
+
+.priorities-x-label-left p,
+.priorities-x-label-right p {
+  font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  flex-shrink: 0;
+  color: #8c8c8c;
+  font-size: 0.89em;
+  text-align: center;
+  margin: 0;
+}
+
+
+.priorities-plots {
+  position: absolute;
+  left: 3.5%;
+  top: 3.5%;
+  width: 93%;
+  height: 93%;
+}
+
+.priorities-point {
+  box-sizing: border-box;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  position: absolute;
+  transition: opacity 0.3s ease;
+}
+
+.priorities-point-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+.priorities-point-icon::before {
+  content: '';
+  position: absolute;
+  inset: -1.82%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.priorities-graph:hover .priorities-point-icon::before {
+  opacity: 0.5;
+}
+
+.priorities-point-icon img {
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.priorities-point-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: normal;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.priorities-point-title {
+  background: linear-gradient(to bottom, #cecece, #8c8c8c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  position: relative;
+  flex-shrink: 0;
+  font-size: 0.83em;
+  margin: 0;
+}
+
+.priorities-point-subtitle {
+  background: linear-gradient(to bottom, #cecece, #8c8c8c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  position: relative;
+  flex-shrink: 0;
+  font-size: 0.67em;
+  margin: 0;
+}
+

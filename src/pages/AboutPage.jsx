@@ -654,7 +654,7 @@ function AboutPage() {
           1. NAVIGATION BAR
           ============================================ */}
       <div className="nav-container">
-        <Link to="/1/work" className="nav-link-hitbox">
+        <Link to="/work" className="nav-link-hitbox">
           <div className={`nav-link-content ${DEBUG_MODE ? 'debug' : ''}`}>
             <img alt="" src={navIcon1} />
             <span>Work</span>
@@ -697,7 +697,7 @@ function AboutPage() {
           <div className="work-section" style={{ animationDelay: '0.1s' }}>
             <p className="work-title">What I do</p>
             <div className="work-links">
-              <Link to="/1/work?tag=branding" className="tag-hitbox">
+              <Link to="/work?tag=branding" className="tag-hitbox">
                 <div className="work-link-wrapper">
                   <div className="work-link">
                     <div className="work-text-container">
@@ -707,7 +707,7 @@ function AboutPage() {
                 </div>
               </Link>
               
-              <Link to="/1/work?tag=illustration" className="tag-hitbox">
+              <Link to="/work?tag=illustration" className="tag-hitbox">
                 <div className="work-link-wrapper">
                   <div className="work-link">
                     <div className="work-text-container">
@@ -717,7 +717,7 @@ function AboutPage() {
                 </div>
               </Link>
               
-              <Link to="/1/work?tag=ui%2Fux" className="tag-hitbox">
+              <Link to="/work?tag=ui%2Fux" className="tag-hitbox">
                 <div className="work-link-wrapper">
                   <div className="work-link">
                     <div className="work-text-container">
@@ -1191,7 +1191,7 @@ function AboutPage() {
                     }
                     const tag = tagMap[node.name]
                     if (tag) {
-                      navigate(`/1/work?tag=${encodeURIComponent(tag)}`)
+                      navigate(`/work?tag=${encodeURIComponent(tag)}`)
                     }
                   }}
                   onNodeHover={(node) => {

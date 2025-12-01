@@ -165,8 +165,6 @@
 
 .work-card-image-placeholder {
   width: calc(100% - 24px);
-  height: auto;
-  min-height: 200px;
   background-color: #e8e8e8;
   position: relative;
   margin: 12px;
@@ -182,8 +180,8 @@
 
 .work-card-image {
   width: 100%;
-  height: auto; /* Height hugs content */
-  object-fit: cover; /* Fill width, crop height */
+  height: 100%;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
@@ -198,8 +196,8 @@
 
 .work-card-video {
   width: 100%;
-  height: auto; /* Height hugs content to maintain aspect ratio */
-  object-fit: contain; /* Fit entire video without cropping */
+  height: 100%;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
@@ -211,14 +209,14 @@
 
 /* Video that hugs its height (for webm files like PPT Night) */
 .work-card-image-placeholder.work-card-video-hug-height {
-  height: auto;
-  min-height: auto;
+  height: 100%;
+  min-height: 100%;
 }
 
 .work-card-video-hug-height {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
@@ -226,15 +224,15 @@
 /* Video that fills container width (for adobe-course-catalog.mp4 - ratio 2692x2600, and PPT Night) */
 .work-card-image-placeholder.work-card-video-fill-width {
   width: calc(100% - 24px);
-  height: auto;
-  min-height: auto;
+  height: 100%;
+  min-height: 100%;
   overflow: hidden;
 }
 
 .work-card-video-fill-width {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
@@ -273,6 +271,7 @@
   height: auto;
   display: block;
   z-index: 1;
+  opacity: 1;
 }
 
 .work-snapshot-dotted-line-top {
@@ -293,6 +292,7 @@
   gap: 0px; /* Gap between work name and tags */
   position: relative;
   z-index: 1;
+  opacity: 1;
 }
 
 .work-snapshot-header {
@@ -302,6 +302,7 @@
   justify-content: center;
   width: 100%;
   flex-shrink: 0;
+  opacity: 1;
 }
 
 .work-snapshot-title {
@@ -313,6 +314,7 @@
   text-align: center;
   margin: 0;
   white-space: nowrap;
+  opacity: 1;
 }
 
 .work-snapshot-arrow {
@@ -320,6 +322,7 @@
   height: 9px;
   display: block;
   flex-shrink: 0;
+  opacity: 1;
 }
 
 .work-snapshot-tags-text {
@@ -333,6 +336,7 @@
   letter-spacing: 0.96px;
   margin: 0;
   white-space: pre-wrap;
+  opacity: 1;
 }
 
 /* Responsive: 2 columns on smaller screens */

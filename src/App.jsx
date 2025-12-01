@@ -7,7 +7,7 @@ import LoadingAnimation from './components/LoadingAnimation'
 import './App.css'
 
 function App() {
-  const [showLoading, setShowLoading] = useState(false) // Hidden for now
+  const [showLoading, setShowLoading] = useState(true) // Show loading animation
 
   const handleLoadingComplete = () => {
     setShowLoading(false)
@@ -17,9 +17,9 @@ function App() {
     <BrowserRouter>
       {showLoading && <LoadingAnimation onComplete={handleLoadingComplete} />}
       <Routes>
-        <Route path="/" element={<Navigate to="/1/about" replace />} />
-        <Route path="/1/about" element={<AboutPage />} />
-        <Route path="/1/work" element={<WorkPage />} />
+        <Route path="/" element={<Navigate to="/about" replace />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/work" element={<WorkPage />} />
         <Route path="/case/:projectName" element={<CasePage />} />
       </Routes>
     </BrowserRouter>

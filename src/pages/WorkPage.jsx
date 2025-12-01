@@ -10,7 +10,7 @@ import work1Image from '../assets/work-1.png'
 import work2Image from '../assets/work-2.png'
 import work3Image from '../assets/perplexity-concept.png'
 import adobeBusinessMotion from '../assets/adobe-business-motion.mp4'
-import adobeCourseCatalogMp4 from '../assets/adobe-course-catalog.mp4'
+// adobeCourseCatalogMp4 replaced with Rive embed
 import test1Mp4 from '../assets/test1.mp4'
 import test2Mp4 from '../assets/test2.mp4'
 import toasterWebm from '../assets/toaster.webm'
@@ -23,11 +23,13 @@ import openaiConceptPng from '../assets/openai-concept.png'
 import test6Jpg from '../assets/test6.jpg'
 import test7Jpg from '../assets/test7.jpg'
 import answerThisPng from '../assets/answer-this.png'
-import technovaPng from '../assets/technova.png'
+import techNovaMp4 from '../assets/tech-nova.mp4'
 import retroTechPng from '../assets/retro-tech.png'
-import retroSitePng from '../assets/retro-site.png'
+import retroSiteMp4 from '../assets/retro-site.mp4'
 import test8Mp4 from '../assets/test8.mp4'
-import pokemonCursorMp4 from '../assets/pokemon-cursor.mp4'
+import pokemonCursorPng from '../assets/pokemon-cursor.png'
+import scrollExampleMp4 from '../assets/scroll-example.mp4'
+import radialBitmapMp4 from '../assets/radial-bitmap.mp4'
 import snapshotArrow from '../assets/snapshot-arrow.svg'
 import dottedLine from '../assets/dotted-line.svg'
 import { workTitles } from '../constants/workTitles'
@@ -40,21 +42,68 @@ const DEBUG_MODE = false
 // Sample work data - replace with your actual work items
 // Base width for aspect ratio calculation: 429.33px (from About page cards)
 const BASE_CARD_WIDTH = 429.33
+
+// Standard aspect ratios: 4:3, 1:1, 2:3
+const ASPECT_RATIO_4_3 = 4 / 3 // 1.333
+const ASPECT_RATIO_1_1 = 1 / 1 // 1.0
+const ASPECT_RATIO_2_3 = 2 / 3 // 0.667
+
+// Heights for each aspect ratio
+const HEIGHT_4_3 = Math.round(BASE_CARD_WIDTH / ASPECT_RATIO_4_3) // 322px
+const HEIGHT_1_1 = Math.round(BASE_CARD_WIDTH / ASPECT_RATIO_1_1) // 429px
+const HEIGHT_2_3 = Math.round(BASE_CARD_WIDTH / ASPECT_RATIO_2_3) // 644px
+
+// Helper function to determine closest aspect ratio
+const getClosestAspectRatio = (currentHeight) => {
+  const currentRatio = BASE_CARD_WIDTH / currentHeight
+  const diff4_3 = Math.abs(currentRatio - ASPECT_RATIO_4_3)
+  const diff1_1 = Math.abs(currentRatio - ASPECT_RATIO_1_1)
+  const diff2_3 = Math.abs(currentRatio - ASPECT_RATIO_2_3)
+  
+  if (diff1_1 <= diff4_3 && diff1_1 <= diff2_3) {
+    return { height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, ratio: '1:1' }
+  } else if (diff4_3 <= diff2_3) {
+    return { height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, ratio: '4:3' }
+  } else {
+    return { height: HEIGHT_2_3, aspectRatio: ASPECT_RATIO_2_3, ratio: '2:3' }
+  }
+}
+
+// Aspect ratios are attached to each case and don't change when reordered
+// Order set according to layout specification
+// Column left (top to bottom): Adobe Certifications, [Perplexity], Dream On Sucker, PPT Night
+// Column middle (top to bottom): Adobe Business, Answer This, [Unity], Retro Site, Radial Bitmap, TechNova
+// Column right (top to bottom): OpenAI, [Duolingo], Pokemon, Pixeldoro
+
 const workItems = [
-  { id: 5, tags: ['ui/ux'], title: workTitles['project-5'], height: 420, aspectRatio: BASE_CARD_WIDTH / 420, image: null, video: adobeCourseCatalogMp4 },
-  { id: 7, tags: ['ui/ux', 'illustration'], title: workTitles['project-7'], height: 440, aspectRatio: BASE_CARD_WIDTH / 440, image: null, video: test2Mp4 },
-  { id: 6, tags: ['ui/ux', 'motion'], title: workTitles['project-6'], height: 360, aspectRatio: BASE_CARD_WIDTH / 360, image: null, video: test1Mp4 },
-  { id: 4, tags: ['motion'], title: workTitles['project-4'], height: 380, aspectRatio: BASE_CARD_WIDTH / 380, image: null, video: adobeBusinessMotion },
-  { id: 11, tags: ['illustration'], title: workTitles['project-11'], height: 370, aspectRatio: BASE_CARD_WIDTH / 370, image: retroTechPng },
-  { id: 3, tags: ['branding', 'illustration'], title: workTitles['project-3'], height: 450, aspectRatio: BASE_CARD_WIDTH / 450, image: work3Image },
-  { id: 2, tags: ['illustration'], title: workTitles['project-2'], height: 395, aspectRatio: BASE_CARD_WIDTH / 395, image: retroSitePng },
-  { id: 12, tags: ['branding'], title: workTitles['project-12'], height: 430, aspectRatio: BASE_CARD_WIDTH / 430, image: answerThisPng },
-  { id: 9, tags: ['branding'], title: workTitles['project-9'], height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: dreamOnSuckerPng },
-  { id: 10, tags: ['illustration'], title: workTitles['project-10'], height: 410, aspectRatio: BASE_CARD_WIDTH / 410, image: openaiConceptPng },
-  { id: 1, tags: ['illustration', 'motion'], title: workTitles['project-1'], height: 460, aspectRatio: BASE_CARD_WIDTH / 460, image: null, video: toasterWebm },
-  { id: 13, tags: ['illustration', 'branding'], title: workTitles['project-13'], height: 390, aspectRatio: BASE_CARD_WIDTH / 390, image: technovaPng },
-  { id: 14, tags: ['illustration'], title: workTitles['project-14'], height: 400, aspectRatio: BASE_CARD_WIDTH / 400, image: null, video: pokemonCursorMp4 },
-  { id: 8, tags: ['illustration'], title: workTitles['project-8'], height: 390, aspectRatio: BASE_CARD_WIDTH / 390, image: null, video: pixeldoroWebm },
+  // Column 0 (left) - position 1: Adobe Certifications (1:1)
+  { id: 5, tags: ['ui/ux'], title: workTitles['project-5'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: null, riveEmbed: true },
+  // Column 1 (middle) - position 1: Adobe Business (4:3)
+  { id: 4, tags: ['motion'], title: workTitles['project-4'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: adobeBusinessMotion },
+  // Column 2 (right) - position 1: OpenAI (1:1)
+  { id: 10, tags: ['illustration'], title: workTitles['project-10'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: openaiConceptPng },
+  // Column 0 (left) - position 2: [Perplexity] (1:1) - hidden
+  { id: 3, tags: ['branding', 'illustration'], title: workTitles['project-3'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: work3Image },
+  // Column 1 (middle) - position 2: Dream On Sucker (4:3)
+  { id: 9, tags: ['branding'], title: workTitles['project-9'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: dreamOnSuckerPng },
+  // Column 2 (right) - position 2: [Duolingo] (4:3) - hidden
+  { id: 6, tags: ['ui/ux', 'motion'], title: workTitles['project-6'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: test1Mp4 },
+  // Column 0 (left) - position 3: Answer This (1:1)
+  { id: 12, tags: ['branding'], title: workTitles['project-12'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: answerThisPng },
+  // Column 1 (middle) - position 3: [Unity] (4:3) - hidden
+  { id: 11, tags: ['illustration'], title: workTitles['project-11'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: scrollExampleMp4 },
+  // Column 2 (right) - position 3: Pokemon (4:3)
+  { id: 14, tags: ['illustration'], title: workTitles['project-14'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: pokemonCursorPng },
+  // Column 0 (left) - position 4: PPT Night (2:3)
+  { id: 1, tags: ['illustration', 'motion'], title: workTitles['project-1'], height: HEIGHT_2_3, aspectRatio: ASPECT_RATIO_2_3, image: null, video: toasterWebm },
+  // Column 1 (middle) - position 4: Radial Bitmap (4:3)
+  { id: 15, tags: ['illustration'], title: workTitles['project-15'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: radialBitmapMp4 },
+  // Column 2 (right) - position 4: Pixeldoro (1:1)
+  { id: 8, tags: ['illustration'], title: workTitles['project-8'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: pixeldoroWebm },
+  // Column 1 (middle) - position 5: Retro Site (4:3)
+  { id: 2, tags: ['illustration'], title: workTitles['project-2'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: retroSiteMp4 },
+  // Column 1 (middle) - position 6: TechNova (4:3)
+  { id: 13, tags: ['illustration', 'branding'], title: workTitles['project-13'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: techNovaMp4 },
 ]
 
 function WorkPage() {
@@ -171,9 +220,13 @@ function WorkPage() {
     setSelectedTag(tag)
   }
 
-  const filteredItems = selectedTag === 'all' 
+  // Hide certain projects (but keep them in order for layout)
+  const hiddenProjectIds = [3, 6, 11]
+  
+  const filteredItems = (selectedTag === 'all' 
     ? workItems 
     : workItems.filter(item => item.tags.includes(selectedTag))
+  ).filter(item => !hiddenProjectIds.includes(item.id))
 
   // Distribute items into columns
   const columns = Array(numColumns).fill(null).map(() => [])
@@ -207,7 +260,7 @@ function WorkPage() {
             <span>Work</span>
           </div>
         </div>
-        <Link to="/1/about" className="nav-link-hitbox">
+        <Link to="/about" className="nav-link-hitbox">
           <div className={`nav-link-content ${DEBUG_MODE ? 'debug' : ''}`}>
             <img alt="" src={navIcon2} />
             <span>About</span>
@@ -312,11 +365,22 @@ function WorkPage() {
                       animationDelay: `${animationDelay}s`
                     }}
                   >
-                  <div className={`work-card-image-placeholder ${item.video ? 'work-card-video-container' : ''} ${item.id === 6 ? 'work-card-video-square' : ''} ${item.id === 1 || item.id === 5 || item.id === 8 ? 'work-card-video-fill-width' : ''}`}>
-                    {item.video ? (
+                  <div 
+                    className={`work-card-image-placeholder ${item.video || item.riveEmbed ? 'work-card-video-container' : ''}`}
+                    style={{ aspectRatio: item.aspectRatio }}
+                  >
+                    {item.riveEmbed ? (
+                      <iframe 
+                        style={{ border: 'none', width: '100%', height: '100%', objectFit: 'contain' }}
+                        src="https://rive.app/s/Uif8Llstk02rEI6cgutAPA/embed?autoplay=true&loop&fit=contain"
+                        allowFullScreen
+                        allow="autoplay"
+                        className="work-card-video"
+                      />
+                    ) : item.video ? (
                       <video 
                         src={item.video} 
-                        className={`work-card-video ${item.id === 6 ? 'work-card-video-square' : ''} ${item.id === 1 || item.id === 5 || item.id === 8 ? 'work-card-video-fill-width' : ''}`}
+                        className="work-card-video"
                         autoPlay
                         loop
                         muted
