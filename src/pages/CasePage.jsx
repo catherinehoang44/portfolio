@@ -39,6 +39,7 @@ import Slideshow from '../components/Slideshow'
 import VideoSlideshow from '../components/VideoSlideshow'
 import ProjectTakeawaysTable from '../components/ProjectTakeawaysTable'
 import { workTitles } from '../constants/workTitles'
+import { getProjectId } from '../constants/projectNames'
 
 // ============================================
 // DEBUG MODE - Set to true to show borders
@@ -97,7 +98,9 @@ function AdobeCertRive() {
 
 function CasePage() {
   const location = useLocation()
-  const { projectName } = useParams()
+  const { projectName: urlProjectName } = useParams()
+  // Convert friendly URL name to internal project ID
+  const projectName = getProjectId(urlProjectName)
   const [activeImageId, setActiveImageId] = useState('section-1')
   const [slideshowIndex, setSlideshowIndex] = useState(0)
   const prevActiveImageIdRef = useRef('section-1')

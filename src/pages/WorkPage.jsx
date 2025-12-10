@@ -421,9 +421,9 @@ function WorkPage() {
                 // Determine case study link (internal) for specific projects
                 const getCaseStudyLink = (id) => {
                   switch(id) {
-                    case 5: return `/case/project-5` // Adobe Cert
-                    case 10: return `/case/project-10` // OpenAI Concept
-                    case 14: return `/case/project-14` // Pokemon Recreated
+                    case 5: return `/case/adobe-certification` // Adobe Cert
+                    case 10: return `/case/openai-concept` // OpenAI Concept
+                    case 14: return `/case/pokemon-recreated` // Pokemon Recreated
                     default: return null
                   }
                 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Hoang | Portfolio</title>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks if the URL has a query string starting with '/'
+      // If so, it redirects to that path
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+  </head>
+  <body>
+    <script>
+      // If we're here, it means the path wasn't found
+      // Redirect to index.html with the path as a query parameter
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      
+      // If path is not index.html, redirect to it with the path as query
+      if (path !== '/index.html') {
+        var redirectPath = '/index.html' + (path !== '/' ? '?/' + path.slice(1).replace(/\//g, '/') : '') + (search ? '&' + search.slice(1) : '') + hash;
+        window.location.replace(redirectPath);
+      }
+    </script>
+  </body>
+</html>
