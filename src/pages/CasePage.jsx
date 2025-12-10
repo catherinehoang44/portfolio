@@ -155,16 +155,12 @@ function CasePage() {
     }
     if (projectName === 'project-15') {
       return [
-        { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Tool Design' },
-        { id: 'section-3', heading: 'Implementation' }
+        { id: 'Demo', heading: 'Demo' }
       ]
     }
     if (projectName === 'project-2') {
       return [
-        { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Design' },
-        { id: 'section-3', heading: 'Mixed Media' }
+        { id: 'Demo', heading: 'Demo' }
       ]
     }
     if (projectName === 'project-10') {
@@ -229,7 +225,7 @@ function CasePage() {
       setActiveImageId(sections[0].id)
     }
     // Set to Demo section
-    if (projectName === 'project-14') {
+    if (projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15') {
       setActiveImageId('Demo')
     }
   }, [projectName])
@@ -241,7 +237,7 @@ function CasePage() {
   // Intersection Observer to detect which section is visible
   useEffect(() => {
     // Skip observer (no scrolling sections)
-    if (projectName === 'project-14') {
+    if (projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15') {
       return
     }
 
@@ -372,10 +368,24 @@ function CasePage() {
 
       {/* Content area - split screen layout on desktop, vertical on mobile */}
       <div className="case-content-container">
-        {/* (Pokemon: Cursor) - Centered demo container */}
-        {projectName === 'project-14' ? (
+        {/* (Pokemon: Cursor), (Retro Site), and (Radial Bitmap) - Centered demo container */}
+        {projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15' ? (
           <div id="Demo" className="case-demo-container">
-            {/* Content will be centered here - add your demo content */}
+            {projectName === 'project-2' ? (
+              <iframe
+                src="https://my-retro-desktop.vercel.app/"
+                className="case-section-iframe"
+                title="Explore My Desktop"
+                allow="autoplay"
+              />
+            ) : projectName === 'project-15' ? (
+              <iframe
+                src="https://radial-bitmap.vercel.app/"
+                className="case-section-iframe"
+                title="Radial Bitmap Tool"
+                allow="autoplay"
+              />
+            ) : null}
           </div>
         ) : (
           <>
@@ -1916,7 +1926,7 @@ function CasePage() {
         )}
         
         {/* Mobile: Vertical layout with text and image together */}
-        {projectName !== 'project-14' && (
+        {projectName !== 'project-14' && projectName !== 'project-2' && projectName !== 'project-15' && (
         <div className="case-mobile-container">
           {caseSections.map((section, index) => {
             // 5 Overview section has custom content

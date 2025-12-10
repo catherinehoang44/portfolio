@@ -328,6 +328,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  padding-top: 108px; /* Top header (30px + 48px) + margin */
+  padding-bottom: 90px; /* Bottom nav space + margin */
+  box-sizing: border-box;
 }
 
 /* Split screen layout - only on desktop (not mobile) */
@@ -626,9 +629,12 @@
 
 .case-section-iframe {
   width: 100%;
-  height: 100vh;
+  max-width: 1400px; /* Desktop width constraint - prevents iframe from being too wide */
+  height: calc(100vh - 198px); /* Fill available height */
+  max-height: 788px; /* Max height for 16:9 aspect ratio at 1400px width (1400 * 9/16 = 788px) */
   border: none;
   display: block;
+  margin: 0 auto; /* Center the iframe */
 }
 
 /* Pokemon cursor iframe - full width, centered content */
