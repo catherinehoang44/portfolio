@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { useRive } from '@rive-app/react-canvas'
+import CTA from '../components/CTA'
 import './CasePage.css'
 import './AboutPage.css' // Import AboutPage.css for shared styles
 import backIcon from '../assets/back-icon.svg'
@@ -29,8 +30,13 @@ import dreamOnSuckerPng from '../assets/dream-on-sucker.png'
 import retroTechPng from '../assets/retro-tech.png'
 import scrollExampleMp4 from '../assets/scroll-example.mp4'
 import test1Mp4 from '../assets/test1.mp4'
+import pokemonRemake1 from '../assets/pokemon-remake-1.mp4'
+import pokemonRemake2 from '../assets/pokemon-remake-2.mp4'
+import pokemonRemake3 from '../assets/pokemon-remake-3.mp4'
+import pokemonRemake4 from '../assets/pokemon-remake-4.mp4'
 import PrioritizationChart from '../components/PrioritizationChart'
 import Slideshow from '../components/Slideshow'
+import VideoSlideshow from '../components/VideoSlideshow'
 import ProjectTakeawaysTable from '../components/ProjectTakeawaysTable'
 import { workTitles } from '../constants/workTitles'
 
@@ -67,12 +73,12 @@ function TypeTag({ children }) {
 }
 
 // Reusable Caption Component
-function Caption({ number, text, type, version }) {
+function Caption({ number, text, type, version, hideNumber }) {
   const displayText = version ? `${text} - Version ${version}` : text
   return (
     <div className="case-imagery-caption">
       <p className="case-imagery-caption-text">
-        <span className="case-imagery-caption-number">{number}</span>
+        {!hideNumber && number && <span className="case-imagery-caption-number">{number}</span>}
         <span>{displayText}</span>
       </p>
       {type && <TypeTag>{type}</TypeTag>}
@@ -205,7 +211,7 @@ function CasePage() {
     }
     if (projectName === 'project-14') {
       return [
-        { id: 'Demo', heading: 'Demo' }
+        { id: 'section-1', heading: 'Summary' }
       ]
     }
     // Default sections for other projects
@@ -225,7 +231,7 @@ function CasePage() {
       setActiveImageId(sections[0].id)
     }
     // Set to Demo section
-    if (projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15') {
+    if (projectName === 'project-2' || projectName === 'project-15') {
       setActiveImageId('Demo')
     }
   }, [projectName])
@@ -237,7 +243,7 @@ function CasePage() {
   // Intersection Observer to detect which section is visible
   useEffect(() => {
     // Skip observer (no scrolling sections)
-    if (projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15') {
+    if (projectName === 'project-2' || projectName === 'project-15') {
       return
     }
 
@@ -368,8 +374,8 @@ function CasePage() {
 
       {/* Content area - split screen layout on desktop, vertical on mobile */}
       <div className="case-content-container">
-        {/* (Pokemon: Cursor), (Retro Site), and (Radial Bitmap) - Centered demo container */}
-        {projectName === 'project-14' || projectName === 'project-2' || projectName === 'project-15' ? (
+        {/* (Retro Site) and (Radial Bitmap) - Centered demo container */}
+        {projectName === 'project-2' || projectName === 'project-15' ? (
           <div id="Demo" className="case-demo-container">
             {projectName === 'project-2' ? (
               <iframe
@@ -449,7 +455,11 @@ function CasePage() {
                         <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
                       </ul>
                       <p>&nbsp;</p>
-                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience). We received funding and resources to bring the project into existence at <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>certification.adobe.com</a>.</p>
+                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience).</p>
+                      <CTA 
+                        text="We received funding and resources to bring the project into existence at certification.adobe.com"
+                        href="https://certification.adobe.com/"
+                      />
                     </div>
                   </div>
                 </div>
@@ -767,6 +777,26 @@ function CasePage() {
                       <p>As a personal project, I created imagery for the web for ChatGPT Enterprise. I developed visual content that communicates the value proposition for OpenAI.</p>
                       <p>&nbsp;</p>
                       <p>Ultimately, the design process was focused on creating something simple with a clear purpose. The design "speaks for itself".</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+            // 14 Summary section
+            if (projectName === 'project-14' && section.id === 'section-1') {
+              return (
+                <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-14">
+                  <div className="case-section-text">
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
+                    <div className="case-section-description">
+                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon Red.</p>
+                      <p>&nbsp;</p>
+                      <p>It features map exploration, a Lugia battle encounter and Cursor AI easter eggs which was the tool used to develop the Pokemon Remake. The game is also web-compatible and has working sound design.</p>
+                      <p>&nbsp;</p>
+                      <CTA
+                        text="View on GitHub"
+                        href="https://github.com/catherinehoang44/pokemon-cursor"
+                      />
                     </div>
                   </div>
                 </div>
@@ -1642,6 +1672,35 @@ function CasePage() {
               )
             }
             // 10 Design section has image
+            // 14 Summary section has video slideshow
+            if (projectName === 'project-14' && section.id === 'section-1') {
+              const pokemonVideos = [pokemonRemake1, pokemonRemake2, pokemonRemake3, pokemonRemake4]
+              const pokemonCaptions = [
+                <><strong>Scene 1:</strong> Map Exploration</>,
+                <><strong>Scene 2:</strong> Battle UI</>,
+                <><strong>Scene 3:</strong> Prompt Pulse Attack</>,
+                <><strong>Scene 4:</strong> End Screen</>
+              ]
+              return (
+                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper case-imagery-wrapper-center ${activeImageId === section.id ? 'active' : ''}`}>
+                  <div
+                    id={`${section.id}-img`}
+                    className={`case-section-slideshow ${activeImageId === section.id ? 'active' : ''}`}
+                  >
+                    <VideoSlideshow 
+                      videos={pokemonVideos} 
+                      active={activeImageId === section.id} 
+                      onSlideChange={(index) => setSlideshowIndex(index)}
+                    />
+                  </div>
+                  <Caption 
+                    hideNumber={true}
+                    text={pokemonCaptions[slideshowIndex] || pokemonCaptions[0]}
+                    type="Video"
+                  />
+                </div>
+              )
+            }
             // 13 Overview section has video
             if (projectName === 'project-13' && section.id === 'section-1') {
               return (
@@ -1926,7 +1985,7 @@ function CasePage() {
         )}
         
         {/* Mobile: Vertical layout with text and image together */}
-        {projectName !== 'project-14' && projectName !== 'project-2' && projectName !== 'project-15' && (
+        {projectName !== 'project-2' && projectName !== 'project-15' && (
         <div className="case-mobile-container">
           {caseSections.map((section, index) => {
             // 5 Overview section has custom content
@@ -1993,7 +2052,11 @@ function CasePage() {
                         <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
                       </ul>
                       <p>&nbsp;</p>
-                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience). We received funding and resources to bring the project into existence at <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>certification.adobe.com</a>.</p>
+                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience).</p>
+                      <CTA 
+                        text="We received funding and resources to bring the project into existence at certification.adobe.com"
+                        href="https://certification.adobe.com/"
+                      />
                     </div>
                   </div>
                   <video
@@ -2901,6 +2964,45 @@ function CasePage() {
                     controls
                   />
                   <Caption number="2.0" text=" Game Design" type="Video" />
+                </div>
+              )
+            }
+            // 14 Summary section mobile
+            if (projectName === 'project-14' && section.id === 'section-1') {
+              const pokemonVideos = [pokemonRemake1, pokemonRemake2, pokemonRemake3, pokemonRemake4]
+              const pokemonCaptions = [
+                <><strong>Scene 1:</strong> Map Exploration</>,
+                <><strong>Scene 2:</strong> Battle UI</>,
+                <><strong>Scene 3:</strong> Prompt Pulse Attack</>,
+                <><strong>Scene 4:</strong> End Screen</>
+              ]
+              return (
+                <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
+                  <div className="case-section-text">
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
+                    <div className="case-section-description">
+                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon Red.</p>
+                      <p>&nbsp;</p>
+                      <p>It features map exploration, a Lugia battle encounter and Cursor AI easter eggs which was the tool used to develop the Pokemon Remake. The game is also web-compatible and has working sound design.</p>
+                      <p>&nbsp;</p>
+                      <CTA
+                        text="View on GitHub"
+                        href="https://github.com/catherinehoang44/pokemon-cursor"
+                      />
+                    </div>
+                  </div>
+                  <div className="case-mobile-slideshow">
+                    <VideoSlideshow 
+                      videos={pokemonVideos} 
+                      active={true} 
+                      onSlideChange={(index) => setSlideshowIndex(index)}
+                    />
+                  </div>
+                  <Caption 
+                    hideNumber={true}
+                    text={pokemonCaptions[slideshowIndex] || pokemonCaptions[0]}
+                    type="Video"
+                  />
                 </div>
               )
             }

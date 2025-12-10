@@ -127,20 +127,20 @@ const workItems = [
   { id: 12, tags: ['branding', 'web'], title: workTitles['project-12'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: answerThisPng },
   // Column 1 (middle) - position 3: [Unity] (4:3) - hidden
   { id: 11, tags: ['illustration'], title: workTitles['project-11'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: scrollExampleMp4 },
-  // Column 2 (right) - position 3: Dream On Sucker (4:3)
-  { id: 9, tags: ['branding'], title: workTitles['project-9'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: dreamOnSuckerPng },
+  // Column 2 (right) - position 3: DemeterEHR (1:1)
+  { id: 16, tags: ['ui/ux', 'web'], title: workTitles['project-16'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: demeterehrPng },
   // Column 0 (left) - position 4: PPT Night (2:3)
   { id: 1, tags: ['illustration', 'motion'], title: workTitles['project-1'], height: HEIGHT_2_3, aspectRatio: ASPECT_RATIO_2_3, image: null, video: toasterWebm },
   // Column 1 (middle) - position 4: Radial Bitmap (4:3)
   { id: 15, tags: ['illustration', 'web'], title: workTitles['project-15'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: radialBitmapMp4 },
-  // Column 2 (right) - position 4: Pixeldoro (1:1)
-  { id: 8, tags: ['illustration', 'ui/ux'], title: workTitles['project-8'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: pixeldoroWebm },
+  // Column 2 (right) - position 4: Dream On Sucker (4:3)
+  { id: 9, tags: ['branding'], title: workTitles['project-9'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: dreamOnSuckerPng },
   // Column 1 (middle) - position 6: TechNova (4:3)
   { id: 13, tags: ['illustration', 'branding', 'web'], title: workTitles['project-13'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: techNovaMp4 },
   // Column 1 (middle) - position 7: Retro Site (4:3)
   { id: 2, tags: ['illustration', 'web'], title: workTitles['project-2'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: retroSiteMp4 },
-  // DemeterEHR (1:1)
-  { id: 16, tags: ['ui/ux', 'web'], title: workTitles['project-16'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: demeterehrPng },
+  // Column 2 (right) - position 5: Pixeldoro (1:1)
+  { id: 8, tags: ['illustration', 'ui/ux'], title: workTitles['project-8'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: pixeldoroWebm },
 ]
 
 function WorkPage() {
@@ -412,7 +412,6 @@ function WorkPage() {
                     case 8: return 'https://x.com/CatHoang_/status/1875347735987286473'
                     case 12: return 'https://answer-this.framer.website/'
                     case 13: return 'https://2022-technova.framer.website/'
-                    case 14: return 'https://github.com/catherinehoang44/pokemon-cursor'
                     case 15: return 'https://radial-bitmap.vercel.app/'
                     case 16: return 'https://cats-life.notion.site/demeterehr'
                     default: return null
@@ -424,6 +423,7 @@ function WorkPage() {
                   switch(id) {
                     case 5: return `/case/project-5` // Adobe Cert
                     case 10: return `/case/project-10` // OpenAI Concept
+                    case 14: return `/case/project-14` // Pokemon Recreated
                     default: return null
                   }
                 }
