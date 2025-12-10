@@ -112,7 +112,7 @@ function AdobeCertRive() {
 
 const workItems = [
   // Column 0 (left) - position 1: Adobe Certifications (1:1)
-  { id: 5, tags: ['ui/ux', 'web', 'motion'], title: workTitles['project-5'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: null, rive: true },
+  { id: 5, tags: ['ui/ux', 'web'], title: workTitles['project-5'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: null, rive: true },
   // Column 1 (middle) - position 1: Adobe Business (4:3)
   { id: 4, tags: ['motion', 'web'], title: workTitles['project-4'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: adobeBusinessMotion },
   // Column 2 (right) - position 1: OpenAI (1:1)

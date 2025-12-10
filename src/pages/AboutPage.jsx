@@ -743,8 +743,11 @@ function AboutPage() {
                   <span>Web Brand Designer</span>
                 </div>
                 <div className="card-social">
-                  <a href="https://x.com/angelfilth_" target="_blank" rel="noopener noreferrer" className="social-icon">
+                  <a href="https://x.com/CatHoang_" target="_blank" rel="noopener noreferrer" className="social-icon">
                     <img alt="X" src={iconX} />
+                  </a>
+                  <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <img alt="Pinterest" src={iconEmail} />
                   </a>
                   <a href="mailto:catherinehoang44@gmail.com" className="social-icon">
                     <img alt="Email" src={iconEmail} />
@@ -1181,8 +1184,8 @@ function AboutPage() {
                     // Map node names to work page tags
                     const tagMap = {
                       'Branding': 'branding',
-                      'UI/UX': 'ui/ux',
-                      'Motion': 'motion'
+                      'Motion': 'motion',
+                      'UI/UX': 'ui/ux'
                     }
                     const tag = tagMap[node.name]
                     if (tag) {

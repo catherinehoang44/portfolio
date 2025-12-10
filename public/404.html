@@ -1,27 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cat Hoang | Portfolio</title>
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current url and converts the path and query
-      // string into just a query string, and then redirects the browser
-      // to the new url with only a query string and hash fragment,
-      // e.g., https://www.foo.com/path/to/page?query=string#hash
-      // becomes:
-      // https://www.foo.com/?/path/to/page&query=string#hash
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // This script checks if the URL has a query string starting with '/'
+      // If so, it redirects to that path
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
     </script>
   </head>
-  <body></body>
+  <body>
+    <script>
+      // If we're here, it means the path wasn't found
+      // Redirect to index.html with the path as a query parameter
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      
+      // If path is not index.html, redirect to it with the path as query
+      if (path !== '/index.html') {
+        var redirectPath = '/index.html' + (path !== '/' ? '?/' + path.slice(1).replace(/\//g, '/') : '') + (search ? '&' + search.slice(1) : '') + hash;
+        window.location.replace(redirectPath);
+      }
+    </script>
+  </body>
 </html>
