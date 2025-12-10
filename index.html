@@ -9,6 +9,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      // Handle GitHub Pages SPA routing
+      // This script runs before React loads to handle routing
+      (function() {
+        var path = window.location.pathname;
+        var search = window.location.search;
+        var hash = window.location.hash;
+        
+        // Handle GitHub Pages 404 redirect (query string starting with '/')
+        // When 404.html redirects, it adds the path as a query parameter like ?/about
+        if (search && search[1] === '/') {
+          var pathFromQuery = search.slice(1).split('&')[0].replace(/~and~/g, '&');
+          window.history.replaceState(null, '', pathFromQuery + hash);
+          return;
+        }
+        
+        // Redirect root path to /about
+        if (path === '/' && !search) {
+          window.history.replaceState(null, '', '/about' + hash);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

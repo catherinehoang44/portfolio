@@ -67,10 +67,9 @@ function AboutPage() {
     nodes: [
       { id: 'center', name: 'Me', val: 15 },
       { id: 'architecture', name: 'Architecture', val: 7 },
-      { id: 'illustration', name: 'Illustration', val: 6 },
+      { id: 'motion', name: 'Motion', val: 6 },
       { id: 'branding', name: 'Branding', val: 7 },
       { id: 'uiux', name: 'UI/UX', val: 8 },
-      { id: 'motion', name: 'Motion', val: 6 },
       { id: 'steampunk', name: 'Steampunk', val: 5 },
       { id: 'maximalism', name: 'Maximalism', val: 5 },
       { id: 'journaling', name: 'Journaling', val: 6 },
@@ -79,17 +78,16 @@ function AboutPage() {
     ],
     links: [
       { source: 'center', target: 'architecture' },
-      { source: 'center', target: 'illustration' },
+      { source: 'center', target: 'motion' },
       { source: 'center', target: 'branding' },
       { source: 'center', target: 'uiux' },
-      { source: 'center', target: 'motion' },
       { source: 'center', target: 'steampunk' },
       { source: 'center', target: 'maximalism' },
       { source: 'center', target: 'journaling' },
       { source: 'center', target: 'furniture' },
       { source: 'center', target: 'nostalgia' },
       { source: 'branding', target: 'uiux' },
-      { source: 'branding', target: 'illustration' },
+      { source: 'branding', target: 'motion' },
       { source: 'architecture', target: 'furniture' },
       { source: 'steampunk', target: 'maximalism' },
       { source: 'nostalgia', target: 'journaling' }
@@ -701,11 +699,11 @@ function AboutPage() {
                 </div>
               </Link>
               
-              <Link to="/work?tag=illustration" className="tag-hitbox">
+              <Link to="/work?tag=motion" className="tag-hitbox">
                 <div className="work-link-wrapper">
                   <div className="work-link">
                     <div className="work-text-container">
-                      <p className="work-text">Illustration</p>
+                      <p className="work-text">Motion</p>
                     </div>
                   </div>
                 </div>
@@ -1066,7 +1064,7 @@ function AboutPage() {
                   graphData={interestsGraphData}
                   nodeLabel={(node) => {
                     // Only show label for nodes that link to work page
-                    const linkableNodes = ['Branding', 'Illustration', 'UI/UX', 'Motion']
+                    const linkableNodes = ['Branding', 'Motion', 'UI/UX']
                     return linkableNodes.includes(node.name) ? 'View work' : null
                   }}
                   nodeColor={() => '#333'}
@@ -1183,7 +1181,6 @@ function AboutPage() {
                     // Map node names to work page tags
                     const tagMap = {
                       'Branding': 'branding',
-                      'Illustration': 'illustration',
                       'UI/UX': 'ui/ux',
                       'Motion': 'motion'
                     }
