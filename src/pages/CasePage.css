@@ -5,6 +5,11 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 290px;
+  background-image: url('../assets/site-bg.png');
+  background-repeat: repeat;
+  background-position: center center;
+  background-size: auto;
+  background-attachment: fixed;
 }
 
 /* ============================================
@@ -21,6 +26,12 @@
   filter: blur(10px);
   transform: translateY(20px);
   animation: fadeInUp 2s ease-out forwards;
+}
+
+/* Special animation for case-nav-container to maintain horizontal centering */
+.case-page.page-loading .case-nav-container {
+  transform: translate(-50%, 20px);
+  animation: fadeInUpNav 2s ease-out forwards;
 }
 
 /* Section-based animations - text first, then image, then next section */
@@ -136,6 +147,19 @@
   }
 }
 
+@keyframes fadeInUpNav {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, 0);
+  }
+}
+
 @keyframes caseCardSlideUp {
   from {
     opacity: 0;
@@ -190,20 +214,6 @@
   }
 }
 
-.case-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: none;
-  object-fit: cover;
-  object-position: 50% 50%;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
 
 /* Work details container - 48px height, horizontal layout, 2px gap */
 .case-work-details-container {
@@ -394,7 +404,7 @@
 .case-text-container > .case-section {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 120px; /* 120px gap between sections */
+  margin-bottom: 50vh; /* 50% of viewport height gap between sections on desktop */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -403,83 +413,6 @@
 }
 
 
-/* Adobe Business case (project-4) - sections hug content height */
-.case-text-container > .case-section-project-4 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Perplexity AI Comet case (project-3) - sections hug content height */
-.case-text-container > .case-section-project-3 {
-  min-height: auto;
-  height: auto;
-}
-
-/* AnswerThis case (project-12) - sections hug content height */
-.case-text-container > .case-section-project-12 {
-  min-height: auto;
-  height: auto;
-}
-
-/* PPT Night Poster case (project-1) - sections hug content height */
-.case-text-container > .case-section-project-1 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Pixeldoro case (project-8) - sections hug content height */
-.case-text-container > .case-section-project-8 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Radial Bitmap Tool case (project-15) - sections hug content height */
-.case-text-container > .case-section-project-15 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Nostalgic Exhibit case (project-2) - sections hug content height */
-.case-text-container > .case-section-project-2 {
-  min-height: auto;
-  height: auto;
-}
-
-/* OpenAI Concept case (project-10) - sections hug content height */
-.case-text-container > .case-section-project-10 {
-  min-height: auto;
-  height: auto;
-}
-
-/* TechNova Hackathon case (project-13) - sections hug content height */
-.case-text-container > .case-section-project-13 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Dream On, Sucker case (project-9) - sections hug content height */
-.case-text-container > .case-section-project-9 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Unity Web Concept case (project-11) - sections hug content height */
-.case-text-container > .case-section-project-11 {
-  min-height: auto;
-  height: auto;
-}
-
-/* My Mac Desktop case (project-7) - sections hug content height */
-.case-text-container > .case-section-project-7 {
-  min-height: auto;
-  height: auto;
-}
-
-/* Duolingo Concept case (project-6) - sections hug content height */
-.case-text-container > .case-section-project-6 {
-  min-height: auto;
-  height: auto;
-}
 
 /* Debug mode - white borders for sections */
 .case-page.debug .case-section {
@@ -565,6 +498,20 @@
 .case-imagery-wrapper.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* Centered wrapper for OpenAI slideshow */
+.case-imagery-wrapper-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.case-imagery-wrapper-center .case-section-slideshow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
 }
 
 /* Full width wrapper for project-14 */
@@ -783,6 +730,28 @@
   line-height: 36px;
   color: black;
   margin: 0 0 0 0;
+}
+
+.case-section-description ul {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 36px;
+  color: black;
+  margin: 0 0 0 0;
+  padding-left: 24px;
+  list-style: disc;
+}
+
+.case-section-description li {
+  font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 36px;
+  color: black;
+  margin: 0 0 0 0;
+  padding-left: 0;
+  position: relative;
 }
 
 /* Project 5 Problem section highlight design */

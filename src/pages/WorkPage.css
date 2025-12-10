@@ -5,6 +5,11 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 5vh;
+  background-image: url('../assets/site-bg.png');
+  background-repeat: repeat;
+  background-position: center center;
+  background-size: auto;
+  background-attachment: fixed;
 }
 
 /* ============================================
@@ -37,20 +42,25 @@
   }
 }
 
-.work-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: none;
-  object-fit: cover;
-  object-position: 50% 50%;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+/* Special animation for nav-container to maintain horizontal centering */
+.work-page.page-loading .nav-container {
+  transform: translate(-50%, 20px);
+  animation: fadeInUpNav 2s ease-out forwards;
 }
+
+@keyframes fadeInUpNav {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, 0);
+  }
+}
+
 
 .work-tags-container {
   position: fixed;
@@ -233,6 +243,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* TechNova card: fill width container and hug height */
+.work-card-technova {
+  width: calc(100% - 24px);
+  height: auto;
+  aspect-ratio: unset;
+}
+
+.work-card-video-technova {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   object-position: center;
   display: block;
 }

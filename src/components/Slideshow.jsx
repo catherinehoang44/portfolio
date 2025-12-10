@@ -19,22 +19,9 @@ function Slideshow({ images, active, onSlideChange }) {
     }
     prevActiveRef.current = active
 
-    if (!active) {
-      // Don't auto-advance when not active
-      return
-    }
-
-    // Auto-advance slides when active
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const newIndex = (prevIndex + 1) % images.length
-        if (onSlideChange) onSlideChange(newIndex)
-        return newIndex
-      })
-    }, 3000) // Change slide every 3 seconds
-
-    return () => clearInterval(interval)
-  }, [active, images.length, onSlideChange])
+    // Auto-advance disabled - slides only change manually via dots
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active])
 
   if (!images || images.length === 0) return null
 

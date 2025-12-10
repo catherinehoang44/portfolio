@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ForceGraph2D from 'react-force-graph-2d'
 import './AboutPage.css'
-import aboutBg from '../assets/about-bg.jpg'
 import catIcon from '../assets/cat-icon.png'
 import navIcon1 from '../assets/nav-icon-1.svg'
 import navIcon2 from '../assets/nav-icon-2.svg'
@@ -636,11 +635,6 @@ function AboutPage() {
 
   return (
     <div className={`about-page ${isLoading ? 'page-loading' : ''}`}>
-      <img 
-        alt="" 
-        className="about-background" 
-        src={aboutBg} 
-      />
       
       {/* ============================================
           TABLE OF CONTENTS
@@ -1070,7 +1064,11 @@ function AboutPage() {
                 <ForceGraph2D
                   ref={graphInstanceRef}
                   graphData={interestsGraphData}
-                  nodeLabel="name"
+                  nodeLabel={(node) => {
+                    // Only show label for nodes that link to work page
+                    const linkableNodes = ['Branding', 'Illustration', 'UI/UX', 'Motion']
+                    return linkableNodes.includes(node.name) ? 'View work' : null
+                  }}
                   nodeColor={() => '#333'}
                   linkColor={() => 'rgba(0, 0, 0, 0.15)'}
                   linkWidth={0.5}

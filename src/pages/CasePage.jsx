@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
+import { useRive } from '@rive-app/react-canvas'
 import './CasePage.css'
 import './AboutPage.css' // Import AboutPage.css for shared styles
-import aboutBg from '../assets/about-bg.jpg'
 import backIcon from '../assets/back-icon.svg'
 import backHitbox from '../assets/back-hitbox.png'
 import scopePng from '../assets/scope.png'
@@ -10,25 +10,25 @@ import hicksLawVideo from '../assets/hicks-law.mp4'
 import highlightIcon from '../assets/highlight-icon.png'
 import adobePlanPng from '../assets/adobe-plan.png'
 import adobeFlowPng from '../assets/adobe-flow.png'
-import courseCatalogIteration1 from '../assets/course-catalog-iteration-1.png'
-import courseCatalogIteration2 from '../assets/course-catalog-iteration-2.png'
-import courseCatalogIteration3 from '../assets/course-catalog-iteration-3.png'
-import courseCatalogIteration4 from '../assets/course-catalog-iteration-4.png'
-import courseCatalogIteration5 from '../assets/course-catalog-iteration-5.png'
 import adobeBusinessMotion from '../assets/adobe-business-motion.mp4'
+import adobeBusinessFramerPreview from '../assets/adobe-business-framer-preview.mp4'
+import adobeBusinessScope from '../assets/adobe-business-scope.svg'
+import adobeCertPortalCover from '../assets/adobe_cert_portal_cover.riv'
 import work3Image from '../assets/perplexity-concept.png'
 import answerThisPng from '../assets/answer-this.png'
 import toasterWebm from '../assets/toaster.webm'
 import pixeldoroWebm from '../assets/pixeldoro.webm'
 import radialBitmapMp4 from '../assets/radial-bitmap.mp4'
-import work2Image from '../assets/work-2.png'
+import retroSiteMp4 from '../assets/retro-site.mp4'
 import openaiConceptPng from '../assets/openai-concept.png'
+import openai0 from '../assets/openai-0.svg'
+import openai1 from '../assets/openai-1.svg'
+import openai2 from '../assets/openai-2.svg'
 import techNovaMp4 from '../assets/tech-nova.mp4'
 import dreamOnSuckerPng from '../assets/dream-on-sucker.png'
 import retroTechPng from '../assets/retro-tech.png'
 import scrollExampleMp4 from '../assets/scroll-example.mp4'
 import test1Mp4 from '../assets/test1.mp4'
-import test2Mp4 from '../assets/test2.mp4'
 import PrioritizationChart from '../components/PrioritizationChart'
 import Slideshow from '../components/Slideshow'
 import ProjectTakeawaysTable from '../components/ProjectTakeawaysTable'
@@ -80,6 +80,15 @@ function Caption({ number, text, type, version }) {
   )
 }
 
+// Rive component for Adobe Cert Portal
+function AdobeCertRive() {
+  const { RiveComponent } = useRive({
+    src: adobeCertPortalCover,
+    autoplay: true,
+  })
+  return <RiveComponent style={{ width: '100%', height: '100%' }} />
+}
+
 function CasePage() {
   const location = useLocation()
   const { projectName } = useParams()
@@ -105,18 +114,15 @@ function CasePage() {
     if (projectName === 'project-5') {
       return [
         { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Problem' },
-        { id: 'section-3', heading: 'Strategy' },
-        { id: 'section-4', heading: 'Flow' },
-        { id: 'section-5', heading: 'Design' },
+        { id: 'section-2', heading: 'Adobe Certification Portal Launch', navTitle: 'Portal Launch' },
         { id: 'section-6', heading: 'Retrospective' }
       ]
     }
     if (projectName === 'project-4') {
       return [
         { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Design' },
-        { id: 'section-3', heading: 'Framer Showcase' }
+        { id: 'section-2', heading: 'Prototype' },
+        { id: 'section-3', heading: 'Motion Design' }
       ]
     }
     if (projectName === 'project-3') {
@@ -163,9 +169,7 @@ function CasePage() {
     }
     if (projectName === 'project-10') {
       return [
-        { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Design' },
-        { id: 'section-3', heading: 'Value Proposition' }
+        { id: 'section-1', heading: 'Summary' }
       ]
     }
     if (projectName === 'project-13') {
@@ -314,12 +318,14 @@ function CasePage() {
       video.currentTime = 0
       video.play().catch(err => console.log('Video autoplay prevented:', err))
       
-      // Stop video when it ends (don't loop)
-      const handleEnded = () => {
-        video.pause()
+      // Stop video when it ends (don't loop) - unless video has loop attribute
+      if (!video.hasAttribute('loop')) {
+        const handleEnded = () => {
+          video.pause()
+        }
+        video.addEventListener('ended', handleEnded)
+        cleanupFunctions.push(() => video.removeEventListener('ended', handleEnded))
       }
-      video.addEventListener('ended', handleEnded)
-      cleanupFunctions.push(() => video.removeEventListener('ended', handleEnded))
     }
     
     // Also handle mobile video if it exists
@@ -328,12 +334,14 @@ function CasePage() {
       mobileVideo.currentTime = 0
       mobileVideo.play().catch(err => console.log('Video autoplay prevented:', err))
       
-      // Stop video when it ends (don't loop)
-      const handleMobileEnded = () => {
-        mobileVideo.pause()
+      // Stop video when it ends (don't loop) - unless video has loop attribute
+      if (!mobileVideo.hasAttribute('loop')) {
+        const handleMobileEnded = () => {
+          mobileVideo.pause()
+        }
+        mobileVideo.addEventListener('ended', handleMobileEnded)
+        cleanupFunctions.push(() => mobileVideo.removeEventListener('ended', handleMobileEnded))
       }
-      mobileVideo.addEventListener('ended', handleMobileEnded)
-      cleanupFunctions.push(() => mobileVideo.removeEventListener('ended', handleMobileEnded))
     }
     
     return () => {
@@ -343,11 +351,6 @@ function CasePage() {
 
   return (
     <div className={`case-page ${DEBUG_MODE ? 'debug' : ''}`}>
-      <img 
-        alt="" 
-        className="case-background" 
-        src={aboutBg} 
-      />
       
       {/* ============================================
           WORK DETAILS AT TOP
@@ -386,13 +389,35 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-first">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>When you hear "Adobe", your first thought may be Photoshop, other Creative Cloud products, or Adobe Acrobat PDF.</p>
+                      <p>At Adobe, I designed, tested and shipped the <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Adobe Certification Portal</a>.</p>
                       <p>&nbsp;</p>
-                      <p>Yet, Adobe has 15 business analytics products under Experience Cloud. It's hard to care when it's frustrating and "nearly impossible" to self-learn these complex tools.</p>
+                      <p>I was involved in the end-to-end user flows of:</p>
                       <p>&nbsp;</p>
-                      <p>To make the learning path enjoyable and clear for users, I led the end-to-end conception of the web experience for the Certification Learning Portal.</p>
+                      <ul>
+                        <li>Core Experience</li>
+                        <li>Certification Renewals</li>
+                        <li>Learning Management Systems (LMS)</li>
+                        <li>Platform Integrations</li>
+                      </ul>
+                      <p>&nbsp;</p>
+                      <p>I helped launch the Adobe Certification Portal in October 2024, and the KPIs have grown tremendously during my time on the team:</p>
+                      <p>&nbsp;</p>
+                      <ul>
+                        <li>0 to 1.2 million active users</li>
+                        <li>52 to 69% renewal rate (+17%)</li>
+                        <li>17k to 30k certification holders (+57%)</li>
+                      </ul>
+                      <p>&nbsp;</p>
+                      <p>Here's an overview of the features and quality of life improvements I've designed and tested, from ideation to launch.</p>
+                      <p>&nbsp;</p>
+                      <ul>
+                        <li>Portal Launch</li>
+                        <li>Certification Renewals</li>
+                        <li>Course Catalog</li>
+                        <li>University Page</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -403,121 +428,67 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>On any Adobe forum, there was a resounding confusion on what Adobe Digital Experience even offered. The average person was not going to remember all 15 apps.</p>
-                      <p>&nbsp;</p>
-                      <p>Instead, they'd remember only 1 app at a time.</p>
+                      <p>On any Adobe forum, there was widespread confusion about what Adobe Digital Experience actually offered. Users start learning one app at a time before exploring others (96% of learners).</p>
                       <p>&nbsp;</p>
                       <p>And when they begun to learn that app, users came across the same set of problems:</p>
                       <p>&nbsp;</p>
-                      <p>There was no central place to learn and practice using the product.</p>
+                      <ul>
+                        <li>There was no central place to learn and practice using the product.</li>
+                        <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
+                      </ul>
+                      <p>&nbsp;</p>
+                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience). We received funding and resources to bring the project into existence at <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>certification.adobe.com</a>.</p>
                     </div>
-                    <HighlightContainer>
-                      <span>It's frustrating and time consuming to figure out </span>
-                      <span className="case-problem-highlight-text-bold">how</span>
-                      <span> to learn Adobe Digital Experience products, let alone learn the products themselves.</span>
-                    </HighlightContainer>
+                  </div>
+                </div>
+              )
+            }
+            // 5 Retrospective section
+            if (projectName === 'project-5' && section.id === 'section-6') {
+              return (
+                <div key={section.id} id={section.id} data-section-index={index} className="case-section">
+                  <div className="case-section-text">
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
+                    <div className="case-section-description">
+                      <p>By grounding an ambitious vision and timeline in practical, modular steps and data-informed decisions, we were able to deliver meaningful progress quickly.</p>
+                      <p>&nbsp;</p>
+                      <p>The late nights and great conversations that came from these projects were genuinely the most fun I had in design!</p>
+                    </div>
                   </div>
                 </div>
               )
             }
             // Strategy section has custom content
-            if (projectName === 'project-5' && section.id === 'section-3') {
-              return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                      <p>By conducting a series of research methodologies, the data helped us define what functionality and experiences were necessary and when to implement. While I cannot share specifics due to NDA, I can share the methods used in image 3.0.</p>
-                      <p>&nbsp;</p>
-                      <p>As a result of our research, we determined the need to broaden the scope of users and create new sets of content categories within the web experience. We plotted our potential users as a spectrum between enterprise and independent users, as well as junior to senior career experience.</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            // Flow section has custom content
-            if (projectName === 'project-5' && section.id === 'section-4') {
-              return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                      <p><strong>Flow 1 Improvements</strong></p>
-                      <p>Overdeliver with clear design and user experience.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Flow V2 Improvements</strong></p>
-                      <p>Encouraging continuous engagement through gamified elements.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Flow V3 Improvements</strong></p>
-                      <p>Receive guidance from Adobe product teams outside of the internal team.</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            // 5 Design section has custom content
-            if (projectName === 'project-5' && section.id === 'section-5') {
-              return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                      <p>For this case study, we'll focus on the efforts for the Course Catalog. For each section of the site, multiple iterations were created and tested to refine the user experience. We designed mobile first for scalability and simplification of the user flow, which acted as the base to then create the desktop version.</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            // 5 Retrospective section has highlight component
-            if (projectName === 'project-5' && section.id === 'section-6') {
-              return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                    </div>
-                    <HighlightContainer>
-                      <span>We received funding and resources to bring the project into existence. Since launch, we've achieved over a million MoM learners on the platform, 500% of our target amount.</span>
-                    </HighlightContainer>
-                  </div>
-                </div>
-              )
-            }
             // 4 Overview section
             if (projectName === 'project-4' && section.id === 'section-1') {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-4">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing their comprehensive suite of business analytics products under Experience Cloud. This project demonstrates the power of modern web design tools in creating professional, interactive experiences.</p>
+                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
                       <p>&nbsp;</p>
-                      <p>I designed and developed this site using Framer, a cutting-edge web design platform that enables designers to create high-fidelity, interactive prototypes that feel like production-ready websites. Framer's capabilities allowed me to build a fully functional, responsive site that showcases Adobe's business solutions with smooth animations, dynamic interactions, and a polished user experience.</p>
-                      <p>&nbsp;</p>
-                      <p>This case study serves as both a portfolio piece and an advocacy for Framer as a design tool, demonstrating how modern design platforms can bridge the gap between design and development.</p>
+                      <p>I designed and developed this site using Framer and created the motion animations with Rive and Adobe After Effects.</p>
                     </div>
                   </div>
                 </div>
               )
             }
-            // 4 Design section
+            // 4 Prototype section
             if (projectName === 'project-4' && section.id === 'section-2') {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-4">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>The design process focused on creating a clean, professional interface that effectively communicates Adobe's enterprise value proposition. The site features a modern layout with strategic use of white space, clear typography hierarchy, and intuitive navigation.</p>
+                      <p>You can experience the complete interactive design, animations, and user flows exactly as intended: <a href="https://business-adobe-sandbox.framer.website/" target="_blank" rel="noopener noreferrer" className="case-section-link">business.adobe.com/home/prototype</a></p>
                       <p>&nbsp;</p>
-                      <p>Key design decisions included:</p>
+                      <p><strong>Key design decisions included:</strong></p>
                       <p>&nbsp;</p>
                       <p><strong>Visual Hierarchy</strong></p>
                       <p>Large, impactful hero sections with clear calls-to-action guide users through Adobe's product offerings and business solutions.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Content Organization</strong></p>
-                      <p>Products are categorized by function (Content management, Creativity & design, Data & analytics, etc.) making it easy for users to find relevant solutions for their needs.</p>
                       <p>&nbsp;</p>
                       <p><strong>Interactive Elements</strong></p>
                       <p>Smooth scroll animations, hover effects, and dynamic content reveal create an engaging user experience that showcases Adobe's innovative technology.</p>
@@ -526,21 +497,14 @@ function CasePage() {
                 </div>
               )
             }
-            // 4 Framer Showcase section
+            // 4 Motion Design section
             if (projectName === 'project-4' && section.id === 'section-3') {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-4">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>This project was built entirely in Framer, showcasing the platform's capabilities for creating production-quality websites without writing code. Framer enabled rapid iteration, real-time collaboration, and seamless deployment.</p>
-                      <p>&nbsp;</p>
-                      <p>What makes this project special is that it's not just a design mockup—it's a fully functional, live website. You can experience the complete interactive design, animations, and user flows exactly as intended.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Experience the live site:</strong></p>
-                      <p><a href="https://business-adobe-sandbox.framer.website/" target="_blank" rel="noopener noreferrer" style={{ color: '#8c8c8c', textDecoration: 'underline' }}>https://business-adobe-sandbox.framer.website/</a></p>
-                      <p>&nbsp;</p>
-                      <p>This project demonstrates how Framer empowers designers to create professional web experiences that rival traditional development workflows, while maintaining the flexibility and speed of a design-first approach.</p>
+                      <p>The design process focused on creating a clean, professional interface that effectively communicates Adobe's enterprise value proposition.</p>
                     </div>
                   </div>
                 </div>
@@ -551,7 +515,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-3">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Perplexity AI Comet represents a conceptual redesign of Perplexity's interface, exploring how AI-powered search experiences can be more intuitive and visually engaging. This project demonstrates modern web design principles applied to complex information architecture.</p>
                       <p>&nbsp;</p>
@@ -568,7 +532,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-3">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design process centered on creating an interface that feels both powerful and approachable. Key considerations included how to present AI-generated content in a way that feels trustworthy and easy to digest.</p>
                       <p>&nbsp;</p>
@@ -590,7 +554,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-3">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This conceptual design explores the potential of modern web interfaces for AI-powered tools. The project demonstrates how thoughtful design can make complex technology feel accessible and intuitive.</p>
                       <p>&nbsp;</p>
@@ -608,7 +572,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-12">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>AnswerThis is an all-in-one AI research assistant designed to help researchers from finding research gaps to publication. This project showcases how Framer can be used to create comprehensive, feature-rich web experiences that effectively communicate complex product capabilities.</p>
                       <p>&nbsp;</p>
@@ -625,7 +589,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-12">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a clear, trustworthy interface that communicates AnswerThis's comprehensive research capabilities. The site needed to convey both the technical sophistication and the practical benefits of the platform.</p>
                       <p>&nbsp;</p>
@@ -647,7 +611,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-12">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built entirely in Framer, demonstrating the platform's ability to handle complex, content-rich websites with multiple sections, interactive elements, and detailed feature presentations.</p>
                       <p>&nbsp;</p>
@@ -667,7 +631,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-15">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>I made a way for me to create unique circular backgrounds. The Radial Bitmap Tool is a custom solution I developed to generate distinctive circular patterns and backgrounds that I can use across my design work.</p>
                       <p>&nbsp;</p>
@@ -684,7 +648,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-15">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The tool is designed with simplicity and efficiency in mind. The interface allows for quick generation of circular bitmap patterns with various parameters that can be adjusted to create different visual effects.</p>
                       <p>&nbsp;</p>
@@ -706,7 +670,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-15">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The Radial Bitmap Tool was built to solve a specific workflow challenge I encountered in my design work. By creating a custom solution, I was able to streamline the process of generating unique circular backgrounds while maintaining creative control over the output.</p>
                       <p>&nbsp;</p>
@@ -726,13 +690,15 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-2">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Nostalgic Exhibit is an online mixed media exhibit that explores themes of nostalgia through various artistic mediums. The project creates a digital space where visitors can experience curated works that evoke memories, emotions, and connections to the past.</p>
                       <p>&nbsp;</p>
                       <p>The exhibit combines different forms of media—illustration, photography, video, and interactive elements—to create a rich, immersive experience that captures the essence of nostalgia. Each piece in the collection tells a story, inviting viewers to reflect on their own memories and experiences.</p>
                       <p>&nbsp;</p>
                       <p>This case study demonstrates how digital platforms can be used to create meaningful cultural experiences, bringing together diverse artistic expressions in a cohesive, accessible format that reaches audiences beyond traditional gallery spaces.</p>
+                      <p>&nbsp;</p>
+                      <p><a href="https://my-retro-desktop.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: '#8c8c8c', textDecoration: 'underline' }}>https://my-retro-desktop.vercel.app/</a></p>
                     </div>
                   </div>
                 </div>
@@ -743,7 +709,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-2">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating an atmosphere that feels both familiar and contemplative. The visual language draws from nostalgic aesthetics while maintaining a modern, clean interface that doesn't compete with the artwork.</p>
                       <p>&nbsp;</p>
@@ -765,7 +731,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-2">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The exhibit showcases a diverse range of media types, each contributing to the overall narrative of nostalgia. Illustrations capture moments and emotions, photographs preserve memories, videos bring scenes to life, and interactive elements invite participation.</p>
                       <p>&nbsp;</p>
@@ -784,58 +750,13 @@ function CasePage() {
             // 10 Overview section
             if (projectName === 'project-10' && section.id === 'section-1') {
               return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-10">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                      <p>I created imagery for the web for the ChatGPT Enterprise "Get more done with our tools" section, developing visual content that communicates the value proposition for OpenAI ChatGPT.</p>
-                      <p>&nbsp;</p>
-                      <p>The imagery needed to convey productivity, efficiency, and the power of AI-assisted work while maintaining a professional, approachable aesthetic. The visuals support the messaging around how ChatGPT Enterprise helps teams accomplish more through intelligent automation and assistance.</p>
-                      <p>&nbsp;</p>
-                      <p>This case study demonstrates how strategic visual design can effectively communicate complex value propositions, making abstract concepts like AI productivity tangible and compelling for enterprise audiences.</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            // 10 Design section
-            if (projectName === 'project-10' && section.id === 'section-2') {
-              return (
-                <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-10">
-                  <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
-                    <div className="case-section-description">
-                      <p>The design process focused on creating imagery that feels both futuristic and immediately practical. The visuals needed to communicate the transformative potential of AI while remaining grounded in real-world applications.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Visual Language</strong></p>
-                      <p>The imagery uses clean, modern aesthetics that suggest efficiency and innovation. Color choices and composition create a sense of clarity and forward momentum, supporting the "get more done" messaging.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Conceptual Approach</strong></p>
-                      <p>The visuals abstractly represent productivity and workflow enhancement without being too literal. The imagery suggests the seamless integration of AI into work processes, showing how tools enhance rather than replace human capability.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Brand Alignment</strong></p>
-                      <p>The design maintains consistency with OpenAI's brand identity while creating distinctive visuals that stand out in the enterprise software space. The imagery feels professional yet approachable, sophisticated yet accessible.</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-            // 10 Value Proposition section
-            if (projectName === 'project-10' && section.id === 'section-3') {
-              return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-10">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>The imagery directly supports OpenAI ChatGPT's value proposition by visualizing the benefits of AI-assisted productivity. The visuals communicate key messages: increased efficiency, enhanced capabilities, and seamless integration into existing workflows.</p>
+                      <p>As a personal project, I created imagery for the web for ChatGPT Enterprise. I developed visual content that communicates the value proposition for OpenAI.</p>
                       <p>&nbsp;</p>
-                      <p><strong>Messaging Through Design</strong></p>
-                      <p>Each visual element reinforces the core value proposition—that ChatGPT Enterprise enables teams to accomplish more with less effort. The imagery makes abstract benefits tangible, helping potential customers understand the practical impact of the product.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Target Audience</strong></p>
-                      <p>The design speaks to enterprise decision-makers who need to understand both the strategic and practical benefits of AI tools. The imagery balances aspirational elements with concrete, relatable scenarios that resonate with business audiences.</p>
-                      <p>&nbsp;</p>
-                      <p>This project showcases how strategic visual design can effectively communicate product value, making complex technology accessible and compelling to enterprise customers while supporting brand positioning in a competitive market.</p>
+                      <p>Ultimately, the design process was focused on creating something simple with a clear purpose. The design "speaks for itself".</p>
                     </div>
                   </div>
                 </div>
@@ -846,7 +767,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-13">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>TechNova Hackathon is a hackathon event website designed to create safe, inclusive, and empowering spaces for women and non-binary individuals to start, grow, and thrive in the technology industry. The site serves as the digital home for a 36-hour virtual hackathon that brings together students, industry professionals, and sponsors.</p>
                       <p>&nbsp;</p>
@@ -863,7 +784,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-13">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a welcoming, energetic atmosphere that reflects TechNova's values of inclusivity and empowerment. The visual language needed to feel approachable for beginners while still conveying the excitement and professionalism of a major hackathon event.</p>
                       <p>&nbsp;</p>
@@ -885,7 +806,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-13">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built entirely in Framer, demonstrating the platform's ability to create engaging event websites with multiple sections, interactive elements, and dynamic content. Framer enabled rapid iteration on the design and seamless deployment of a fully functional event site.</p>
                       <p>&nbsp;</p>
@@ -905,7 +826,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-9">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Dream On, Sucker is a site designed to store ideas for projects and products, including failed versions of products that shut down. The platform serves as a digital archive and reflection space, documenting both successful concepts and those that didn't make it to market.</p>
                       <p>&nbsp;</p>
@@ -922,7 +843,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-9">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a respectful, thoughtful presentation of both successful and unsuccessful projects. The visual language needed to honor the work that went into each project while being honest about outcomes.</p>
                       <p>&nbsp;</p>
@@ -944,7 +865,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-9">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The project archive serves as a comprehensive repository of innovation attempts, preserving both the ideas that succeeded and those that didn't. This approach creates a valuable resource for understanding the full spectrum of product development and the reality that most ideas don't make it to market.</p>
                       <p>&nbsp;</p>
@@ -965,7 +886,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-11">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Unity Web Concept is a scrollable interactive web page designed to help users learn more about Unity, the popular game development platform. The site creates an engaging, immersive experience that introduces Unity's capabilities, features, and potential for creators.</p>
                       <p>&nbsp;</p>
@@ -982,7 +903,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-11">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a scrollable, interactive experience that feels both informative and engaging. The visual language needed to reflect Unity's position as a powerful, professional tool while remaining approachable for beginners.</p>
                       <p>&nbsp;</p>
@@ -1004,7 +925,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-11">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The interactive experience transforms learning about Unity from passive reading into active exploration. Scroll-based interactions, animations, and dynamic content reveal create an engaging journey that helps users understand Unity's capabilities through direct experience.</p>
                       <p>&nbsp;</p>
@@ -1025,7 +946,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-7">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>My Mac Desktop is a personal project where I recreated my Mac Desktop for fun to show what I use and what I've made. The project showcases both the tools and applications I use daily, as well as personal projects that exist outside of my portfolio—like my crochet projects, a cat bed I'm making, my Minecraft YouTube channel, and other creative endeavors.</p>
                       <p>&nbsp;</p>
@@ -1042,7 +963,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-7">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating an accurate, detailed recreation of my Mac Desktop that feels authentic and personal. The visual language needed to capture both the familiar macOS interface and the unique personal touches that make it my own workspace.</p>
                       <p>&nbsp;</p>
@@ -1064,7 +985,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-7">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The desktop recreation showcases various personal projects that exist outside of my professional portfolio, providing a glimpse into my broader creative interests and hobbies. These projects include crochet work, physical crafting projects like a cat bed, content creation through my Minecraft YouTube channel, and other personal creative endeavors.</p>
                       <p>&nbsp;</p>
@@ -1085,7 +1006,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-6">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Duolingo Concept is a design exploration of how I might make the Duolingo app UI interactive with motion. The project reimagines the language learning experience through thoughtful motion design, creating interactions that feel engaging, responsive, and delightful.</p>
                       <p>&nbsp;</p>
@@ -1102,7 +1023,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-6">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating motion interactions that feel natural, purposeful, and delightful. Each animation serves a specific function—providing feedback, guiding attention, or celebrating progress—while maintaining the playful, encouraging tone that makes Duolingo engaging.</p>
                       <p>&nbsp;</p>
@@ -1124,7 +1045,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-6">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The motion interactions transform the Duolingo experience from static to dynamic, making every interaction feel responsive and engaging. Motion becomes a language of its own, communicating feedback, progress, and encouragement through animation.</p>
                       <p>&nbsp;</p>
@@ -1145,7 +1066,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-1">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>PPT Night Poster is a personal project that explores the unexpected through interactive animation. Using Rive, I created an animated poster that reveals something surprising about myself—challenging first impressions and inviting viewers to discover a hidden layer.</p>
                       <p>&nbsp;</p>
@@ -1162,7 +1083,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-1">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design process focused on creating a visual narrative that builds anticipation before revealing the unexpected element. The poster starts with a clean, professional aesthetic that hints at one interpretation, then transforms to reveal something completely different.</p>
                       <p>&nbsp;</p>
@@ -1184,7 +1105,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-1">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built using Rive, a powerful tool for creating interactive animations that run smoothly across platforms. Rive enabled me to create complex animations with precise timing and smooth transitions that would be difficult to achieve with traditional animation tools.</p>
                       <p>&nbsp;</p>
@@ -1201,7 +1122,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-8">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Pixeldoro is an RPG-style pixel art Pomodoro timer that gamifies productivity. I designed all the game UI assets, creating a cohesive visual system that makes time management feel like an adventure rather than a chore.</p>
                       <p>&nbsp;</p>
@@ -1218,7 +1139,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-project-8">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The game design centers around creating a sense of progression and achievement. Each completed Pomodoro session feels like a small victory, with visual rewards and progress indicators that keep users motivated.</p>
                       <p>&nbsp;</p>
@@ -1240,7 +1161,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={section.id} data-section-index={index} className="case-section case-section-last case-section-project-8">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>I designed all the game UI assets from scratch, creating a cohesive pixel art style that feels both nostalgic and modern. Each element was carefully crafted to fit within the RPG theme while maintaining clarity and functionality.</p>
                       <p>&nbsp;</p>
@@ -1289,92 +1210,10 @@ function CasePage() {
             if (projectName === 'project-5' && section.id === 'section-2') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <iframe 
-                    id={`${section.id}-img`}
-                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    style={{ border: 'none', width: '404px', height: '404px' }}
-                    src="https://rive.app/s/Uif8Llstk02rEI6cgutAPA/embed?runtime=rive-renderer&autoplay=true&loop&fit=contain"
-                    allowFullScreen
-                    allow="autoplay"
-                  />
-                  <Caption number="2.0" text=" User Pain Point" type="Video" />
-                </div>
-              )
-            }
-            // 5 Strategy section has custom image
-            if (projectName === 'project-5' && section.id === 'section-3') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
-                    id={`${section.id}-img`}
-                    src={adobePlanPng}
-                    alt="Adobe Plan"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
-                  />
-                  <Caption number="3.0" text=" Project Timeline" type="Image" />
-                </div>
-              )
-            }
-            // 5 Flow section has custom interactable
-            if (projectName === 'project-5' && section.id === 'section-4') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <div
-                    id={`${section.id}-img`}
-                    className={`case-section-interactable ${activeImageId === section.id ? 'active' : ''}`}
-                  >
-                    <PrioritizationChart />
-                  </div>
-                  <Caption number={`${index + 1}.0`} text=" Prioritization Chart" type="Interactable" />
-                </div>
-              )
-            }
-            // 5 Design section has slideshow
-            if (projectName === 'project-5' && section.id === 'section-5') {
-              const designImages = [courseCatalogIteration1, courseCatalogIteration2, courseCatalogIteration3, courseCatalogIteration4, courseCatalogIteration5]
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <div
-                    id={`${section.id}-img`}
-                    className={`case-section-slideshow ${activeImageId === section.id ? 'active' : ''}`}
-                  >
-                    <Slideshow 
-                      images={designImages} 
-                      active={activeImageId === section.id} 
-                      onSlideChange={(index) => setSlideshowIndex(index)}
-                    />
-                  </div>
-                  <Caption 
-                    number={`${index + 1}.0`} 
-                    text=" Wireframe Iterations" 
-                    type="Slideshow" 
-                    version={slideshowIndex + 1}
-                  />
-                </div>
-              )
-            }
-            // 5 Retrospective section has table
-            if (projectName === 'project-5' && section.id === 'section-6') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <div
-                    id={`${section.id}-img`}
-                    className={`case-section-table ${activeImageId === section.id ? 'active' : ''}`}
-                  >
-                    <ProjectTakeawaysTable />
-                  </div>
-                  <Caption number={`${index + 1}.0`} text=" Project Takeaways" type="Table" />
-                </div>
-              )
-            }
-            // 4 Overview section has video
-            if (projectName === 'project-4' && section.id === 'section-1') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
                   <video
                     id={`${section.id}-img`}
                     className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    src={adobeBusinessMotion}
+                    src={hicksLawVideo}
                     muted
                     playsInline
                     onMouseEnter={(e) => {
@@ -1383,7 +1222,32 @@ function CasePage() {
                       video.play().catch(err => console.log('Video hover play prevented:', err))
                     }}
                   />
-                  <Caption number="1.0" text=" Site Overview" type="Video" />
+                  <Caption number="2.0" text=" Hicks Law" type="Video" />
+                </div>
+              )
+            }
+            // 5 Retrospective section has table
+            if (projectName === 'project-5' && section.id === 'section-6') {
+              return (
+                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
+                  <div id={`${section.id}-img`} className={`case-section-image-container ${activeImageId === section.id ? 'active' : ''}`}>
+                    <ProjectTakeawaysTable />
+                  </div>
+                  <Caption number="3.0" text=" Project Takeaways" type="Table" />
+                </div>
+              )
+            }
+            // 4 Overview section has video
+            if (projectName === 'project-4' && section.id === 'section-1') {
+              return (
+                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
+                  <img
+                    id={`${section.id}-img`}
+                    src={adobeBusinessScope}
+                    alt="Adobe Business Scope"
+                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                  />
+                  <Caption number="1.0" text=" Project Scope" type="Image" />
                 </div>
               )
             }
@@ -1394,7 +1258,7 @@ function CasePage() {
                   <video
                     id={`${section.id}-img`}
                     className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    src={adobeBusinessMotion}
+                    src={adobeBusinessFramerPreview}
                     muted
                     playsInline
                     onMouseEnter={(e) => {
@@ -1403,7 +1267,7 @@ function CasePage() {
                       video.play().catch(err => console.log('Video hover play prevented:', err))
                     }}
                   />
-                  <Caption number="2.0" text=" Design Showcase" type="Video" />
+                  <Caption number="2.0" text=" Framer Preview" type="Video" />
                 </div>
               )
             }
@@ -1423,7 +1287,7 @@ function CasePage() {
                       video.play().catch(err => console.log('Video hover play prevented:', err))
                     }}
                   />
-                  <Caption number="3.0" text=" Framer Implementation" type="Video" />
+                  <Caption number="3.0" text=" Content Management Motion" type="Video" />
                 </div>
               )
             }
@@ -1695,11 +1559,13 @@ function CasePage() {
             if (projectName === 'project-2' && section.id === 'section-1') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
+                  <video
                     id={`${section.id}-img`}
-                    src={work2Image}
-                    alt="Nostalgic Exhibit"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
+                    src={retroSiteMp4}
+                    autoPlay
+                    muted
+                    playsInline
                   />
                   <Caption number="1.0" text=" Site Overview" type="Image" />
                 </div>
@@ -1709,11 +1575,13 @@ function CasePage() {
             if (projectName === 'project-2' && section.id === 'section-2') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
+                  <video
                     id={`${section.id}-img`}
-                    src={work2Image}
-                    alt="Nostalgic Exhibit Design"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
+                    src={retroSiteMp4}
+                    autoPlay
+                    muted
+                    playsInline
                   />
                   <Caption number="2.0" text=" Design" type="Image" />
                 </div>
@@ -1723,11 +1591,13 @@ function CasePage() {
             if (projectName === 'project-2' && section.id === 'section-3') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
+                  <video
                     id={`${section.id}-img`}
-                    src={work2Image}
-                    alt="Nostalgic Exhibit Mixed Media"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
+                    src={retroSiteMp4}
+                    autoPlay
+                    muted
+                    playsInline
                   />
                   <Caption number="3.0" text=" Mixed Media" type="Image" />
                 </div>
@@ -1735,46 +1605,33 @@ function CasePage() {
             }
             // 10 Overview section has image
             if (projectName === 'project-10' && section.id === 'section-1') {
+              const openaiImages = [openai0, openai1, openai2]
+              const openaiCaptions = [
+                "Concept 1 - Save Time",
+                "Concept 2 - Parallel Code Tasks",
+                "Concept 3 - Data Insights"
+              ]
               return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
+                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper case-imagery-wrapper-center ${activeImageId === section.id ? 'active' : ''}`}>
+                  <div
                     id={`${section.id}-img`}
-                    src={openaiConceptPng}
-                    alt="OpenAI Concept"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    className={`case-section-slideshow ${activeImageId === section.id ? 'active' : ''}`}
+                  >
+                    <Slideshow 
+                      images={openaiImages} 
+                      active={activeImageId === section.id} 
+                      onSlideChange={(index) => setSlideshowIndex(index)}
+                    />
+                  </div>
+                  <Caption 
+                    number="1.0" 
+                    text={` ${openaiCaptions[slideshowIndex] || openaiCaptions[0]}`}
+                    type="Slideshow"
                   />
-                  <Caption number="1.0" text=" Site Overview" type="Image" />
                 </div>
               )
             }
             // 10 Design section has image
-            if (projectName === 'project-10' && section.id === 'section-2') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
-                    id={`${section.id}-img`}
-                    src={openaiConceptPng}
-                    alt="OpenAI Concept Design"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
-                  />
-                  <Caption number="2.0" text=" Design" type="Image" />
-                </div>
-              )
-            }
-            // 10 Value Proposition section has image
-            if (projectName === 'project-10' && section.id === 'section-3') {
-              return (
-                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <img
-                    id={`${section.id}-img`}
-                    src={openaiConceptPng}
-                    alt="OpenAI Concept Value Proposition"
-                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
-                  />
-                  <Caption number="3.0" text=" Value Proposition" type="Image" />
-                </div>
-              )
-            }
             // 13 Overview section has video
             if (projectName === 'project-13' && section.id === 'section-1') {
               return (
@@ -1941,18 +1798,13 @@ function CasePage() {
             if (projectName === 'project-7' && section.id === 'section-1') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <video
+                  <div
                     id={`${section.id}-img`}
-                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    onMouseEnter={(e) => {
-                      const video = e.target
-                      video.currentTime = 0
-                      video.play().catch(err => console.log('Video hover play prevented:', err))
-                    }}
-                  />
+                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="1.0" text=" Site Overview" type="Video" />
                 </div>
               )
@@ -1961,18 +1813,13 @@ function CasePage() {
             if (projectName === 'project-7' && section.id === 'section-2') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <video
+                  <div
                     id={`${section.id}-img`}
-                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    onMouseEnter={(e) => {
-                      const video = e.target
-                      video.currentTime = 0
-                      video.play().catch(err => console.log('Video hover play prevented:', err))
-                    }}
-                  />
+                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="2.0" text=" Design" type="Video" />
                 </div>
               )
@@ -1981,18 +1828,13 @@ function CasePage() {
             if (projectName === 'project-7' && section.id === 'section-3') {
               return (
                 <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
-                  <video
+                  <div
                     id={`${section.id}-img`}
-                    className={`case-section-video ${activeImageId === section.id ? 'active' : ''}`}
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    onMouseEnter={(e) => {
-                      const video = e.target
-                      video.currentTime = 0
-                      video.play().catch(err => console.log('Video hover play prevented:', err))
-                    }}
-                  />
+                    className={`case-section-image ${activeImageId === section.id ? 'active' : ''}`}
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="3.0" text=" Personal Projects" type="Video" />
                 </div>
               )
@@ -2082,13 +1924,35 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section case-mobile-section-adobe-first">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>When you hear "Adobe", your first thought may be Photoshop, other Creative Cloud products, or Adobe Acrobat PDF.</p>
+                      <p>At Adobe, I designed, tested and shipped the <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Adobe Certification Portal</a>.</p>
                       <p>&nbsp;</p>
-                      <p>Yet, Adobe has 15 business analytics products under Experience Cloud. It's hard to care when it's frustrating and "nearly impossible" to self-learn these complex tools.</p>
+                      <p>I was involved in the end-to-end user flows of:</p>
                       <p>&nbsp;</p>
-                      <p>To make the learning path enjoyable and clear for users, I led the end-to-end conception of the web experience for the Certification Learning Portal.</p>
+                      <ul>
+                        <li>Core Experience</li>
+                        <li>Certification Renewals</li>
+                        <li>Learning Management Systems (LMS)</li>
+                        <li>Platform Integrations</li>
+                      </ul>
+                      <p>&nbsp;</p>
+                      <p>I helped launch the Adobe Certification Portal in October 2024, and the KPIs have grown tremendously during my time on the team:</p>
+                      <p>&nbsp;</p>
+                      <ul>
+                        <li>0 to 1.2 million active users</li>
+                        <li>52 to 69% renewal rate (+17%)</li>
+                        <li>17k to 30k certification holders (+57%)</li>
+                      </ul>
+                      <p>&nbsp;</p>
+                      <p>Here's an overview of the features and quality of life improvements I've designed and tested, from ideation to launch.</p>
+                      <p>&nbsp;</p>
+                      <ul>
+                        <li>Portal Launch</li>
+                        <li>Certification Renewals</li>
+                        <li>Course Catalog</li>
+                        <li>University Page</li>
+                      </ul>
                     </div>
                   </div>
                   <div className="case-mobile-image-container">
@@ -2108,53 +1972,53 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>On any Adobe forum, there was a resounding confusion on what Adobe Digital Experience even offered. The average person was not going to remember all 15 apps. Instead...</p>
+                      <p>On any Adobe forum, there was widespread confusion about what Adobe Digital Experience actually offered. Users start learning one app at a time before exploring others (96% of learners).</p>
                       <p>&nbsp;</p>
-                      <p>They'd remember only 1 app at a time.</p>
+                      <p>And when they begun to learn that app, users came across the same set of problems:</p>
                       <p>&nbsp;</p>
-                      <p>And when they begun to learn that app, users came across the same set of problems.</p>
+                      <ul>
+                        <li>There was no central place to learn and practice using the product.</li>
+                        <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
+                      </ul>
                       <p>&nbsp;</p>
-                      <p>There was no central place to learn and actually try it out.</p>
+                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience). We received funding and resources to bring the project into existence at <a href="https://certification.adobe.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>certification.adobe.com</a>.</p>
                     </div>
-                    <HighlightContainer>
-                      <span>It's frustrating and time consuming to figure out </span>
-                      <span className="case-problem-highlight-text-bold">how</span>
-                      <span> to learn Adobe Digital Experience products, let alone learn the products themselves.</span>
-                    </HighlightContainer>
                   </div>
-                  <iframe 
+                  <video
                     id={`${section.id}-img-mobile`}
-                    className="case-mobile-image"
-                    style={{ border: 'none', width: '404px', height: '404px' }}
-                    src="https://rive.app/s/Uif8Llstk02rEI6cgutAPA/embed?runtime=rive-renderer&autoplay=true&loop&fit=contain"
-                    allowFullScreen
-                    allow="autoplay"
+                    className="case-mobile-video"
+                    src={hicksLawVideo}
+                    muted
+                    playsInline
+                    controls
                   />
-                  <Caption number="2.0" text=" User Pain Point" type="Video" />
+                  <Caption number="2.0" text=" Hicks Law" type="Video" />
                 </div>
               )
             }
-            // 5 Strategy section has custom image
+            // 5 Strategy section has custom video
             if (projectName === 'project-5' && section.id === 'section-3') {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>By conducting a series of research methodologies, the data helped us define what functionality and experiences were necessary and when to implement. While I cannot share specifics due to NDA, I can share the methods used in image 3.0.</p>
+                      <p>Renewing an Adobe certification felt opaque and misaligned with current industry standards. Early user feedback made it clear that certification holders were frustrated by having to prepare for a full proctored exam every three years to maintain their credential.</p>
                       <p>&nbsp;</p>
-                      <p>As a result of our research, we determined the need to broaden the scope of users and create new sets of content categories within the web experience. We plotted our potential users as a spectrum between enterprise and independent users, as well as junior to senior career experience.</p>
+                      <p>My user research revealed that this frustration stemmed from placing the entire burden on the user. Adobe required significant time, money, and preparation with the looming risk of failing the exam and repeating the exam prep process. The existing notification system only added stress to their preparation.</p>
+                      <p>&nbsp;</p>
+                      <p>I resolved this by designing a unified renewal logic model that emphasized continuous learning. The new framework introduced free renewal course modules instead of paid exams, quizzes with multiple attempts, clear eligibility windows, and a trackable progress model—making renewal predictable, achievable, and aligned with how professionals learn today.</p>
                     </div>
                   </div>
-                  <img
+                  <div
                     id={`${section.id}-img-mobile`}
-                    src={adobePlanPng}
-                    alt="Adobe Plan"
-                    className="case-mobile-image"
-                  />
-                  <Caption number="3.0" text=" Project Timeline" type="Image" />
+                    className="case-mobile-interactable"
+                  >
+                    <AdobeCertRive />
+                  </div>
+                  <Caption number="3.0" text=" Course Catalog Assets" type="Interactable" />
                 </div>
               )
             }
@@ -2163,7 +2027,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p><strong>Flow 1 Improvements</strong></p>
                       <p>Overdeliver with clear design and user experience.</p>
@@ -2175,42 +2039,38 @@ function CasePage() {
                       <p>Receive guidance from Adobe product teams outside of the internal team.</p>
                     </div>
                   </div>
-                  <div
+                  <img
                     id={`${section.id}-img-mobile`}
-                    className="case-mobile-interactable"
-                  >
-                    <PrioritizationChart />
-                  </div>
-                  <Caption number={`${index + 1}.0`} text=" Prioritization Chart" type="Interactable" />
+                    src={adobePlanPng}
+                    alt="Adobe Plan"
+                    className="case-mobile-image"
+                  />
+                  <Caption number={`${index + 1}.0`} text=" Project Timeline" type="Image" />
                 </div>
               )
             }
-            // 5 Design section has slideshow
+            // 5 Design section has video
             if (projectName === 'project-5' && section.id === 'section-5') {
-              const designImages = [courseCatalogIteration1, courseCatalogIteration2, courseCatalogIteration3, courseCatalogIteration4, courseCatalogIteration5]
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>For this case study, we'll focus on the efforts for the Course Catalog. For each section of the site, multiple iterations were created and tested to refine the user experience. We designed mobile first for scalability and simplification of the user flow, which acted as the base to then create the desktop version.</p>
                     </div>
                   </div>
-                  <div
+                  <video
                     id={`${section.id}-img-mobile`}
-                    className="case-mobile-slideshow"
-                  >
-                    <Slideshow 
-                      images={designImages} 
-                      active={true} 
-                      onSlideChange={(index) => setSlideshowIndex(index)}
-                    />
-                  </div>
+                    className="case-mobile-video"
+                    src={hicksLawVideo}
+                    muted
+                    playsInline
+                    controls
+                  />
                   <Caption 
                     number={`${index + 1}.0`} 
-                    text=" Wireframe Iterations" 
-                    type="Slideshow" 
-                    version={slideshowIndex + 1}
+                    text=" Course Catalog" 
+                    type="Video"
                   />
                 </div>
               )
@@ -2220,13 +2080,12 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Placeholder text content for {section.heading.toLowerCase()}. This will be replaced with actual project description and details.</p>
+                      <p>By grounding an ambitious vision and timeline in practical, modular steps and data-informed decisions, we were able to deliver meaningful progress quickly.</p>
+                      <p>&nbsp;</p>
+                      <p>The late nights and great conversations that came from these projects were genuinely the most fun I had in design!</p>
                     </div>
-                    <HighlightContainer>
-                      <span>We received funding and resources to bring the project into existence. Since launch, we've achieved over a million MoM learners on the platform, 500% of our target amount.</span>
-                    </HighlightContainer>
                   </div>
                   <div
                     id={`${section.id}-img-mobile`}
@@ -2243,43 +2102,36 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing their comprehensive suite of business analytics products under Experience Cloud. This project demonstrates the power of modern web design tools in creating professional, interactive experiences.</p>
+                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
                       <p>&nbsp;</p>
-                      <p>I designed and developed this site using Framer, a cutting-edge web design platform that enables designers to create high-fidelity, interactive prototypes that feel like production-ready websites. Framer's capabilities allowed me to build a fully functional, responsive site that showcases Adobe's business solutions with smooth animations, dynamic interactions, and a polished user experience.</p>
-                      <p>&nbsp;</p>
-                      <p>This case study serves as both a portfolio piece and an advocacy for Framer as a design tool, demonstrating how modern design platforms can bridge the gap between design and development.</p>
+                      <p>I designed and developed this site using Framer and created the motion animations with Rive and Adobe After Effects.</p>
                     </div>
                   </div>
-                  <video
+                  <img
                     id={`${section.id}-img-mobile`}
-                    className="case-mobile-video"
-                    src={adobeBusinessMotion}
-                    muted
-                    playsInline
-                    controls
+                    src={adobeBusinessScope}
+                    alt="Adobe Business Scope"
+                    className="case-mobile-image"
                   />
-                  <Caption number="1.0" text=" Site Overview" type="Video" />
+                  <Caption number="1.0" text=" Project Scope" type="Image" />
                 </div>
               )
             }
-            // 4 Design section mobile
+            // 4 Prototype section mobile
             if (projectName === 'project-4' && section.id === 'section-2') {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>The design process focused on creating a clean, professional interface that effectively communicates Adobe's enterprise value proposition. The site features a modern layout with strategic use of white space, clear typography hierarchy, and intuitive navigation.</p>
+                      <p>You can experience the complete interactive design, animations, and user flows exactly as intended: <a href="https://business-adobe-sandbox.framer.website/" target="_blank" rel="noopener noreferrer" className="case-section-link">business.adobe.com/home/prototype</a></p>
                       <p>&nbsp;</p>
-                      <p>Key design decisions included:</p>
+                      <p><strong>Key design decisions included:</strong></p>
                       <p>&nbsp;</p>
                       <p><strong>Visual Hierarchy</strong></p>
                       <p>Large, impactful hero sections with clear calls-to-action guide users through Adobe's product offerings and business solutions.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Content Organization</strong></p>
-                      <p>Products are categorized by function (Content management, Creativity & design, Data & analytics, etc.) making it easy for users to find relevant solutions for their needs.</p>
                       <p>&nbsp;</p>
                       <p><strong>Interactive Elements</strong></p>
                       <p>Smooth scroll animations, hover effects, and dynamic content reveal create an engaging user experience that showcases Adobe's innovative technology.</p>
@@ -2288,30 +2140,23 @@ function CasePage() {
                   <video
                     id={`${section.id}-img-mobile`}
                     className="case-mobile-video"
-                    src={adobeBusinessMotion}
+                    src={adobeBusinessFramerPreview}
                     muted
                     playsInline
                     controls
                   />
-                  <Caption number="2.0" text=" Design Showcase" type="Video" />
+                  <Caption number="2.0" text=" Framer Preview" type="Video" />
                 </div>
               )
             }
-            // 4 Framer Showcase section mobile
+            // 4 Motion Design section mobile
             if (projectName === 'project-4' && section.id === 'section-3') {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>This project was built entirely in Framer, showcasing the platform's capabilities for creating production-quality websites without writing code. Framer enabled rapid iteration, real-time collaboration, and seamless deployment.</p>
-                      <p>&nbsp;</p>
-                      <p>What makes this project special is that it's not just a design mockup—it's a fully functional, live website. You can experience the complete interactive design, animations, and user flows exactly as intended.</p>
-                      <p>&nbsp;</p>
-                      <p><strong>Experience the live site:</strong></p>
-                      <p><a href="https://business-adobe-sandbox.framer.website/" target="_blank" rel="noopener noreferrer" style={{ color: '#8c8c8c', textDecoration: 'underline' }}>https://business-adobe-sandbox.framer.website/</a></p>
-                      <p>&nbsp;</p>
-                      <p>This project demonstrates how Framer empowers designers to create professional web experiences that rival traditional development workflows, while maintaining the flexibility and speed of a design-first approach.</p>
+                      <p>The design process focused on creating a clean, professional interface that effectively communicates Adobe's enterprise value proposition.</p>
                     </div>
                   </div>
                   <video
@@ -2322,7 +2167,7 @@ function CasePage() {
                     playsInline
                     controls
                   />
-                  <Caption number="3.0" text=" Framer Implementation" type="Video" />
+                  <Caption number="3.0" text=" Content Management Motion" type="Video" />
                 </div>
               )
             }
@@ -2331,7 +2176,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Perplexity AI Comet represents a conceptual redesign of Perplexity's interface, exploring how AI-powered search experiences can be more intuitive and visually engaging. This project demonstrates modern web design principles applied to complex information architecture.</p>
                       <p>&nbsp;</p>
@@ -2355,7 +2200,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design process centered on creating an interface that feels both powerful and approachable. Key considerations included how to present AI-generated content in a way that feels trustworthy and easy to digest.</p>
                       <p>&nbsp;</p>
@@ -2384,7 +2229,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This conceptual design explores the potential of modern web interfaces for AI-powered tools. The project demonstrates how thoughtful design can make complex technology feel accessible and intuitive.</p>
                       <p>&nbsp;</p>
@@ -2409,7 +2254,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>AnswerThis is an all-in-one AI research assistant designed to help researchers from finding research gaps to publication. This project showcases how Framer can be used to create comprehensive, feature-rich web experiences that effectively communicate complex product capabilities.</p>
                       <p>&nbsp;</p>
@@ -2433,7 +2278,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a clear, trustworthy interface that communicates AnswerThis's comprehensive research capabilities. The site needed to convey both the technical sophistication and the practical benefits of the platform.</p>
                       <p>&nbsp;</p>
@@ -2462,7 +2307,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built entirely in Framer, demonstrating the platform's ability to handle complex, content-rich websites with multiple sections, interactive elements, and detailed feature presentations.</p>
                       <p>&nbsp;</p>
@@ -2489,7 +2334,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>TechNova Hackathon is a hackathon event website designed to create safe, inclusive, and empowering spaces for women and non-binary individuals to start, grow, and thrive in the technology industry. The site serves as the digital home for a 36-hour virtual hackathon that brings together students, industry professionals, and sponsors.</p>
                       <p>&nbsp;</p>
@@ -2515,7 +2360,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a welcoming, energetic atmosphere that reflects TechNova's values of inclusivity and empowerment. The visual language needed to feel approachable for beginners while still conveying the excitement and professionalism of a major hackathon event.</p>
                       <p>&nbsp;</p>
@@ -2546,7 +2391,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built entirely in Framer, demonstrating the platform's ability to create engaging event websites with multiple sections, interactive elements, and dynamic content. Framer enabled rapid iteration on the design and seamless deployment of a fully functional event site.</p>
                       <p>&nbsp;</p>
@@ -2575,7 +2420,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Dream On, Sucker is a site designed to store ideas for projects and products, including failed versions of products that shut down. The platform serves as a digital archive and reflection space, documenting both successful concepts and those that didn't make it to market.</p>
                       <p>&nbsp;</p>
@@ -2599,7 +2444,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a respectful, thoughtful presentation of both successful and unsuccessful projects. The visual language needed to honor the work that went into each project while being honest about outcomes.</p>
                       <p>&nbsp;</p>
@@ -2628,7 +2473,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The project archive serves as a comprehensive repository of innovation attempts, preserving both the ideas that succeeded and those that didn't. This approach creates a valuable resource for understanding the full spectrum of product development and the reality that most ideas don't make it to market.</p>
                       <p>&nbsp;</p>
@@ -2656,7 +2501,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Unity Web Concept is a scrollable interactive web page designed to help users learn more about Unity, the popular game development platform. The site creates an engaging, immersive experience that introduces Unity's capabilities, features, and potential for creators.</p>
                       <p>&nbsp;</p>
@@ -2682,7 +2527,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating a scrollable, interactive experience that feels both informative and engaging. The visual language needed to reflect Unity's position as a powerful, professional tool while remaining approachable for beginners.</p>
                       <p>&nbsp;</p>
@@ -2713,7 +2558,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The interactive experience transforms learning about Unity from passive reading into active exploration. Scroll-based interactions, animations, and dynamic content reveal create an engaging journey that helps users understand Unity's capabilities through direct experience.</p>
                       <p>&nbsp;</p>
@@ -2743,7 +2588,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>My Mac Desktop is a personal project where I recreated my Mac Desktop for fun to show what I use and what I've made. The project showcases both the tools and applications I use daily, as well as personal projects that exist outside of my portfolio—like my crochet projects, a cat bed I'm making, my Minecraft YouTube channel, and other creative endeavors.</p>
                       <p>&nbsp;</p>
@@ -2752,14 +2597,13 @@ function CasePage() {
                       <p>This case study demonstrates how personal projects can provide insight into a creator's broader interests and the tools they use, creating a more complete picture of their creative practice beyond their professional portfolio.</p>
                     </div>
                   </div>
-                  <video
+                  <div
                     id={`${section.id}-img-mobile`}
                     className="case-mobile-video"
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    controls
-                  />
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="1.0" text=" Site Overview" type="Video" />
                 </div>
               )
@@ -2769,7 +2613,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating an accurate, detailed recreation of my Mac Desktop that feels authentic and personal. The visual language needed to capture both the familiar macOS interface and the unique personal touches that make it my own workspace.</p>
                       <p>&nbsp;</p>
@@ -2783,14 +2627,13 @@ function CasePage() {
                       <p>The arrangement of icons and windows tells a story about my workflow and interests. The organization reveals how I structure my digital workspace and what tools and projects are most important to me.</p>
                     </div>
                   </div>
-                  <video
+                  <div
                     id={`${section.id}-img-mobile`}
                     className="case-mobile-video"
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    controls
-                  />
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="2.0" text=" Design" type="Video" />
                 </div>
               )
@@ -2800,7 +2643,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The desktop recreation showcases various personal projects that exist outside of my professional portfolio, providing a glimpse into my broader creative interests and hobbies. These projects include crochet work, physical crafting projects like a cat bed, content creation through my Minecraft YouTube channel, and other personal creative endeavors.</p>
                       <p>&nbsp;</p>
@@ -2813,14 +2656,13 @@ function CasePage() {
                       <p>This project demonstrates how personal projects can provide valuable insight into a creator's interests and inspirations, showing the full range of their creative practice and the diverse ways they express their creativity.</p>
                     </div>
                   </div>
-                  <video
+                  <div
                     id={`${section.id}-img-mobile`}
                     className="case-mobile-video"
-                    src={test2Mp4}
-                    muted
-                    playsInline
-                    controls
-                  />
+                    style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}
+                  >
+                    <p style={{ color: '#8c8c8c' }}>Video unavailable</p>
+                  </div>
                   <Caption number="3.0" text=" Personal Projects" type="Video" />
                 </div>
               )
@@ -2830,7 +2672,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Duolingo Concept is a design exploration of how I might make the Duolingo app UI interactive with motion. The project reimagines the language learning experience through thoughtful motion design, creating interactions that feel engaging, responsive, and delightful.</p>
                       <p>&nbsp;</p>
@@ -2856,7 +2698,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design approach focused on creating motion interactions that feel natural, purposeful, and delightful. Each animation serves a specific function—providing feedback, guiding attention, or celebrating progress—while maintaining the playful, encouraging tone that makes Duolingo engaging.</p>
                       <p>&nbsp;</p>
@@ -2887,7 +2729,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The motion interactions transform the Duolingo experience from static to dynamic, making every interaction feel responsive and engaging. Motion becomes a language of its own, communicating feedback, progress, and encouragement through animation.</p>
                       <p>&nbsp;</p>
@@ -2917,7 +2759,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>PPT Night Poster is a personal project that explores the unexpected through interactive animation. Using Rive, I created an animated poster that reveals something surprising about myself—challenging first impressions and inviting viewers to discover a hidden layer.</p>
                       <p>&nbsp;</p>
@@ -2943,7 +2785,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The design process focused on creating a visual narrative that builds anticipation before revealing the unexpected element. The poster starts with a clean, professional aesthetic that hints at one interpretation, then transforms to reveal something completely different.</p>
                       <p>&nbsp;</p>
@@ -2974,7 +2816,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>This project was built using Rive, a powerful tool for creating interactive animations that run smoothly across platforms. Rive enabled me to create complex animations with precise timing and smooth transitions that would be difficult to achieve with traditional animation tools.</p>
                       <p>&nbsp;</p>
@@ -3000,7 +2842,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>Pixeldoro is an RPG-style pixel art Pomodoro timer that gamifies productivity. I designed all the game UI assets, creating a cohesive visual system that makes time management feel like an adventure rather than a chore.</p>
                       <p>&nbsp;</p>
@@ -3026,7 +2868,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The game design centers around creating a sense of progression and achievement. Each completed Pomodoro session feels like a small victory, with visual rewards and progress indicators that keep users motivated.</p>
                       <p>&nbsp;</p>
@@ -3057,7 +2899,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>I designed all the game UI assets from scratch, creating a cohesive pixel art style that feels both nostalgic and modern. Each element was carefully crafted to fit within the RPG theme while maintaining clarity and functionality.</p>
                       <p>&nbsp;</p>
@@ -3087,7 +2929,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>I made a way for me to create unique circular backgrounds. The Radial Bitmap Tool is a custom solution I developed to generate distinctive circular patterns and backgrounds that I can use across my design work.</p>
                       <p>&nbsp;</p>
@@ -3113,7 +2955,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The tool is designed with simplicity and efficiency in mind. The interface allows for quick generation of circular bitmap patterns with various parameters that can be adjusted to create different visual effects.</p>
                       <p>&nbsp;</p>
@@ -3144,7 +2986,7 @@ function CasePage() {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
-                    <h2 className="case-section-heading">{index + 1}. {section.heading}</h2>
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
                       <p>The Radial Bitmap Tool was built to solve a specific workflow challenge I encountered in my design work. By creating a custom solution, I was able to streamline the process of generating unique circular backgrounds while maintaining creative control over the output.</p>
                       <p>&nbsp;</p>
@@ -3223,7 +3065,7 @@ function CasePage() {
             }}
           >
             <div className={`nav-link-content case-nav-link-content ${DEBUG_MODE ? 'debug' : ''}`}>
-              <span>{section.heading}</span>
+              <span>{section.navTitle || section.heading}</span>
             </div>
           </a>
         ))}
