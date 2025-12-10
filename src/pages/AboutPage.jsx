@@ -7,6 +7,7 @@ import navIcon1 from '../assets/nav-icon-1.svg'
 import navIcon2 from '../assets/nav-icon-2.svg'
 import navIcon3 from '../assets/nav-icon-3.svg'
 import iconX from '../assets/x-icon.svg'
+import iconPinterest from '../assets/pinterest.svg'
 import iconEmail from '../assets/email-icon.svg'
 import cursorIcon from '../assets/cursor-icon.svg'
 import handIcon from '../assets/hand-icon.svg'
@@ -746,8 +747,8 @@ function AboutPage() {
                   <a href="https://x.com/CatHoang_" target="_blank" rel="noopener noreferrer" className="social-icon">
                     <img alt="X" src={iconX} />
                   </a>
-                  <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
-                    <img alt="Pinterest" src={iconEmail} />
+                  <a href="https://ca.pinterest.com/catherinehoang44/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <img alt="Pinterest" src={iconPinterest} />
                   </a>
                   <a href="mailto:catherinehoang44@gmail.com" className="social-icon">
                     <img alt="Email" src={iconEmail} />
