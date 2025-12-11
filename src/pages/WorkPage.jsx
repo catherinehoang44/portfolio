@@ -18,6 +18,7 @@ import answerThisPng from '../assets/answer-this.png'
 import techNovaMp4 from '../assets/tech-nova.mp4'
 import retroTechPng from '../assets/retro-tech.png'
 import retroSiteMp4 from '../assets/retro-site.mp4'
+import cloudMotionMp4 from '../assets/cloud-motion.mp4'
 import pokemonCursorPng from '../assets/pokemon-cursor.png'
 import scrollExampleMp4 from '../assets/scroll-example.mp4'
 import radialBitmapMp4 from '../assets/radial-bitmap.mp4'
@@ -111,36 +112,39 @@ function AdobeCertRive() {
 }
 
 const workItems = [
-  // Column 0 (left) - position 1: Adobe Certifications (1:1)
+  // Reorganized for balanced column heights
+  // Column 0 (left) - position 1: Adobe Certifications (1:1, 429px)
   { id: 5, tags: ['ui/ux', 'web'], title: workTitles['project-5'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: null, rive: true },
-  // Column 1 (middle) - position 1: Adobe Business (4:3)
+  // Column 1 (middle) - position 1: Adobe Business (4:3, 322px)
   { id: 4, tags: ['motion', 'web'], title: workTitles['project-4'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: adobeBusinessMotion },
-  // Column 2 (right) - position 1: OpenAI (1:1)
+  // Column 2 (right) - position 1: OpenAI (1:1, 429px)
   { id: 10, tags: ['branding'], title: workTitles['project-10'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: openaiConceptPng },
-  // Column 0 (left) - position 2: [Perplexity] (1:1) - hidden
+  // Column 0 (left) - position 2: [Perplexity] (1:1, 429px) - hidden
   { id: 3, tags: ['branding'], title: workTitles['project-3'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: work3Image },
-  // Column 1 (middle) - position 2: Pokemon (4:3)
+  // Column 1 (middle) - position 2: Pokemon (4:3, 322px)
   { id: 14, tags: ['branding', 'motion'], title: workTitles['project-14'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: pokemonCursorPng },
-  // Column 2 (right) - position 2: [Duolingo] (4:3) - hidden
+  // Column 2 (right) - position 2: [Duolingo] (4:3, 322px) - hidden
   { id: 6, tags: ['ui/ux', 'motion'], title: workTitles['project-6'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: test1Mp4 },
-  // Column 0 (left) - position 3: Answer This (1:1)
+  // Column 0 (left) - position 3: Answer This (1:1, 429px)
   { id: 12, tags: ['branding', 'web'], title: workTitles['project-12'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: answerThisPng },
-  // Column 1 (middle) - position 3: [Unity] (4:3) - hidden
+  // Column 1 (middle) - position 3: [Unity] (4:3, 322px) - hidden
   { id: 11, tags: ['branding'], title: workTitles['project-11'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: scrollExampleMp4 },
-  // Column 2 (right) - position 3: DemeterEHR (1:1)
-  { id: 16, tags: ['ui/ux', 'web'], title: workTitles['project-16'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: demeterehrPng },
-  // Column 0 (left) - position 4: PPT Night (2:3)
+  // Column 2 (right) - position 3: Cloud Infra Motion (4:3, 322px)
+  { id: 17, tags: ['motion'], title: 'Cloud Infra Motion', height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: cloudMotionMp4 },
+  // Column 0 (left) - position 4: PPT Night (2:3, 644px) - tall item
   { id: 1, tags: ['branding', 'motion'], title: workTitles['project-1'], height: HEIGHT_2_3, aspectRatio: ASPECT_RATIO_2_3, image: null, video: toasterWebm },
-  // Column 1 (middle) - position 4: Radial Bitmap (4:3)
+  // Column 1 (middle) - position 4: Radial Bitmap (4:3, 322px)
   { id: 15, tags: ['branding', 'web'], title: workTitles['project-15'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: radialBitmapMp4 },
-  // Column 2 (right) - position 4: Dream On Sucker (4:3)
+  // Column 2 (right) - position 4: Dream On Sucker (4:3, 322px)
   { id: 9, tags: ['branding'], title: workTitles['project-9'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: dreamOnSuckerPng },
-  // Column 1 (middle) - position 6: TechNova (4:3)
-  { id: 13, tags: ['branding', 'web'], title: workTitles['project-13'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: techNovaMp4 },
-  // Column 1 (middle) - position 7: Retro Site (4:3)
-  { id: 2, tags: ['branding', 'web'], title: workTitles['project-2'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: retroSiteMp4 },
-  // Column 2 (right) - position 5: Pixeldoro (1:1)
+  // Column 0 (left) - position 5: Pixeldoro (1:1, 429px)
   { id: 8, tags: ['branding', 'ui/ux'], title: workTitles['project-8'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: null, video: pixeldoroWebm },
+  // Column 1 (middle) - position 5: TechNova (4:3, 322px)
+  { id: 13, tags: ['branding', 'web'], title: workTitles['project-13'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: techNovaMp4 },
+  // Column 2 (right) - position 5: Retro Site (4:3, 322px)
+  { id: 2, tags: ['branding', 'web'], title: workTitles['project-2'], height: HEIGHT_4_3, aspectRatio: ASPECT_RATIO_4_3, image: null, video: retroSiteMp4 },
+  // Column 0 (left) - position 6: DemeterEHR (1:1, 429px)
+  { id: 16, tags: ['ui/ux', 'web'], title: workTitles['project-16'], height: HEIGHT_1_1, aspectRatio: ASPECT_RATIO_1_1, image: demeterehrPng },
 ]
 
 function WorkPage() {
@@ -265,10 +269,26 @@ function WorkPage() {
     : workItems.filter(item => item.tags.includes(selectedTag))
   ).filter(item => !hiddenProjectIds.includes(item.id))
 
-  // Distribute items into columns
+  // Distribute items into columns with balanced heights
   const columns = Array(numColumns).fill(null).map(() => [])
-  filteredItems.forEach((item, index) => {
-    columns[index % numColumns].push(item)
+  const columnHeights = Array(numColumns).fill(0)
+  
+  filteredItems.forEach((item) => {
+    // Find the column with the smallest current height
+    let minHeightIndex = 0
+    let minHeight = columnHeights[0]
+    
+    for (let i = 1; i < numColumns; i++) {
+      if (columnHeights[i] < minHeight) {
+        minHeight = columnHeights[i]
+        minHeightIndex = i
+      }
+    }
+    
+    // Add item to the shortest column
+    columns[minHeightIndex].push(item)
+    // Update column height (add item height + gap)
+    columnHeights[minHeightIndex] += item.height + 16 // 16px is the gap between items
   })
 
   // Calculate animation delay for each card (left to right, top to bottom)

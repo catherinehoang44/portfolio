@@ -9,29 +9,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current url and converts the path and query
-      // string into just a query string, and then redirects the browser
-      // to the new url with only a query string and hash fragment,
-      // e.g., https://www.foo.com/path/to/page?query=string#hash
-      // becomes:
-      // https://www.foo.com/?/path/to/page&query=string#hash
+      // This script converts the query parameter back to a normal path
+      // e.g., /index.html?/about becomes /about
+      // Must run BEFORE React loads to ensure correct routing
       (function(l) {
         if (l.search[1] === '/' ) {
           var decoded = l.search.slice(1).split('&').map(function(s) { 
             return s.replace(/~and~/g, '&')
           }).join('?');
+          // Replace the URL without page reload - decoded already starts with /
           window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+              decoded + l.hash
           );
         }
       }(window.location))
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

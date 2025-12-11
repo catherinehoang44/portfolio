@@ -20,7 +20,7 @@ function RedirectHandler() {
       // The path starts after '?/' and ends at '&' or end of string
       const pathEnd = search.indexOf('&', 2)
       const pathPart = pathEnd > 0 ? search.slice(2, pathEnd) : search.slice(2)
-      const decodedPath = pathPart.replace(/~and~/g, '&')
+      const decodedPath = '/' + pathPart.replace(/~and~/g, '&')
       
       // Get remaining query params if any
       const remainingSearch = pathEnd > 0 ? search.slice(pathEnd) : ''
