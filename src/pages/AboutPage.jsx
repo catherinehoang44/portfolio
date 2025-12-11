@@ -18,7 +18,7 @@ import paperBg from '../assets/paper-bg.png'
 import card4Cat from '../assets/card4-cat.png'
 import figmaIcon from '../assets/figma-icon.svg'
 import framerIcon from '../assets/framer-icon.svg'
-import miroIcon from '../assets/miro-icon.svg'
+import cursorIcon from '../assets/cursor-ai.svg'
 import notionIcon from '../assets/notion-icon.svg'
 import riveIcon from '../assets/rive-icon.svg'
 import usertestingIcon from '../assets/usertesting-icon.svg'
@@ -744,7 +744,7 @@ function AboutPage() {
                   <span>Web Brand Designer</span>
                 </div>
                 <div className="card-social">
-                  <a href="https://x.com/CatHoang_" target="_blank" rel="noopener noreferrer" className="social-icon">
+                  <a href="https://x.com/angels_filth_" target="_blank" rel="noopener noreferrer" className="social-icon">
                     <img alt="X" src={iconX} />
                   </a>
                   <a href="https://ca.pinterest.com/catherinehoang44/" target="_blank" rel="noopener noreferrer" className="social-icon">
