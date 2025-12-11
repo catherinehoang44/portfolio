@@ -893,9 +893,9 @@ function AboutPage() {
                       <img src={framerIcon} alt="Framer" className="tool-icon" />
                     </div>
                   </a>
-                  <a href="https://miro.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
+                  <a href="https://www.cursor.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
                     <div className="tool-3">
-                      <img src={miroIcon} alt="Miro" className="tool-icon" />
+                      <img src={cursorIcon} alt="Cursor" className="tool-icon" />
                     </div>
                   </a>
                   <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
