@@ -18,7 +18,7 @@ import paperBg from '../assets/paper-bg.png'
 import card4Cat from '../assets/card4-cat.png'
 import figmaIcon from '../assets/figma-icon.svg'
 import framerIcon from '../assets/framer-icon.svg'
-import cursorIcon from '../assets/cursor-ai.svg'
+import cursorAiIcon from '../assets/cursor-ai.svg'
 import notionIcon from '../assets/notion-icon.svg'
 import riveIcon from '../assets/rive-icon.svg'
 import usertestingIcon from '../assets/usertesting-icon.svg'
@@ -895,7 +895,7 @@ function AboutPage() {
                   </a>
                   <a href="https://www.cursor.com/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
                     <div className="tool-3">
-                      <img src={cursorIcon} alt="Cursor" className="tool-icon" />
+                      <img src={cursorAiIcon} alt="Cursor" className="tool-icon" />
                     </div>
                   </a>
                   <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer" className="tool-wrapper">
