@@ -804,7 +804,7 @@ function CasePage() {
                   <div className="case-section-text">
                     <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon Red.</p>
+                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon FireRed.</p>
                       <p>&nbsp;</p>
                       <p>It features map exploration, a Lugia battle encounter and Cursor AI easter eggs which was the tool used to develop the Pokemon Remake. The game is also web-compatible and has working sound design.</p>
                       <p>&nbsp;</p>
@@ -3001,7 +3001,7 @@ function CasePage() {
                   <div className="case-section-text">
                     <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon Red.</p>
+                      <p>This project is a 2D pixel art game recreating a few scenes from Pokémon FireRed.</p>
                       <p>&nbsp;</p>
                       <p>It features map exploration, a Lugia battle encounter and Cursor AI easter eggs which was the tool used to develop the Pokemon Remake. The game is also web-compatible and has working sound design.</p>
                       <p>&nbsp;</p>

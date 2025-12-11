@@ -76,7 +76,8 @@ video.slideshow-image {
   background: #d6d6d6;
   cursor: pointer;
   padding: 0;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .slideshow-dot:hover {
@@ -84,6 +85,9 @@ video.slideshow-image {
 }
 
 .slideshow-dot.active {
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
   background: #8c8c8c;
 }
 
