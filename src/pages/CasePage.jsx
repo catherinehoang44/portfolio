@@ -123,7 +123,8 @@ function CasePage() {
     if (projectName === 'project-5') {
       return [
         { id: 'section-1', heading: 'Overview' },
-        { id: 'section-2', heading: 'Adobe Certification Portal Launch', navTitle: 'Portal Launch' },
+        { id: 'section-2', heading: 'Problem' },
+        { id: 'section-3', heading: 'Adobe Certification Portal Launch', navTitle: 'Portal Launch' },
         { id: 'section-6', heading: 'Retrospective' }
       ]
     }
@@ -457,7 +458,18 @@ function CasePage() {
                         <li>There was no central place to learn and practice using the product.</li>
                         <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
                       </ul>
-                      <p>&nbsp;</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+            // Adobe Certification Portal Launch section
+            if (projectName === 'project-5' && section.id === 'section-3') {
+              return (
+                <div key={section.id} id={section.id} data-section-index={index} className="case-section">
+                  <div className="case-section-text">
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
+                    <div className="case-section-description">
                       <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience).</p>
                       <CTA 
                         text="We received funding and resources to bring the project into existence at certification.adobe.com"
@@ -1269,6 +1281,17 @@ function CasePage() {
                 </div>
               )
             }
+            // 5 Adobe Certification Portal Launch section has Rive animation
+            if (projectName === 'project-5' && section.id === 'section-3') {
+              return (
+                <div key={section.id} data-section-index={index} className={`case-imagery-wrapper ${activeImageId === section.id ? 'active' : ''}`}>
+                  <div id={`${section.id}-img`} className={`case-section-rive-container ${activeImageId === section.id ? 'active' : ''}`}>
+                    <AdobeCertRive />
+                  </div>
+                  <Caption number="3.0" text=" Course Catalog Motion" type="Video" />
+                </div>
+              )
+            }
             // 5 Retrospective section has table
             if (projectName === 'project-5' && section.id === 'section-6') {
               return (
@@ -1276,7 +1299,7 @@ function CasePage() {
                   <div id={`${section.id}-img`} className={`case-section-image-container ${activeImageId === section.id ? 'active' : ''}`}>
                     <ProjectTakeawaysTable />
                   </div>
-                  <Caption number="3.0" text=" Project Takeaways" type="Table" />
+                  <Caption number="4.0" text=" Project Takeaways" type="Table" />
                 </div>
               )
             }
@@ -2054,12 +2077,6 @@ function CasePage() {
                         <li>There was no central place to learn and practice using the product.</li>
                         <li>It's frustrating and time-consuming to figure out how to learn Adobe Digital Experience products, let alone learn the products themselves.</li>
                       </ul>
-                      <p>&nbsp;</p>
-                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience).</p>
-                      <CTA 
-                        text="We received funding and resources to bring the project into existence at certification.adobe.com"
-                        href="https://certification.adobe.com/"
-                      />
                     </div>
                   </div>
                   <video
@@ -2074,27 +2091,27 @@ function CasePage() {
                 </div>
               )
             }
-            // 5 Strategy section has custom video
+            // 5 Adobe Certification Portal Launch section
             if (projectName === 'project-5' && section.id === 'section-3') {
               return (
                 <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
                   <div className="case-section-text">
                     <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Renewing an Adobe certification felt opaque and misaligned with current industry standards. Early user feedback made it clear that certification holders were frustrated by having to prepare for a full proctored exam every three years to maintain their credential.</p>
-                      <p>&nbsp;</p>
-                      <p>My user research revealed that this frustration stemmed from placing the entire burden on the user. Adobe required significant time, money, and preparation with the looming risk of failing the exam and repeating the exam prep process. The existing notification system only added stress to their preparation.</p>
-                      <p>&nbsp;</p>
-                      <p>I resolved this by designing a unified renewal logic model that emphasized continuous learning. The new framework introduced free renewal course modules instead of paid exams, quizzes with multiple attempts, clear eligibility windows, and a trackable progress model—making renewal predictable, achievable, and aligned with how professionals learn today.</p>
+                      <p>I conceptualized and pitched building a learning platform, striking a balance between Adobe enterprise partners (primary audience) and individual learners (secondary audience).</p>
+                      <CTA 
+                        text="We received funding and resources to bring the project into existence at certification.adobe.com"
+                        href="https://certification.adobe.com/"
+                      />
                     </div>
                   </div>
                   <div
                     id={`${section.id}-img-mobile`}
-                    className="case-mobile-interactable"
+                    className="case-mobile-rive-container"
                   >
                     <AdobeCertRive />
                   </div>
-                  <Caption number="3.0" text=" Course Catalog Assets" type="Interactable" />
+                  <Caption number="3.0" text=" Course Catalog Motion" type="Video" />
                 </div>
               )
             }
