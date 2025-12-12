@@ -103,7 +103,7 @@
   width: 150px;
   aspect-ratio: 150 / 48; /* Lock aspect ratio (150px width : 48px height) */
   background-image: url('../assets/nav-default.svg');
-  background-size: contain;
+  background-size: 100% 100%; /* Use 100% to fill container exactly, preventing size changes */
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
@@ -112,6 +112,14 @@
   display: block;
   transition: background-image 0.3s ease-in-out; /* Smooth fade in/out for hover */
   /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); */ /* Hidden for now */
+}
+
+/* Prevent size changes on click/active */
+.nav-link-hitbox:active {
+  transform: scale(1);
+  width: 150px;
+  background-size: 100% 100%; /* Keep same background-size as default */
+  background-position: center;
 }
 
 .nav-link-hitbox:hover,

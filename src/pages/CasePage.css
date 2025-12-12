@@ -975,6 +975,14 @@
   background-image: url('../assets/nav-selected.svg') !important;
 }
 
+/* Prevent size changes on click/active */
+.case-nav-link-hitbox:active {
+  transform: scale(1);
+  width: 150px;
+  background-size: 100% 100%; /* Keep same background-size as default */
+  background-position: center;
+}
+
 /* Mobile container - hidden on desktop */
 .case-mobile-container {
   display: none;
