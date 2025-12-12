@@ -101,7 +101,8 @@ function CasePage() {
   const { projectName: urlProjectName } = useParams()
   // Convert friendly URL name to internal project ID
   const projectName = getProjectId(urlProjectName)
-  const [activeImageId, setActiveImageId] = useState('section-1')
+  // Initialize with empty string - will be set by useEffect based on desktop/mobile
+  const [activeImageId, setActiveImageId] = useState('')
   const [slideshowIndex, setSlideshowIndex] = useState(0)
   const prevActiveImageIdRef = useRef('section-1')
   
@@ -228,15 +229,25 @@ function CasePage() {
   
   const caseSections = getCaseSections()
 
-  // Set initial active section to first section
+  // Set initial active section to first section (desktop only)
   useEffect(() => {
-    const sections = getCaseSections()
-    if (sections.length > 0) {
-      setActiveImageId(sections[0].id)
-    }
-    // Set to Demo section
-    if (projectName === 'project-2' || projectName === 'project-15') {
-      setActiveImageId('Demo')
+    // Check if we're on mobile
+    const isMobile = window.innerWidth <= 768
+    const textContainer = document.querySelector('.case-text-container')
+    
+    if (isMobile || !textContainer) {
+      // On mobile, start with no active section
+      setActiveImageId('')
+    } else {
+      // On desktop, set initial active section
+      const sections = getCaseSections()
+      if (sections.length > 0) {
+        setActiveImageId(sections[0].id)
+      }
+      // Set to Demo section
+      if (projectName === 'project-2' || projectName === 'project-15') {
+        setActiveImageId('Demo')
+      }
     }
   }, [projectName])
 
@@ -244,13 +255,14 @@ function CasePage() {
     window.scrollTo(0, 0)
   }, [location])
 
-  // Intersection Observer to detect which section is visible
+  // Intersection Observer to detect which section is visible (desktop only)
   useEffect(() => {
     // Skip observer (no scrolling sections)
     if (projectName === 'project-2' || projectName === 'project-15') {
       return
     }
 
+    // Only use observer for desktop
     const textContainer = document.querySelector('.case-text-container')
     if (!textContainer) return
 
@@ -298,7 +310,7 @@ function CasePage() {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
 
-    // Observe all case sections
+    // Observe all desktop case sections
     caseSections.forEach((section) => {
       const element = document.getElementById(section.id)
       if (element) {
@@ -356,7 +368,7 @@ function CasePage() {
   }, [activeImageId])
 
   return (
-    <div className={`case-page ${DEBUG_MODE ? 'debug' : ''}`}>
+    <div className={`case-page ${DEBUG_MODE ? 'debug' : ''}`} data-project={projectName}>
       
       {/* ============================================
           WORK DETAILS AT TOP
@@ -3204,40 +3216,44 @@ function CasePage() {
           Dynamically generated based on case sections
           ============================================ */}
       <div className="case-nav-container">
-        {caseSections.map((section) => (
-          <a
-            key={section.id}
-            href={`#${section.id}`}
-            className={`nav-link-hitbox case-nav-link-hitbox ${activeImageId === section.id ? 'case-nav-link-hitbox-active' : ''}`}
-            onClick={(e) => {
-              e.preventDefault()
-              // Check if we're on mobile (mobile container is visible)
-              const isMobile = window.innerWidth <= 768
-              
-              if (isMobile) {
-                // On mobile, scroll to mobile section
-                const mobileElement = document.getElementById(`${section.id}-mobile`)
-                if (mobileElement) {
-                  mobileElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  // Update active image ID immediately
-                  setActiveImageId(section.id)
+        {caseSections.map((section) => {
+          // Check if we're on mobile - don't show active state on mobile
+          const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+          const isActive = !isMobile && activeImageId === section.id
+          
+          return (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={`nav-link-hitbox case-nav-link-hitbox ${isActive ? 'case-nav-link-hitbox-active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault()
+                // Check if we're on mobile (mobile container is visible)
+                const isMobileClick = window.innerWidth <= 768
+                
+                if (isMobileClick) {
+                  // On mobile, scroll to mobile section (no active state)
+                  const mobileElement = document.getElementById(`${section.id}-mobile`)
+                  if (mobileElement) {
+                    mobileElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                } else {
+                  // On desktop, scroll to desktop section
+                  const desktopElement = document.getElementById(section.id)
+                  if (desktopElement) {
+                    desktopElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    // Update active image ID immediately (desktop keeps it active)
+                    setActiveImageId(section.id)
+                  }
                 }
-              } else {
-                // On desktop, scroll to desktop section
-                const desktopElement = document.getElementById(section.id)
-                if (desktopElement) {
-                  desktopElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  // Update active image ID immediately
-                  setActiveImageId(section.id)
-                }
-              }
-            }}
-          >
-            <div className={`nav-link-content case-nav-link-content ${DEBUG_MODE ? 'debug' : ''}`}>
-              <span>{section.navTitle || section.heading}</span>
-            </div>
-          </a>
-        ))}
+              }}
+            >
+              <div className={`nav-link-content case-nav-link-content ${DEBUG_MODE ? 'debug' : ''}`}>
+                <span>{section.navTitle || section.heading}</span>
+              </div>
+            </a>
+          )
+        })}
       </div>
     </div>
   )
