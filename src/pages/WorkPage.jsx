@@ -493,7 +493,7 @@ function WorkPage() {
                     >
                       {cardContent}
                     </a>
-                  )
+                )
                 } else if (caseStudyLink) {
                   return (
                     <Link

@@ -832,16 +832,6 @@ function AboutPage() {
                   </a>
                   <p className="work-date">2022—2022</p>
                 </div>
-                <div className="work-divider"></div>
-                <div className="work-entry work-entry-past">
-                  <a href="https://aiesec.org/" target="_blank" rel="noopener noreferrer" className="work-role-link">
-                    <p className="work-role">Brand Lead, AIESEC</p>
-                    <div className="work-role-hover-icon">
-                      <img alt="" src={workLinkIcon} />
-                    </div>
-                  </a>
-                  <p className="work-date">2020—2022</p>
-                </div>
               </div>
             </div>
             <div className="card-heading">

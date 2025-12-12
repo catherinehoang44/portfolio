@@ -326,11 +326,11 @@ function CasePage() {
       
       // Stop video when it ends (don't loop) - unless video has loop attribute
       if (!video.hasAttribute('loop')) {
-        const handleEnded = () => {
-          video.pause()
-        }
-        video.addEventListener('ended', handleEnded)
-        cleanupFunctions.push(() => video.removeEventListener('ended', handleEnded))
+      const handleEnded = () => {
+        video.pause()
+      }
+      video.addEventListener('ended', handleEnded)
+      cleanupFunctions.push(() => video.removeEventListener('ended', handleEnded))
       }
     }
     
@@ -342,11 +342,11 @@ function CasePage() {
       
       // Stop video when it ends (don't loop) - unless video has loop attribute
       if (!mobileVideo.hasAttribute('loop')) {
-        const handleMobileEnded = () => {
-          mobileVideo.pause()
-        }
-        mobileVideo.addEventListener('ended', handleMobileEnded)
-        cleanupFunctions.push(() => mobileVideo.removeEventListener('ended', handleMobileEnded))
+      const handleMobileEnded = () => {
+        mobileVideo.pause()
+      }
+      mobileVideo.addEventListener('ended', handleMobileEnded)
+      cleanupFunctions.push(() => mobileVideo.removeEventListener('ended', handleMobileEnded))
       }
     }
     
@@ -503,7 +503,7 @@ function CasePage() {
                   <div className="case-section-text">
                     <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
+                      <p>Adobe Business Prototype represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
                       <p>&nbsp;</p>
                       <p>I designed and developed this site using Framer and created the motion animations with Rive and Adobe After Effects.</p>
                     </div>
@@ -1692,7 +1692,7 @@ function CasePage() {
                   <Caption 
                     number="1.0" 
                     text={` ${openaiCaptions[slideshowIndex] || openaiCaptions[0]}`}
-                    type="Slideshow"
+                    type="Slideshow" 
                   />
                 </div>
               )
@@ -2085,7 +2085,8 @@ function CasePage() {
                     src={hicksLawVideo}
                     muted
                     playsInline
-                    controls
+                    autoPlay
+                    loop
                   />
                   <Caption number="2.0" text=" Hicks Law" type="Video" />
                 </div>
@@ -2197,7 +2198,7 @@ function CasePage() {
                   <div className="case-section-text">
                     <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
                     <div className="case-section-description">
-                      <p>Adobe for Business represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
+                      <p>Adobe Business Prototype represents Adobe's enterprise solutions, showcasing its comprehensive suite of business analytics products under Adobe Experience Cloud. This project tested and advocated for <a href="https://framer.com/" target="_blank" rel="noopener noreferrer" className="case-section-link">Framer</a> as a prototyping tool.</p>
                       <p>&nbsp;</p>
                       <p>I designed and developed this site using Framer and created the motion animations with Rive and Adobe After Effects.</p>
                     </div>
@@ -3139,6 +3140,42 @@ function CasePage() {
                     controls
                   />
                   <Caption number="3.0" text=" Implementation" type="Video" />
+                </div>
+              )
+            }
+            // 10 Summary section mobile - show slideshow instead of summary text
+            if (projectName === 'project-10' && section.id === 'section-1') {
+              const openaiImages = [openai0, openai1, openai2]
+              const openaiCaptions = [
+                "Concept 1 - Save Time",
+                "Concept 2 - Parallel Code Tasks",
+                "Concept 3 - Data Insights"
+              ]
+              return (
+                <div key={section.id} id={`${section.id}-mobile`} data-section-index={index} className="case-mobile-section">
+                  <div className="case-section-text">
+                    <h2 className="case-section-heading">{caseSections.length > 1 ? `${index + 1}. ` : ''}{section.heading}</h2>
+                    <div className="case-section-description">
+                      <p>As a personal project, I created imagery for the web for ChatGPT Enterprise. I developed visual content that communicates the value proposition for OpenAI.</p>
+                      <p>&nbsp;</p>
+                      <p>Ultimately, the design process was focused on creating something simple with a clear purpose. The design "speaks for itself".</p>
+                    </div>
+                  </div>
+                  <div
+                    id={`${section.id}-img-mobile`}
+                    className="case-mobile-slideshow"
+                  >
+                    <Slideshow 
+                      images={openaiImages} 
+                      active={true} 
+                      onSlideChange={(index) => setSlideshowIndex(index)}
+                    />
+                  </div>
+                  <Caption 
+                    number="1.0" 
+                    text={` ${openaiCaptions[slideshowIndex] || openaiCaptions[0]}`}
+                    type="Slideshow" 
+                  />
                 </div>
               )
             }

@@ -4,7 +4,7 @@ export const workTitles = {
   'project-1': 'PPT Night Poster',
   'project-2': 'Explore My Desktop',
   'project-3': 'Perplexity Concept',
-  'project-4': 'Adobe for Business Prototype',
+  'project-4': 'Adobe Business Prototype',
   'project-14': 'Pokemon: Recreated',
   'project-5': 'Adobe Certifications',
   'project-6': 'Duolingo Concept',
